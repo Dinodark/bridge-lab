@@ -37,18 +37,18 @@ const feedItems = [
     tag: "Merch",
   },
   {
-    href: "/brandbook",
-    title: "Brand Identity Standards",
-    excerpt: "Брендбук: цвета, типографика, паттерны, офлайн-применение.",
-    date: "2026",
-    tag: "Brandbook",
-  },
-  {
     href: "/brandguidelines",
     title: "OneTribe Brand Guidelines",
     excerpt: "Foundation, Colors, Typography, Logo, Icons, Imagery, Motion, Patterns, Layout, Applications.",
     date: "2026",
     tag: "Brand Guidelines",
+  },
+  {
+    href: "/brandbook",
+    title: "Brand Identity Standards",
+    excerpt: "Брендбук: цвета, типографика, паттерны, офлайн-применение.",
+    date: "2026",
+    tag: "Brandbook",
   },
 ];
 
