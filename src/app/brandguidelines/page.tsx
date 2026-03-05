@@ -441,6 +441,113 @@ function TshirtMockup({ dark }: { dark: boolean }) {
   );
 }
 
+function InviteCardMockup() {
+  // Simplified QR-like pattern (21x21 modules)
+  const qrSize = 21;
+  const moduleSize = 4;
+  const modules: boolean[][] = [];
+  for (let y = 0; y < qrSize; y++) {
+    modules[y] = [];
+    for (let x = 0; x < qrSize; x++) {
+      const inFinder =
+        (x < 8 && y < 8) ||
+        (x >= qrSize - 8 && y < 8) ||
+        (x < 8 && y >= qrSize - 8);
+      const finderInner =
+        (x >= 2 && x < 6 && y >= 2 && y < 6) ||
+        (x >= qrSize - 6 && x < qrSize - 2 && y >= 2 && y < 6) ||
+        (x >= 2 && x < 6 && y >= qrSize - 6 && y < qrSize - 2);
+      const timing = x === 6 || y === 6;
+      const data = !inFinder && !finderInner && !timing && (x + y) % 3 !== 0 && (x * 7 + y * 11) % 5 < 3;
+      modules[y][x] = inFinder ? !finderInner : timing || data;
+    }
+  }
+
+  return (
+    <div
+      style={{
+        width: 280,
+        padding: 24,
+        borderRadius: 20,
+        background: "#fff",
+        border: "1px solid #E6E6E6",
+        boxShadow: "0 12px 40px rgba(0,0,0,0.1)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 20,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <OneTribeIcon size={28} gradientId="invite-card-icon" />
+        <TribeLogo width={72} gradientId="invite-card-logo" />
+      </div>
+      <div
+        style={{
+          fontSize: 14,
+          fontWeight: 700,
+          color: "#1E1E1E",
+          textAlign: "center",
+        }}
+      >
+        Пригласи друга в Tribe
+      </div>
+      <div
+        style={{
+          padding: 12,
+          background: "#fff",
+          borderRadius: 12,
+          border: "1px solid #E6E6E6",
+        }}
+      >
+        <svg
+          width={qrSize * moduleSize}
+          height={qrSize * moduleSize}
+          viewBox={`0 0 ${qrSize * moduleSize} ${qrSize * moduleSize}`}
+        >
+          {modules.map((row, y) =>
+            row.map((filled, x) => (
+              <rect
+                key={`${x}-${y}`}
+                x={x * moduleSize}
+                y={y * moduleSize}
+                width={moduleSize}
+                height={moduleSize}
+                fill={filled ? "#1E1E1E" : "#fff"}
+              />
+            ))
+          )}
+        </svg>
+      </div>
+      <div
+        style={{
+          fontSize: 11,
+          fontWeight: 600,
+          fontFamily: "monospace",
+          letterSpacing: "0.15em",
+          color: "#808080",
+        }}
+      >
+        INVITE-ABC123
+      </div>
+      <div
+        style={{
+          width: "100%",
+          padding: "10px 20px",
+          borderRadius: 12,
+          background: "linear-gradient(90deg, #6E22F2, #C752FF)",
+          color: "#fff",
+          fontSize: 12,
+          fontWeight: 700,
+          textAlign: "center",
+        }}
+      >
+        Поделиться
+      </div>
+    </div>
+  );
+}
+
 function StoriesMockup() {
   return (
     <div
@@ -2513,6 +2620,73 @@ export default function BrandGuidelinesPage() {
                     <div>
                       <strong style={{ color: "#1E1E1E" }}>Фон:</strong> #0a0a1a
                       + gradient blobs
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 32,
+                borderRadius: 20,
+                background: "#fff",
+                border: "1px solid #E6E6E6",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                Digital — Invite Card
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                }}
+              >
+                <InviteCardMockup />
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    Личный QR-код приглашения
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    Карточка, которую клиент получает, когда хочет поделиться
+                    приглашением в сообщество с другом. QR-код ведёт на персональную
+                    ссылку-приглашение. Код формата INVITE-XXXXXX.
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>Контекст:</strong>{" "}
+                      раздел «Пригласить» в приложении
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong>{" "}
+                      карточка 280×400px, share / export
                     </div>
                   </div>
                 </div>
