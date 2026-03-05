@@ -2639,7 +2639,6 @@ export default function BrandGuidelinesPage() {
                     overflow: "hidden",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
                     maxWidth: 280,
-                    background: "#000",
                   }}
                 >
                   <Image
@@ -2810,77 +2809,19 @@ export default function BrandGuidelinesPage() {
                     overflow: "hidden",
                     boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
                     maxWidth: 360,
-                    padding: 24,
-                    position: "relative",
-                    background:
-                      "linear-gradient(135deg, #FCFCFC 0%, #F8F9FF 30%, #FFF8FC 60%, #FFFCF5 100%)",
                   }}
                 >
-                  <div
+                  <Image
+                    src="/chocolate.png"
+                    alt="OneTribe chocolate bars — wrapped and unwrapped"
+                    width={360}
+                    height={240}
                     style={{
-                      position: "absolute",
-                      top: 20,
-                      left: 20,
-                      width: 80,
-                      height: 80,
-                      borderRadius: "50%",
-                      background: "#48E5FF",
-                      opacity: 0.15,
-                      filter: "blur(25px)",
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
                     }}
                   />
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: 60,
-                      right: 30,
-                      width: 60,
-                      height: 60,
-                      borderRadius: "50%",
-                      background: "#B289F9",
-                      opacity: 0.12,
-                      filter: "blur(20px)",
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 40,
-                      left: 40,
-                      width: 70,
-                      height: 70,
-                      borderRadius: "50%",
-                      background: "#F989B4",
-                      opacity: 0.1,
-                      filter: "blur(22px)",
-                    }}
-                  />
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: 20,
-                      right: 50,
-                      width: 50,
-                      height: 50,
-                      borderRadius: "50%",
-                      background: "#FFBC6F",
-                      opacity: 0.12,
-                      filter: "blur(18px)",
-                    }}
-                  />
-                  <div style={{ position: "relative", zIndex: 1 }}>
-                    <Image
-                      src="/chocolate.png"
-                      alt="OneTribe chocolate bars — wrapped and unwrapped"
-                      width={312}
-                      height={200}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        display: "block",
-                      }}
-                    />
-                  </div>
                 </div>
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div
@@ -2907,8 +2848,7 @@ export default function BrandGuidelinesPage() {
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Фон:</strong> белый с
-                      лёгким градиентом и пятнами в фирменных цветах
+                      <strong style={{ color: "#1E1E1E" }}>Обёртка:</strong> иридисцентный градиент
                     </div>
                     <div>
                       <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> cyan,
