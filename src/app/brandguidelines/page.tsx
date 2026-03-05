@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 // ============================================================
 // BRAND DATA — меняй под любой проект
@@ -342,6 +343,44 @@ function OneTribeLogo({
         >
           <stop offset="0.281566" stopColor="#B289F9" />
           <stop offset="0.591267" stopColor="#F989B4" />
+          <stop offset="1" stopColor="#FFBC6F" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+function TribeLogo({
+  width = 160,
+  gradientId = "tribe-logo-grad",
+}: {
+  width?: number;
+  gradientId?: string;
+}) {
+  return (
+    <svg
+      width={width}
+      height={(width / 524) * 173}
+      viewBox="0 0 524 173"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M297.248 0.186523C299 0.186523 300.434 0.745142 301.55 1.86035C302.665 2.97572 303.224 4.41069 303.224 6.16406V58.0322C307.047 53.7292 311.907 50.1845 317.803 47.3955C323.699 44.6066 330.79 43.212 339.076 43.2119C347.203 43.2119 354.335 44.6065 360.47 47.3955C366.604 50.1845 371.823 54.0878 376.125 59.1074C380.428 64.1271 383.733 70.0634 386.044 76.915C388.355 83.7667 389.669 91.3361 389.988 99.6221C390.148 102.491 390.227 105.16 390.227 107.63C390.227 110.1 390.148 112.849 389.988 115.877C389.669 124.322 388.315 132.011 385.925 138.942C383.535 145.875 380.228 151.851 376.006 156.869C371.783 161.889 366.604 165.713 360.47 168.343C354.335 170.972 347.203 172.287 339.076 172.287C329.993 172.287 322.384 170.733 316.249 167.625C310.114 164.518 305.135 160.574 301.311 155.794V163.921C301.311 165.674 300.754 167.107 299.639 168.224C298.522 169.339 297.088 169.896 295.335 169.896H272.629C270.876 169.896 269.441 169.339 268.325 168.224C267.21 167.107 266.653 165.674 266.653 163.921V6.16406C266.653 4.41069 267.21 2.97572 268.325 1.86035C269.441 0.744982 270.876 0.186523 272.629 0.186523H297.248ZM463.289 43.2119C476.834 43.2119 488.067 45.9608 496.991 51.459C505.914 56.956 512.646 64.4458 517.188 73.9268C521.73 83.4079 524.001 94.2847 524.001 106.554V112.052C524.001 113.646 523.442 115.04 522.327 116.235C521.212 117.43 519.777 118.027 518.025 118.027H440.103V119.701C440.263 124.8 441.219 129.461 442.973 133.685C444.725 137.907 447.313 141.293 450.74 143.843C454.166 146.393 458.349 147.667 463.289 147.667C467.113 147.667 470.3 147.07 472.85 145.875C475.399 144.679 477.511 143.326 479.184 141.812C480.857 140.297 482.091 138.983 482.889 137.867C484.322 136.114 485.478 135.038 486.354 134.641C487.232 134.242 488.546 134.043 490.298 134.043H515.635C517.068 134.043 518.304 134.521 519.34 135.478C520.375 136.433 520.813 137.628 520.653 139.062C520.494 141.771 519.18 144.997 516.71 148.742C514.24 152.487 510.615 156.153 505.835 159.738C501.055 163.324 495.118 166.311 488.027 168.701C480.937 171.091 472.77 172.287 463.528 172.287C445.203 172.287 430.662 167.187 419.906 156.989C409.15 146.79 403.453 131.97 402.816 112.53V102.491C403.453 90.0616 406.242 79.4243 411.182 70.5811C416.121 61.7367 423.054 54.9644 431.977 50.2637C440.9 45.562 451.338 43.2119 463.289 43.2119ZM67.4355 0.186523C69.0292 0.186523 70.3837 0.745213 71.499 1.86035C72.6143 2.97572 73.1718 4.41069 73.1718 6.16406V45.5742H86.0058C86.1754 45.5742 86.3453 45.5741 86.5136 45.5752H86.5302C86.6986 45.5752 86.8685 45.5742 87.038 45.5742H98.372C100.304 45.5743 101.885 46.1337 103.115 47.2529C104.345 48.3734 104.961 49.8117 104.961 51.5713V72.4404C104.961 74.0399 104.345 75.3983 103.115 76.5176C101.885 77.6368 100.304 78.1972 98.372 78.1973H73.1718V121.135C73.1719 127.19 74.2869 131.932 76.5175 135.357C78.7493 138.783 82.4933 140.496 87.7519 140.496H88.4697C90.223 140.496 91.6592 141.055 92.7734 142.169C93.8876 143.283 94.4453 144.642 94.4453 146.233V163.921C94.4453 165.671 93.8874 167.109 92.7734 168.224C91.6592 169.338 90.2197 169.896 88.4697 169.896H84.4062C74.5322 169.896 66.1207 168.262 59.1894 164.997C52.2592 161.731 46.9599 156.67 43.2949 149.818C39.6299 142.967 37.7959 134.361 37.7959 124.003V83.5039C37.6026 80.6971 35.395 78.4439 32.6074 78.1787H32.5937L32.5879 78.1797H32.5742L32.5693 78.1807H32.5498L32.5429 78.1816H32.5244L32.5205 78.1836H32.499L32.4921 78.1846H32.4677L32.4609 78.1855H32.4287L32.4228 78.1865H32.3847L32.3779 78.1875H32.333L32.3261 78.1885H14.8252L14.8056 78.1875H14.788L14.7685 78.1865H14.7304L14.7138 78.1855L14.6328 78.1836L14.6181 78.1816C14.3306 78.1704 14.0474 78.1423 13.7666 78.0996C13.1556 78.0221 12.5896 77.8673 12.0673 77.6348C11.3912 77.3618 10.738 76.9895 10.1113 76.5166C8.63321 75.4012 7.63576 74.046 7.1191 72.4521L0.367148 51.6572C-0.201198 49.905 -0.110161 48.4699 0.643515 47.3545C1.3972 46.2395 2.64932 45.6817 4.4023 45.6816C15.0728 45.6816 21.4877 45.6025 32.165 45.6025C35.158 45.5473 37.5924 43.2068 37.7959 40.252V6.16406C37.7959 4.41072 38.3947 2.97572 39.5898 1.86035C40.7849 0.744981 42.1796 0.186523 43.7734 0.186523H67.4355ZM148.543 45.6025C150.295 45.6026 151.729 46.2004 152.845 47.3955C153.961 48.5906 154.518 49.9844 154.519 51.5781V61.1396C158.503 56.1997 163.442 52.3741 169.338 49.666C175.233 46.9569 181.926 45.6026 189.415 45.6025H199.693C201.446 45.6025 202.881 46.16 203.996 47.2754C205.111 48.3918 205.669 49.825 205.669 51.5781V72.374C205.669 73.9677 205.111 75.3213 203.996 76.4365C202.881 77.5519 201.446 78.1104 199.693 78.1104H178.898C171.728 78.1104 166.19 80.1019 162.286 84.0859C158.382 88.07 156.43 93.5671 156.43 100.578V163.921C156.43 165.674 155.832 167.107 154.638 168.224C153.443 169.339 152.048 169.896 150.454 169.896H125.118C123.525 169.896 122.131 169.339 120.936 168.224C119.74 167.107 119.143 165.674 119.143 163.921V51.5781C119.143 49.9843 119.74 48.5906 120.936 47.3955C122.131 46.2004 123.525 45.6025 125.118 45.6025H148.543ZM247.127 45.6025C248.72 45.6026 250.074 46.1601 251.189 47.2754C252.305 48.3918 252.863 49.8249 252.863 51.5781V163.921C252.863 165.674 252.305 167.107 251.189 168.224C250.074 169.339 248.72 169.896 247.127 169.896H222.985C221.392 169.896 219.998 169.339 218.803 168.224C217.608 167.107 217.01 165.674 217.01 163.921V51.5781C217.01 49.8249 217.608 48.3919 218.803 47.2754C219.998 46.1601 221.392 45.6026 222.985 45.6025H247.127ZM328.081 71.8955C322.505 71.8956 317.883 73.1701 314.218 75.7197C310.553 78.2695 307.844 81.4972 306.091 85.4004C304.339 89.3046 303.382 93.4877 303.224 97.9502C303.064 100.818 302.984 103.766 302.984 106.793C302.984 109.821 303.064 112.849 303.224 115.877C303.382 120.657 304.298 125.119 305.972 129.263C307.644 133.405 310.274 136.831 313.859 139.54C317.445 142.249 322.185 143.603 328.081 143.604C334.136 143.604 338.917 142.289 342.423 139.66C345.928 137.031 348.438 133.564 349.951 129.263C351.465 124.96 352.382 120.259 352.701 115.159C353.019 110.219 353.019 105.28 352.701 100.34C352.382 95.2405 351.465 90.5393 349.951 86.2363C348.438 81.9346 345.928 78.4682 342.423 75.8389C338.917 73.2105 334.136 71.8955 328.081 71.8955ZM463.289 67.1152C458.349 67.1152 454.166 68.31 450.74 70.7002C447.313 73.0903 444.686 76.3972 442.852 80.6191C441.021 84.8425 440.103 89.7424 440.103 95.3203V96.0371H486.713V95.3203C486.713 89.7424 485.797 84.8425 483.964 80.6191C482.132 76.3972 479.462 73.0904 475.957 70.7002C472.451 68.31 468.229 67.1152 463.289 67.1152ZM247.127 0C248.72 5.35553e-05 250.074 0.557534 251.189 1.67285C252.305 2.78924 252.863 4.22244 252.863 5.97559V27.543C252.863 29.2962 252.305 30.7293 251.189 31.8457C250.074 32.961 248.72 33.5185 247.127 33.5186H222.985C221.392 33.5185 219.998 32.961 218.803 31.8457C217.608 30.7292 217.01 29.2963 217.01 27.543V5.97559C217.01 4.22242 217.608 2.78925 218.803 1.67285C219.998 0.55755 221.392 3.95853e-05 222.985 0H247.127Z"
+        fill={`url(#${gradientId})`}
+      />
+      <defs>
+        <linearGradient
+          id={gradientId}
+          x1="7.60519e-07"
+          y1="-14.5489"
+          x2="536.639"
+          y2="122.509"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stopColor="#48E5FF" />
+          <stop offset="0.281566" stopColor="#B289F9" />
+          <stop offset="0.698232" stopColor="#F989B4" />
           <stop offset="1" stopColor="#FFBC6F" />
         </linearGradient>
       </defs>
@@ -1269,10 +1308,22 @@ export default function BrandGuidelinesPage() {
           >
             <div
               style={{
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 12,
+              }}
+            >
+              OneTribe — продукт / бренд
+            </div>
+            <div
+              style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 gap: 16,
-                marginBottom: 16,
+                marginBottom: 32,
               }}
             >
               <div
@@ -1323,6 +1374,77 @@ export default function BrandGuidelinesPage() {
                   Dark Background
                 </div>
                 <OneTribeLogo dark={true} width={160} gradientId="logo-lg2" />
+              </div>
+            </div>
+
+            <div
+              style={{
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 12,
+              }}
+            >
+              Tribe — платформа
+            </div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 16,
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  padding: 40,
+                  borderRadius: 16,
+                  background: "#fff",
+                  border: "1px solid #E6E6E6",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 16,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "#808080",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Light Background
+                </div>
+                <TribeLogo width={180} gradientId="logo-tribe1" />
+              </div>
+              <div
+                style={{
+                  padding: 40,
+                  borderRadius: 16,
+                  background: "#1E1E1E",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 16,
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "#808080",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  Dark Background
+                </div>
+                <TribeLogo width={180} gradientId="logo-tribe2" />
               </div>
             </div>
 
@@ -2391,6 +2513,406 @@ export default function BrandGuidelinesPage() {
                     <div>
                       <strong style={{ color: "#1E1E1E" }}>Фон:</strong> #0a0a1a
                       + gradient blobs
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 32,
+                borderRadius: 20,
+                background: "#fff",
+                border: "1px solid #E6E6E6",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                Physical — Flag
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                    maxWidth: 320,
+                  }}
+                >
+                  <Image
+                    src="/flag-mockup.png"
+                    alt="OneTribe flag mockup — white flag with onetribe logo"
+                    width={320}
+                    height={480}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    OneTribe Flag
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    Белый флаг с логотипом onetribe по центру. «one» в градиенте
+                    (purple → pink → orange), «tribe» — чёрный. Формат 2:3.
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> 900
+                      × 1350px (2:3)
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>Фон:</strong> белый
+                      (#FFFFFF)
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 32,
+                borderRadius: 20,
+                background: "#fff",
+                border: "1px solid #E6E6E6",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                Physical — Pin Badge
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                    maxWidth: 280,
+                    background: "#000",
+                  }}
+                >
+                  <Image
+                    src="/pin-badge.png"
+                    alt="OneTribe pin badge — gradient circle with tribe text"
+                    width={280}
+                    height={280}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    OneTribe Pin Badge
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    Круглый значок с градиентом (cyan → lavender → pink) и белым
+                    словом «tribe». Глянцевая выпуклая поверхность.
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> круг
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> pin
+                      badge с застёжкой
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 32,
+                borderRadius: 20,
+                background: "#fff",
+                border: "1px solid #E6E6E6",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                Physical — Roll-up Banner
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                    maxWidth: 400,
+                  }}
+                >
+                  <Image
+                    src="/rollup-mockup.png"
+                    alt="OneTribe roll-up banners — vertical stand banners with gradient"
+                    width={400}
+                    height={600}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    OneTribe Roll-up
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    Вертикальный роллап-баннер с градиентным фоном (cyan → pink
+                    → purple). Логотип tribe, заголовок, CTA-кнопка. Стенд на
+                    мероприятиях.
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> 850
+                      × 2000mm
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>Варианты:</strong> с
+                      мокапом приложения или отзывами
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 32,
+                borderRadius: 20,
+                background: "#fff",
+                border: "1px solid #E6E6E6",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                Physical — Chocolate Bar
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                    maxWidth: 360,
+                    padding: 24,
+                    position: "relative",
+                    background:
+                      "linear-gradient(135deg, #FCFCFC 0%, #F8F9FF 30%, #FFF8FC 60%, #FFFCF5 100%)",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 20,
+                      left: 20,
+                      width: 80,
+                      height: 80,
+                      borderRadius: "50%",
+                      background: "#48E5FF",
+                      opacity: 0.15,
+                      filter: "blur(25px)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 60,
+                      right: 30,
+                      width: 60,
+                      height: 60,
+                      borderRadius: "50%",
+                      background: "#B289F9",
+                      opacity: 0.12,
+                      filter: "blur(20px)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 40,
+                      left: 40,
+                      width: 70,
+                      height: 70,
+                      borderRadius: "50%",
+                      background: "#F989B4",
+                      opacity: 0.1,
+                      filter: "blur(22px)",
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 20,
+                      right: 50,
+                      width: 50,
+                      height: 50,
+                      borderRadius: "50%",
+                      background: "#FFBC6F",
+                      opacity: 0.12,
+                      filter: "blur(18px)",
+                    }}
+                  />
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    <Image
+                      src="/chocolate.png"
+                      alt="OneTribe chocolate bars — wrapped and unwrapped"
+                      width={312}
+                      height={200}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    OneTribe Chocolate
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    Шоколадный мерч с логотипом tribe. Обёртка с иридисцентным
+                    градиентом (голубой, розовый, фиолетовый). Тёмная плитка с
+                    тиснением.
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>Фон:</strong> белый с
+                      лёгким градиентом и пятнами в фирменных цветах
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> cyan,
+                      purple, pink, peach
                     </div>
                   </div>
                 </div>
