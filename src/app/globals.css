@@ -52,6 +52,37 @@ body {
   animation: marquee-reverse 90s linear infinite;
 }
 
+@keyframes dao-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 60px rgba(178, 137, 249, 0.4),
+      0 0 120px rgba(72, 229, 255, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 80px rgba(178, 137, 249, 0.6),
+      0 0 160px rgba(72, 229, 255, 0.25);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-dao-pulse {
+  animation: dao-pulse 3s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fade-up 0.8s ease forwards;
+}
+
 @keyframes dot-pulse {
   0%, 100% { opacity: 0.05; transform: scale(0.7); }
   50% { opacity: 0.65; transform: scale(1); }
