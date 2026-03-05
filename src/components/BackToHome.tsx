@@ -13,7 +13,7 @@ export default function BackToHome() {
         href="/"
         className="text-sm font-semibold text-zinc-700 hover:text-violet-600 transition-colors"
       >
-        ← Bridge
+        ← OneBridge
       </Link>
     </div>
   );

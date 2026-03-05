@@ -261,23 +261,57 @@ export default function DaoPage() {
           </div>
         </div>
 
-        {/* DAO Center */}
+        {/* DAO Center — sphere + Matrix DAO + Tribe/Bridge */}
         <div className="flex justify-center mb-16">
           <div
-            className="w-40 h-40 rounded-full flex flex-col items-center justify-center relative z-10 text-white animate-dao-pulse"
+            className="w-40 h-40 rounded-full flex flex-col items-center justify-center relative overflow-hidden animate-dao-pulse"
             style={{
-              background:
-                "radial-gradient(circle at 35% 35%, #48E5FF, #6E22F2)",
               boxShadow:
                 "0 0 60px rgba(178,137,249,0.4), 0 0 120px rgba(72,229,255,0.15)",
             }}
           >
+            {/* Тёмная база + плавная смена цвета туда-обратно (без белого) */}
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                background: "radial-gradient(circle at 35% 35%, #5a1fc9, #3d1590)",
+              }}
+            />
+            <div
+              className="absolute inset-0 rounded-full dao-sphere-layer dao-sphere-cyan"
+              style={{
+                background: "radial-gradient(circle at 35% 35%, #48e5ff, transparent 70%)",
+              }}
+            />
+            <div
+              className="absolute inset-0 rounded-full dao-sphere-layer dao-sphere-violet"
+              style={{
+                background: "radial-gradient(circle at 35% 35%, #b289f9, transparent 70%)",
+              }}
+            />
+            <div
+              className="absolute inset-0 rounded-full dao-sphere-layer dao-sphere-pink"
+              style={{
+                background: "radial-gradient(circle at 35% 35%, #f989b4, transparent 70%)",
+              }}
+            />
+            <div className="relative z-10 flex flex-col items-center justify-center dao-sphere-text">
             <span className="text-[28px] font-extrabold tracking-tight">
-              DAO
+              {"DAO".split("").map((char, i) => (
+                <span key={i} className="dao-matrix-letter">
+                  {char}
+                </span>
+              ))}
             </span>
-            <span className="text-[9px] tracking-[2px] uppercase text-white/70 mt-0.5">
-              Tribe
+            <span className="relative block mt-0.5 h-[12px]">
+              <span className="dao-label dao-label-tribe">
+                Tribe
+              </span>
+              <span className="dao-label dao-label-bridge">
+                bridge
+              </span>
             </span>
+            </div>
           </div>
         </div>
 
@@ -388,11 +422,7 @@ export default function DaoPage() {
 
         {/* Statement */}
         <div
-          className="rounded-2xl p-12 md:p-14 text-center relative overflow-hidden border border-[#E6E6E6]"
-          style={{
-            background:
-              "linear-gradient(135deg, #F8F5FF 0%, #FFF5FC 50%, #F5F8FF 100%)",
-          }}
+          className="rounded-2xl p-12 md:p-14 text-center relative overflow-hidden border border-[#E6E6E6] dao-statement-bg"
         >
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -413,13 +443,34 @@ export default function DaoPage() {
                   DAO ist kein Feature.
                   <br />
                   DAO ist ein{" "}
-                  <span className="text-[#B289F9]">Statement.</span>
+                  <span
+                className="font-bold"
+                style={{
+                  backgroundImage: "linear-gradient(135deg, #48E5FF, #B289F9, #F989B4)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                Statement.
+              </span>
                 </>
               ) : (
                 <>
                   DAO — не фича.
                   <br />
-                  DAO — это <span className="text-[#B289F9]">заявление.</span>
+                  DAO — это{" "}
+                <span
+                  className="font-bold"
+                  style={{
+                    backgroundImage: "linear-gradient(135deg, #48E5FF, #B289F9, #F989B4)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  заявление.
+                </span>
                 </>
               )}
             </div>

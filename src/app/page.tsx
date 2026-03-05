@@ -2,6 +2,13 @@ import Link from "next/link";
 
 const feedItems = [
   {
+    href: "/roadmap",
+    title: "OneBridge Roadmap",
+    excerpt: "План развития. Версионность, OneBridge Guidelines, локализация RU/EN/ZH/DE, ИИ-агенты, инструменты Tribe.",
+    createdAt: "2026-03-04",
+    tag: "Roadmap",
+  },
+  {
     href: "/crypto",
     title: "Bridge Crypto — Криптоблаготворительность",
     excerpt: "Community driven crypto charity platform. Transparent charity based on web3 technologies.",
@@ -67,22 +74,10 @@ function formatDate(iso: string) {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-[#FAFAFC]">
-      <header className="border-b border-zinc-200/80 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-2xl mx-auto px-6 py-6">
-          <Link href="/" className="inline-block">
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-500 via-violet-500 to-amber-400 bg-clip-text text-transparent">
-              Bridge
-            </h1>
-          </Link>
-          <p className="text-zinc-500 text-sm mt-1">
-            Благотворительная платформа
-          </p>
-        </div>
-      </header>
+    <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+      <div className="max-w-2xl mx-auto px-6 py-12">
 
-      <main className="max-w-2xl mx-auto px-6 py-12">
-        <h2 className="text-lg font-semibold text-zinc-400 uppercase tracking-wider mb-8">
+        <h2 className="text-lg font-semibold uppercase tracking-wider mb-8" style={{ color: "var(--color-muted)" }}>
           Лента
         </h2>
 
@@ -95,22 +90,22 @@ export default function HomePage() {
                 href={item.href}
                 className="block group"
               >
-                <article className="border-b border-zinc-200/60 pb-8 hover:border-zinc-300 transition-colors">
+                <article className="border-b pb-8 transition-colors hover:opacity-90" style={{ borderColor: "var(--color-border)" }}>
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="inline-block text-xs font-medium text-violet-500">
+                    <span className="inline-block text-xs font-medium" style={{ color: "var(--color-cta1)" }}>
                       {item.tag}
                     </span>
-                    <span className="text-xs text-zinc-400">
+                    <span className="text-xs" style={{ color: "var(--color-muted)" }}>
                       {formatDate(item.createdAt)}
                     </span>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-900 group-hover:text-violet-600 transition-colors leading-tight mb-2">
+                  <h3 className="text-xl sm:text-2xl font-bold leading-tight mb-2 transition-colors group-hover:opacity-80" style={{ color: "var(--color-text)" }}>
                     {item.title}
                   </h3>
-                  <p className="text-zinc-500 text-base leading-relaxed mb-3">
+                  <p className="text-base leading-relaxed mb-3" style={{ color: "var(--color-muted)" }}>
                     {item.excerpt}
                   </p>
-                  <span className="text-sm text-zinc-400">
+                  <span className="text-sm" style={{ color: "var(--color-muted)" }}>
                     Читать →
                   </span>
                 </article>
@@ -118,7 +113,7 @@ export default function HomePage() {
             </li>
           ))}
         </ul>
-      </main>
+      </div>
     </div>
   );
 }

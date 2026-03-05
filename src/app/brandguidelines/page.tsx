@@ -123,18 +123,548 @@ const BRAND = {
   },
 };
 
-const NAV = [
-  { id: "foundation", label: "Foundation", icon: "◈" },
-  { id: "colors", label: "Colors", icon: "◉" },
-  { id: "typography", label: "Typography", icon: "Aa" },
-  { id: "logo", label: "Logo", icon: "◎" },
-  { id: "iconography", label: "Icons", icon: "⬡" },
-  { id: "imagery", label: "Imagery", icon: "▣" },
-  { id: "motion", label: "Motion", icon: "◌" },
-  { id: "patterns", label: "Patterns", icon: "⊞" },
-  { id: "layout", label: "Layout", icon: "▦" },
-  { id: "applications", label: "Applications", icon: "◧" },
+const NAV_IDS = [
+  { id: "foundation", icon: "◈" },
+  { id: "colors", icon: "◉" },
+  { id: "typography", icon: "Aa" },
+  { id: "logo", icon: "◎" },
+  { id: "iconography", icon: "⬡" },
+  { id: "imagery", icon: "▣" },
+  { id: "motion", icon: "◌" },
+  { id: "patterns", icon: "⊞" },
+  { id: "layout", icon: "▦" },
+  { id: "applications", icon: "◧" },
 ];
+
+// ============================================================
+// TRANSLATIONS — RU / DE
+// ============================================================
+const TRANSLATIONS = {
+  ru: {
+    nav: {
+      foundation: "Foundation",
+      colors: "Colors",
+      typography: "Typography",
+      logo: "Logo",
+      iconography: "Icons",
+      imagery: "Imagery",
+      motion: "Motion",
+      patterns: "Patterns",
+      layout: "Layout",
+      applications: "Applications",
+    },
+    brandDescription:
+      "Децентрализованная социальная экосистема для настоящих людей. Онлайн-сообщество, которое становится офлайн-движением.",
+    brandVoice: [
+      "Говорим прямо",
+      "Без корпоративного языка",
+      "С энергией движения",
+      "Вдохновляем, не продаём",
+    ],
+    colorUses: {
+      primary: [
+        "Акценты, CTA, highlights",
+        "Основной градиент, фоны",
+        "Акценты, иллюстрации",
+        "Тепло, финансовые смыслы",
+      ],
+      secondary: [
+        "CTA кнопки, заголовки",
+        "Градиент 2, акценты",
+        "Ссылки, интерактив",
+        "Уведомления, важное",
+      ],
+      neutral: [
+        "Основной текст",
+        "Secondary text",
+        "Borders, dividers",
+        "Фоны секций",
+        "Основной фон",
+      ],
+    },
+    typographyUses: [
+      "Hero заголовки",
+      "Заголовки страниц",
+      "Секции",
+      "Подзаголовки",
+      "Основной текст",
+      "UI текст",
+      "Подписи, labels",
+      "Категории, теги",
+    ],
+    brandGuidelines: "Brand Guidelines",
+    brandGuidelinesV1: "Brand Guidelines v1.0",
+    sectionLabel: "Brand Guidelines",
+    foundationTitle: "Brand Foundation",
+    foundationSubtitle: "Душа бренда — зачем мы существуем и во что верим",
+    foundationItems: [
+      { label: "Mission", text: "Создать экосистему для настоящих человеческих связей — без алгоритмов, ботов и фальши" },
+      { label: "Vision", text: "Мир, где онлайн-сообщества становятся реальными движениями, меняющими жизни людей" },
+      { label: "Values", text: "Подлинность · Свобода · Сообщество · Рост · Децентрализация" },
+      { label: "Positioning", text: "Новая здоровая социальная сеть — настоящие встречи, настоящие люди, реальное взаимодействие" },
+    ],
+    brandPersonality: "Brand Personality",
+    brandVoiceLabel: "Brand Voice",
+    colorsTitle: "Color System",
+    colorsSubtitle: "Палитра, которая передаёт энергию, жизнь и движение",
+    primaryPalette: "Primary Palette",
+    secondaryAccent: "Secondary / Accent",
+    neutralPalette: "Neutral Palette",
+    gradients: "Gradients",
+    copyCss: "copy CSS",
+    copied: "✓ copied",
+    typographyTitle: "Typography",
+    typographySubtitle: "Inter Tight — чистый, современный, человечный",
+    typeface: "Typeface",
+    typefaceNote: "Primary typeface · All weights 100–900",
+    typeScale: "Type Scale",
+    typeScaleExamples: {
+      display: "One Tribe",
+      h1: "Начало нового мира",
+      h2: "Настоящие люди, настоящие встречи",
+      h3: "Присоединись к движению",
+      overline: "TRIBE AWAKENING",
+      body: "Мы создаём экосистему для жизни завтрашнего дня",
+    },
+    logoTitle: "Logo System",
+    logoSubtitle: "Правила использования и охранное поле",
+    onetribeProduct: "OneTribe — продукт / бренд",
+    tribePlatform: "Tribe — платформа",
+    lightBackground: "Light Background",
+    darkBackground: "Dark Background",
+    doDont: "Do / Don't",
+    doLabel: "✓ DO",
+    dontLabel: "✗ DON'T",
+    logoDo: [
+      "Использовать оригинальные цвета бренда",
+      "Соблюдать охранное поле (мин. 16px)",
+      "Использовать на контрастном фоне",
+      "Сохранять пропорции логотипа",
+    ],
+    logoDont: [
+      "Растягивать или деформировать",
+      "Менять цвета на нефирменные",
+      "Добавлять тени или обводки",
+      "Размещать на пёстром фоне без подложки",
+    ],
+    iconographyTitle: "Iconography",
+    iconographySubtitle: "Стиль иконок — outline, 2px stroke, скруглённые концы",
+    appIcon: "App Icon",
+    iconStyle: "Стиль:",
+    iconStroke: "Stroke:",
+    iconGrid: "Grid:",
+    iconCorner: "Corner:",
+    iconColor: "Color:",
+    iconStyleNote: "Стиль: Outline · Stroke: 1.8–2px · Grid: 24×24px · Corner: Round · Color: Brand Purple / Gradient",
+    imageryTitle: "Imagery & Photography",
+    imagerySubtitle: "Визуальный язык, который транслирует ценности бренда",
+    imageryUse: "✓ Используем",
+    imageryAvoid: "✗ Избегаем",
+    imageryUseList: [
+      "Живые моменты, не постановочные",
+      "Люди в настоящих ситуациях",
+      "Тёплые, натуральные тона",
+      "Офлайн-встречи и события",
+      "Эмоции: радость, концентрация, связь",
+      "Естественный свет",
+    ],
+    imageryAvoidList: [
+      "Стоковые улыбающиеся офисные люди",
+      "Перенасыщенные фильтры",
+      "Холодный корпоративный стиль",
+      "Изолированные объекты на белом",
+      "Клише: рукопожатия, галочки",
+      "Постановочное счастье",
+    ],
+    visualTreatment: "Visual Treatment",
+    visualTreatmentText:
+      "Декоративные элементы — размытые градиентные пятна с мягкими краями. Эффект глубины резкости. Создают ощущение живого медиа, динамики и воздуха. Всегда на светлом или тёмном фоне, никогда не перекрывают основной контент.",
+    motionTitle: "Motion & Animation",
+    motionSubtitle: "Движение, которое вдохновляет — не раздражает",
+    motionItems: [
+      { name: "Easing", value: "ease-out", note: "Для появлений и переходов" },
+      { name: "Duration S", value: "200ms", note: "Hover, micro-interactions" },
+      { name: "Duration M", value: "400ms", note: "Переходы между экранами" },
+      { name: "Duration L", value: "600ms", note: "Hero-анимации, intro" },
+      { name: "Blur Glow", value: "20–40px", note: "Декоративные пятна" },
+      { name: "Opacity", value: "0 → 1", note: "Стандартное появление" },
+    ],
+    motionPrinciples: "Принципы",
+    motionPrinciplesList: [
+      "Движение всегда служит смыслу — не развлекает ради развлечения",
+      "Градиентные пятна дышат медленно (3–6 сек цикл)",
+      "Текст появляется снизу вверх (translateY 12px → 0)",
+      "Логотип анимируется обводкой (stroke-dashoffset)",
+      "Никаких резких вспышек или агрессивных transitions",
+    ],
+    patternsTitle: "Patterns & Textures",
+    patternsSubtitle: "Фирменные декоративные элементы",
+    glowBlobs: "Glow Blobs",
+    glowBlobsDesc: "Основной декоративный мотив. Размытые цветные пятна на светлом фоне.",
+    sacredGeometry: "Sacred Geometry",
+    sacredGeometryDesc: "Круги, треугольники — символы единства и племени. Используется в фоне.",
+    wordWatermark: "Word Watermark",
+    wordWatermarkDesc: "Крупный полупрозрачный текст как фоновый элемент. Из примеров креативов.",
+    layoutTitle: "Layout & Grid",
+    layoutSubtitle: "Принципы сетки и пространства",
+    spacingScale: "Spacing Scale",
+    borderRadiusScale: "Border Radius Scale",
+    radiusItems: [
+      "XS — inputs, tags",
+      "S — buttons",
+      "M — cards small",
+      "L — cards",
+      "XL — panels, modals",
+      "Full — pills, avatars",
+    ],
+    compositionPrinciples: "Принципы композиции",
+    compositionList: [
+      "Воздух важнее плотности — не бойся пустого пространства",
+      "Контент всегда на первом месте, декор — поддерживает",
+      "Выравнивание по сетке 8px",
+      "Максимальная ширина контента 1280px",
+      "Мобайл-фёрст для всех digital-форматов",
+      "Контраст текста минимум 4.5:1 (WCAG AA)",
+    ],
+    applicationsTitle: "Applications",
+    applicationsSubtitle: "Бренд в реальном мире — digital и физические носители",
+    merchTshirt: "Merch — T-Shirt",
+    tshirtAlt: "OneTribe футболка — фото на модели",
+    classicTee: "Classic Tee — Minimal Logo",
+    classicTeeDesc: "Логотип по центру груди. Градиентный символ + wordmark. Минимализм, который говорит сам за себя.",
+    availableColors: "Доступные цвета: White, Black, Deep Purple",
+    physicalWaterBottle: "Physical — Water Bottle",
+    waterBottleAlt: "OneTribe бутылка воды — логотип на этикетке",
+    waterBottleTitle: "OneTribe Water Bottle",
+    waterBottleDesc: "Бутылка воды с этикеткой onetribe. «one» в градиенте (purple → pink → orange → cyan), «tribe» — чёрный.",
+    formatLabel: "Формат:",
+    styleLabel: "Стиль:",
+    waterBottleFormat: "wrap print",
+    waterBottleStyle: "белая этикетка, логотип по центру",
+    physicalStickerPack: "Physical — Sticker Pack",
+    stickerPackTitle: "OneTribe Sticker Pack",
+    stickerPackDesc: "6 стикеров в фирменном стиле. Градиентные фоны, белая обводка, мотивационные фразы (RU/EN/DE). Для мессенджеров и соцсетей.",
+    stickerFormat: "512 × 512px",
+    stickerStyle: "белая обводка 4px",
+    digitalStories: "Digital — Stories / Reels",
+    tribeAwakeningStories: "Tribe Awakening Stories",
+    storiesDesc: "Тёмный фон + градиентные пятна. Создаёт ощущение живого медиа. Энергия, вдохновение, движение.",
+    storiesFormat: "1080 × 1920px",
+    storiesFont: "Inter Tight Bold",
+    storiesBg: "#0a0a1a + gradient blobs",
+    fontLabel: "Шрифт:",
+    bgLabel: "Фон:",
+    digitalInviteCard: "Digital — Invite Card",
+    inviteCardTitle: "Личный QR-код приглашения",
+    inviteCardDesc: "Карточка, которую клиент получает, когда хочет поделиться приглашением в сообщество с другом. QR-код ведёт на персональную ссылку-приглашение. Код формата INVITE-XXXXXX.",
+    contextLabel: "Контекст:",
+    inviteContext: "раздел «Пригласить» в приложении",
+    inviteFormat: "карточка 280×400px, share / export",
+    physicalFlag: "Physical — Flag",
+    flagAlt: "OneTribe flag mockup — white flag with onetribe logo",
+    flagTitle: "OneTribe Flag",
+    flagDesc: "Белый флаг с логотипом onetribe по центру. «one» в градиенте (purple → pink → orange), «tribe» — чёрный. Формат 2:3.",
+    flagFormat: "900 × 1350px (2:3)",
+    flagBg: "белый (#FFFFFF)",
+    physicalPinBadge: "Physical — Pin Badge",
+    pinBadgeAlt: "OneTribe pin badge — gradient circle with tribe text",
+    pinBadgeTitle: "OneTribe Pin Badge",
+    pinBadgeDesc: "Круглый значок с градиентом (cyan → lavender → pink) и белым словом «tribe». Глянцевая выпуклая поверхность.",
+    pinFormat: "круг",
+    pinStyle: "pin badge с застёжкой",
+    physicalRollup: "Physical — Roll-up Banner",
+    rollupAlt: "OneTribe roll-up banners — vertical stand banners with gradient",
+    rollupTitle: "OneTribe Roll-up",
+    rollupDesc: "Вертикальный роллап-баннер с градиентным фоном (cyan → pink → purple). Логотип tribe, заголовок, CTA-кнопка. Стенд на мероприятиях.",
+    rollupFormat: "850 × 2000mm",
+    variantsLabel: "Варианты:",
+    rollupVariants: "с мокапом приложения или отзывами",
+    physicalChocolate: "Physical — Chocolate Bar",
+    chocolateAlt: "OneTribe chocolate bars — wrapped and unwrapped",
+    chocolateTitle: "OneTribe Chocolate",
+    chocolateDesc: "Шоколадный мерч с логотипом tribe. Обёртка с иридисцентным градиентом (голубой, розовый, фиолетовый). Тёмная плитка с тиснением.",
+    wrapLabel: "Обёртка:",
+    chocolateWrap: "иридисцентный градиент",
+    chocolateStyle: "cyan, purple, pink, peach",
+    brandAtGlance: "Brand at a glance",
+    glanceItems: [
+      { name: "Tribe in one word", size: "Community", note: "Племя. Связь. Настоящие люди." },
+      { name: "Voice pillars", size: "Authentic · Bold · Human", note: "Прямо, без корпоратива, с энергией движения" },
+      { name: "Key hashtags", size: "#onetribe #tribelife", note: "Соцсети, UGC, мероприятия" },
+      { name: "Community moments", size: "Офлайн → онлайн", note: "Встречи, события, живые связи" },
+      { name: "Gradient when", size: "CTA · Hero · Праздник", note: "Акценты, призывы, эмоциональные блоки" },
+      { name: "Collab ready", size: "Partnership", note: "Партнёрства, амбассадоры, коллабы" },
+    ],
+    inviteFriend: "Пригласи друга в Tribe",
+    share: "Поделиться",
+    storiesQuestion: "Ты готов к настоящему?",
+    storiesTagline: "Одно племя. Один вектор. Начни сегодня.",
+    joinCta: "Присоединиться →",
+  },
+  de: {
+    nav: {
+      foundation: "Grundlage",
+      colors: "Farben",
+      typography: "Typografie",
+      logo: "Logo",
+      iconography: "Icons",
+      imagery: "Bilder",
+      motion: "Bewegung",
+      patterns: "Muster",
+      layout: "Layout",
+      applications: "Anwendungen",
+    },
+    brandDescription:
+      "Dezentrale soziale Ökosystem für echte Menschen. Eine Online-Community, die zu einer Offline-Bewegung wird.",
+    brandVoice: [
+      "Wir sprechen direkt",
+      "Ohne Konzernsprache",
+      "Mit der Energie einer Bewegung",
+      "Wir inspirieren, wir verkaufen nicht",
+    ],
+    colorUses: {
+      primary: [
+        "Akzente, CTA, Highlights",
+        "Hauptverlauf, Hintergründe",
+        "Akzente, Illustrationen",
+        "Wärme, finanzielle Bedeutungen",
+      ],
+      secondary: [
+        "CTA-Buttons, Überschriften",
+        "Verlauf 2, Akzente",
+        "Links, Interaktion",
+        "Benachrichtigungen, Wichtiges",
+      ],
+      neutral: [
+        "Haupttext",
+        "Sekundärtext",
+        "Rahmen, Trennlinien",
+        "Abschnittshintergründe",
+        "Haupt Hintergrund",
+      ],
+    },
+    typographyUses: [
+      "Hero-Überschriften",
+      "Seitenüberschriften",
+      "Abschnitte",
+      "Untertitel",
+      "Fließtext",
+      "UI-Text",
+      "Bildunterschriften, Labels",
+      "Kategorien, Tags",
+    ],
+    brandGuidelines: "Brand Guidelines",
+    brandGuidelinesV1: "Brand Guidelines v1.0",
+    sectionLabel: "Brand Guidelines",
+    foundationTitle: "Brand Foundation",
+    foundationSubtitle: "Die Seele der Marke — wofür wir existieren und woran wir glauben",
+    foundationItems: [
+      { label: "Mission", text: "Ein Ökosystem für echte menschliche Verbindungen schaffen — ohne Algorithmen, Bots und Fakes" },
+      { label: "Vision", text: "Eine Welt, in der Online-Communities zu echten Bewegungen werden, die Menschenleben verändern" },
+      { label: "Values", text: "Authentizität · Freiheit · Gemeinschaft · Wachstum · Dezentralisierung" },
+      { label: "Positioning", text: "Ein neues gesundes soziales Netzwerk — echte Begegnungen, echte Menschen, echtes Miteinander" },
+    ],
+    brandPersonality: "Brand Personality",
+    brandVoiceLabel: "Brand Voice",
+    colorsTitle: "Color System",
+    colorsSubtitle: "Eine Palette, die Energie, Leben und Bewegung vermittelt",
+    primaryPalette: "Primary Palette",
+    secondaryAccent: "Secondary / Accent",
+    neutralPalette: "Neutral Palette",
+    gradients: "Gradients",
+    copyCss: "copy CSS",
+    copied: "✓ copied",
+    typographyTitle: "Typography",
+    typographySubtitle: "Inter Tight — klar, modern, menschlich",
+    typeface: "Typeface",
+    typefaceNote: "Primary typeface · All weights 100–900",
+    typeScale: "Type Scale",
+    typeScaleExamples: {
+      display: "One Tribe",
+      h1: "Der Anfang einer neuen Welt",
+      h2: "Echte Menschen, echte Begegnungen",
+      h3: "Schließ dich der Bewegung an",
+      overline: "TRIBE AWAKENING",
+      body: "Wir schaffen ein Ökosystem für das Leben von morgen",
+    },
+    logoTitle: "Logo System",
+    logoSubtitle: "Nutzungsregeln und Schutzzone",
+    onetribeProduct: "OneTribe — Produkt / Marke",
+    tribePlatform: "Tribe — Plattform",
+    lightBackground: "Light Background",
+    darkBackground: "Dark Background",
+    doDont: "Do / Don't",
+    doLabel: "✓ DO",
+    dontLabel: "✗ DON'T",
+    logoDo: [
+      "Originale Markenfarben verwenden",
+      "Schutzzone einhalten (min. 16px)",
+      "Auf kontrastreichem Hintergrund verwenden",
+      "Logo-Proportionen beibehalten",
+    ],
+    logoDont: [
+      "Strecken oder verzerren",
+      "Farben auf nicht-markenkonforme ändern",
+      "Schatten oder Konturen hinzufügen",
+      "Auf buntem Hintergrund ohne Unterlage platzieren",
+    ],
+    iconographyTitle: "Iconography",
+    iconographySubtitle: "Icon-Stil — Outline, 2px Strich, abgerundete Enden",
+    appIcon: "App Icon",
+    iconStyle: "Stil:",
+    iconStroke: "Stroke:",
+    iconGrid: "Grid:",
+    iconCorner: "Corner:",
+    iconColor: "Color:",
+    iconStyleNote: "Stil: Outline · Stroke: 1.8–2px · Grid: 24×24px · Corner: Round · Color: Brand Purple / Gradient",
+    imageryTitle: "Imagery & Photography",
+    imagerySubtitle: "Eine visuelle Sprache, die Markenwerte vermittelt",
+    imageryUse: "✓ Nutzen wir",
+    imageryAvoid: "✗ Vermeiden wir",
+    imageryUseList: [
+      "Lebendige Momente, nicht inszeniert",
+      "Menschen in echten Situationen",
+      "Warme, natürliche Töne",
+      "Offline-Treffen und Events",
+      "Emotionen: Freude, Konzentration, Verbindung",
+      "Natürliches Licht",
+    ],
+    imageryAvoidList: [
+      "Stock-Fotos mit lächelnden Büromenschen",
+      "Übersättigte Filter",
+      "Kalter Corporate-Stil",
+      "Isolierte Objekte auf Weiß",
+      "Klischees: Händeschütteln, Häkchen",
+      "Inszeniertes Glück",
+    ],
+    visualTreatment: "Visual Treatment",
+    visualTreatmentText:
+      "Dekorative Elemente — weiche Farbverläufe mit unscharfen Rändern. Tiefenschärfe-Effekt. Schaffen das Gefühl von lebendigen Medien, Dynamik und Luft. Immer auf hellem oder dunklem Hintergrund, überdecken nie den Hauptinhalt.",
+    motionTitle: "Motion & Animation",
+    motionSubtitle: "Bewegung, die inspiriert — nicht nervt",
+    motionItems: [
+      { name: "Easing", value: "ease-out", note: "Für Einblendungen und Übergänge" },
+      { name: "Duration S", value: "200ms", note: "Hover, Mikro-Interaktionen" },
+      { name: "Duration M", value: "400ms", note: "Übergänge zwischen Bildschirmen" },
+      { name: "Duration L", value: "600ms", note: "Hero-Animationen, Intro" },
+      { name: "Blur Glow", value: "20–40px", note: "Dekorative Flecken" },
+      { name: "Opacity", value: "0 → 1", note: "Standard-Einblendung" },
+    ],
+    motionPrinciples: "Prinzipien",
+    motionPrinciplesList: [
+      "Bewegung dient immer dem Sinn — nicht der Unterhaltung um der Unterhaltung willen",
+      "Verlauf-Flecken atmen langsam (3–6 Sek Zyklus)",
+      "Text erscheint von unten nach oben (translateY 12px → 0)",
+      "Logo animiert mit Kontur (stroke-dashoffset)",
+      "Keine harten Blitze oder aggressiven Transitions",
+    ],
+    patternsTitle: "Patterns & Textures",
+    patternsSubtitle: "Markentypische dekorative Elemente",
+    glowBlobs: "Glow Blobs",
+    glowBlobsDesc: "Hauptmotiv. Weiche farbige Flecken auf hellem Hintergrund.",
+    sacredGeometry: "Sacred Geometry",
+    sacredGeometryDesc: "Kreise, Dreiecke — Symbole der Einheit und des Stammes. Im Hintergrund verwendet.",
+    wordWatermark: "Word Watermark",
+    wordWatermarkDesc: "Großer halbtransparenter Text als Hintergrundelement. Aus Kreativbeispielen.",
+    layoutTitle: "Layout & Grid",
+    layoutSubtitle: "Grundsätze von Raster und Raum",
+    spacingScale: "Spacing Scale",
+    borderRadiusScale: "Border Radius Scale",
+    radiusItems: [
+      "XS — Inputs, Tags",
+      "S — Buttons",
+      "M — kleine Karten",
+      "L — Karten",
+      "XL — Panels, Modals",
+      "Full — Pills, Avatare",
+    ],
+    compositionPrinciples: "Kompositionsprinzipien",
+    compositionList: [
+      "Luft wichtiger als Dichte — keine Angst vor leerem Raum",
+      "Inhalt steht immer an erster Stelle, Dekor unterstützt",
+      "Ausrichtung am 8px-Raster",
+      "Maximale Inhaltsbreite 1280px",
+      "Mobile-First für alle Digital-Formate",
+      "Textkontrast mindestens 4.5:1 (WCAG AA)",
+    ],
+    applicationsTitle: "Applications",
+    applicationsSubtitle: "Die Marke in der realen Welt — digital und physische Träger",
+    merchTshirt: "Merch — T-Shirt",
+    tshirtAlt: "OneTribe T-Shirt — Foto auf Model",
+    classicTee: "Classic Tee — Minimal Logo",
+    classicTeeDesc: "Logo zentriert auf der Brust. Verlauf-Symbol + Wordmark. Minimalismus, der für sich spricht.",
+    availableColors: "Verfügbare Farben: White, Black, Deep Purple",
+    physicalWaterBottle: "Physical — Water Bottle",
+    waterBottleAlt: "OneTribe Wasserflasche — Logo auf Etikett",
+    waterBottleTitle: "OneTribe Water Bottle",
+    waterBottleDesc: "Wasserflasche mit onetribe-Etikett. «one» im Verlauf (purple → pink → orange → cyan), «tribe» — schwarz.",
+    formatLabel: "Format:",
+    styleLabel: "Stil:",
+    waterBottleFormat: "wrap print",
+    waterBottleStyle: "weißes Etikett, Logo zentriert",
+    physicalStickerPack: "Physical — Sticker Pack",
+    stickerPackTitle: "OneTribe Sticker Pack",
+    stickerPackDesc: "6 Sticker im Markenstil. Verlaufs-Hintergründe, weiße Kontur, motivierende Slogans (RU/EN/DE). Für Messenger und Social Media.",
+    stickerFormat: "512 × 512px",
+    stickerStyle: "weiße Kontur 4px",
+    digitalStories: "Digital — Stories / Reels",
+    tribeAwakeningStories: "Tribe Awakening Stories",
+    storiesDesc: "Dunkler Hintergrund + Verlaufs-Flecken. Schafft das Gefühl von lebendigen Medien. Energie, Inspiration, Bewegung.",
+    storiesFormat: "1080 × 1920px",
+    storiesFont: "Inter Tight Bold",
+    storiesBg: "#0a0a1a + gradient blobs",
+    fontLabel: "Schrift:",
+    bgLabel: "Hintergrund:",
+    digitalInviteCard: "Digital — Invite Card",
+    inviteCardTitle: "Persönlicher Einladungs-QR-Code",
+    inviteCardDesc: "Karte, die Nutzer erhalten, wenn sie eine Einladung in die Community teilen möchten. QR-Code führt zur persönlichen Einladungs-URL. Code-Format INVITE-XXXXXX.",
+    contextLabel: "Kontext:",
+    inviteContext: "Bereich «Einladen» in der App",
+    inviteFormat: "Karte 280×400px, Share / Export",
+    physicalFlag: "Physical — Flag",
+    flagAlt: "OneTribe Flaggen-Mockup — weiße Flagge mit onetribe Logo",
+    flagTitle: "OneTribe Flag",
+    flagDesc: "Weiße Flagge mit onetribe-Logo zentriert. «one» im Verlauf (purple → pink → orange), «tribe» — schwarz. Format 2:3.",
+    flagFormat: "900 × 1350px (2:3)",
+    flagBg: "weiß (#FFFFFF)",
+    physicalPinBadge: "Physical — Pin Badge",
+    pinBadgeAlt: "OneTribe Pin Badge — Verlaufskreis mit tribe Text",
+    pinBadgeTitle: "OneTribe Pin Badge",
+    pinBadgeDesc: "Runder Anstecker mit Verlauf (cyan → lavender → pink) und dem weißen Wort «tribe». Glänzende gewölbte Oberfläche.",
+    pinFormat: "rund",
+    pinStyle: "Pin Badge mit Verschluss",
+    physicalRollup: "Physical — Roll-up Banner",
+    rollupAlt: "OneTribe Roll-up Banner — vertikale Standbanner mit Verlauf",
+    rollupTitle: "OneTribe Roll-up",
+    rollupDesc: "Vertikales Roll-up-Banner mit Verlaufs-Hintergrund (cyan → pink → purple). Tribe-Logo, Überschrift, CTA-Button. Stand bei Events.",
+    rollupFormat: "850 × 2000mm",
+    variantsLabel: "Varianten:",
+    rollupVariants: "mit App-Mockup oder Testimonials",
+    physicalChocolate: "Physical — Chocolate Bar",
+    chocolateAlt: "OneTribe Schokoladentafeln — verpackt und ausgepackt",
+    chocolateTitle: "OneTribe Chocolate",
+    chocolateDesc: "Schokoladen-Merch mit tribe-Logo. Verpackung mit irisierendem Verlauf (blau, pink, lila). Dunkle Tafel mit Prägung.",
+    wrapLabel: "Verpackung:",
+    chocolateWrap: "irisierender Verlauf",
+    chocolateStyle: "cyan, purple, pink, peach",
+    brandAtGlance: "Brand at a glance",
+    glanceItems: [
+      { name: "Tribe in one word", size: "Community", note: "Stamm. Verbindung. Echte Menschen." },
+      { name: "Voice pillars", size: "Authentic · Bold · Human", note: "Direkt, ohne Corporate, mit Bewegungsenergie" },
+      { name: "Key hashtags", size: "#onetribe #tribelife", note: "Social Media, UGC, Events" },
+      { name: "Community moments", size: "Offline → Online", note: "Treffen, Events, lebendige Verbindungen" },
+      { name: "Gradient when", size: "CTA · Hero · Feier", note: "Akzente, Aufrufe, emotionale Blöcke" },
+      { name: "Collab ready", size: "Partnership", note: "Partnerschaften, Botschafter, Kollaborationen" },
+    ],
+    inviteFriend: "Lade einen Freund in Tribe ein",
+    share: "Teilen",
+    storiesQuestion: "Bist du bereit für das Echte?",
+    storiesTagline: "Ein Stamm. Ein Vektor. Starte heute.",
+    joinCta: "Beitreten →",
+  },
+} as const;
+
+type Lang = keyof typeof TRANSLATIONS;
 
 function OneTribeIcon({
   size = 32,
@@ -181,7 +711,13 @@ function OneTribeIcon({
   );
 }
 
-function CopyBadge({ text }: { text: string }) {
+function CopyBadge({
+  text,
+  copiedLabel = "✓ copied",
+}: {
+  text: string;
+  copiedLabel?: string;
+}) {
   const [copied, setCopied] = useState(false);
   const copy = () => {
     navigator.clipboard.writeText(text);
@@ -204,15 +740,19 @@ function CopyBadge({ text }: { text: string }) {
         transition: "all 0.2s",
       }}
     >
-      {copied ? "✓ copied" : text}
+      {copied ? copiedLabel : text}
     </button>
   );
 }
 
 function ColorSwatch({
   color,
+  useOverride,
+  copiedLabel,
 }: {
   color: { name: string; hex: string; use: string };
+  useOverride?: string;
+  copiedLabel?: string;
 }) {
   const isLight =
     color.hex === "#FFFFFF" ||
@@ -246,9 +786,9 @@ function ColorSwatch({
           {color.name}
         </div>
         <div style={{ fontSize: 11, color: "#808080", marginBottom: 8 }}>
-          {color.use}
+          {useOverride ?? color.use}
         </div>
-        <CopyBadge text={color.hex} />
+        <CopyBadge text={color.hex} copiedLabel={copiedLabel} />
       </div>
     </div>
   );
@@ -256,8 +796,12 @@ function ColorSwatch({
 
 function GradientSwatch({
   g,
+  copyCssLabel,
+  copiedLabel,
 }: {
   g: { name: string; value: string; css: string };
+  copyCssLabel?: string;
+  copiedLabel?: string;
 }) {
   const [copied, setCopied] = useState(false);
   const copy = () => {
@@ -299,7 +843,7 @@ function GradientSwatch({
             transition: "all 0.2s",
           }}
         >
-          {copied ? "✓ copied" : "copy CSS"}
+          {copied ? (copiedLabel ?? "✓ copied") : (copyCssLabel ?? "copy CSS")}
         </button>
       </div>
     </div>
@@ -388,7 +932,11 @@ function TribeLogo({
   );
 }
 
-function InviteCardMockup() {
+function InviteCardMockup({
+  t,
+}: {
+  t: (typeof TRANSLATIONS)[Lang];
+}) {
   // Simplified QR-like pattern (21x21 modules)
   const qrSize = 21;
   const moduleSize = 4;
@@ -437,7 +985,7 @@ function InviteCardMockup() {
           textAlign: "center",
         }}
       >
-        Пригласи друга в Tribe
+        {t.inviteFriend}
       </div>
       <div
         style={{
@@ -489,13 +1037,17 @@ function InviteCardMockup() {
           textAlign: "center",
         }}
       >
-        Поделиться
+        {t.share}
       </div>
     </div>
   );
 }
 
-function StoriesMockup() {
+function StoriesMockup({
+  t,
+}: {
+  t: (typeof TRANSLATIONS)[Lang];
+}) {
   return (
     <div
       style={{
@@ -594,7 +1146,7 @@ function StoriesMockup() {
               marginBottom: 8,
             }}
           >
-            Ты готов к настоящему?
+            {t.storiesQuestion}
           </div>
           <div
             style={{
@@ -604,7 +1156,7 @@ function StoriesMockup() {
               fontFamily: "Inter,sans-serif",
             }}
           >
-            Одно племя. Один вектор. Начни сегодня.
+            {t.storiesTagline}
           </div>
           <div
             style={{
@@ -626,7 +1178,7 @@ function StoriesMockup() {
                 lineHeight: 1,
               }}
             >
-              Присоединиться →
+              {t.joinCta}
             </span>
           </div>
         </div>
@@ -638,10 +1190,12 @@ function StoriesMockup() {
 function Section({
   title,
   subtitle,
+  sectionLabel = "Brand Guidelines",
   children,
 }: {
   title: string;
   subtitle?: string;
+  sectionLabel?: string;
   children: React.ReactNode;
 }) {
   return (
@@ -657,7 +1211,7 @@ function Section({
             marginBottom: 8,
           }}
         >
-          Brand Guidelines
+          {sectionLabel}
         </div>
         <h2
           style={{
@@ -689,7 +1243,9 @@ function Section({
 }
 
 export default function BrandGuidelinesPage() {
+  const [lang, setLang] = useState<Lang>("ru");
   const [active, setActive] = useState("foundation");
+  const t = TRANSLATIONS[lang];
 
   const scrollTo = (id: string) => {
     setActive(id);
@@ -699,21 +1255,26 @@ export default function BrandGuidelinesPage() {
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      for (const n of NAV) {
+    const THRESHOLD = 160; // подсветка, когда верх якоря достигает этой линии
+    const updateActive = () => {
+      let current = NAV_IDS[0].id;
+      for (const n of NAV_IDS) {
         const el = document.getElementById(n.id);
         if (el) {
           const rect = el.getBoundingClientRect();
-          if (rect.top <= 120 && rect.bottom > 120) {
-            setActive(n.id);
-            break;
-          }
+          if (rect.top <= THRESHOLD) current = n.id;
         }
       }
+      setActive(current);
     };
     const container = document.getElementById("scroll-container");
-    container?.addEventListener("scroll", handleScroll);
-    return () => container?.removeEventListener("scroll", handleScroll);
+    container?.addEventListener("scroll", updateActive, { passive: true });
+    window.addEventListener("scroll", updateActive, { passive: true });
+    updateActive();
+    return () => {
+      container?.removeEventListener("scroll", updateActive);
+      window.removeEventListener("scroll", updateActive);
+    };
   }, []);
 
   return (
@@ -749,8 +1310,62 @@ export default function BrandGuidelinesPage() {
             flexShrink: 0,
           }}
         >
-          <div style={{ marginBottom: 10 }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 10,
+              gap: 8,
+            }}
+          >
             <OneTribeIcon size={32} gradientId="sidebar-icon-grad" />
+            <div style={{ display: "flex", gap: 4 }}>
+              <button
+                onClick={() => setLang("ru")}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: 8,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  background:
+                    lang === "ru"
+                      ? "linear-gradient(90deg, #48E5FF, #B289F9, #F989B4)"
+                      : "transparent",
+                  color: lang === "ru" ? "#fff" : "#808080",
+                  borderWidth: lang === "ru" ? 0 : 1,
+                  borderStyle: "solid",
+                  borderColor: "#E6E6E6",
+                }}
+              >
+                RU
+              </button>
+              <button
+                onClick={() => setLang("de")}
+                style={{
+                  padding: "6px 10px",
+                  borderRadius: 8,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  border: "none",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  background:
+                    lang === "de"
+                      ? "linear-gradient(90deg, #48E5FF, #B289F9, #F989B4)"
+                      : "transparent",
+                  color: lang === "de" ? "#fff" : "#808080",
+                  borderWidth: lang === "de" ? 0 : 1,
+                  borderStyle: "solid",
+                  borderColor: "#E6E6E6",
+                }}
+              >
+                DE
+              </button>
+            </div>
           </div>
           <div
             style={{
@@ -763,7 +1378,7 @@ export default function BrandGuidelinesPage() {
             OneTribe
           </div>
           <div style={{ fontSize: 10, color: "#808080", marginTop: 2 }}>
-            Brand Guidelines v1.0
+            {t.brandGuidelinesV1}
           </div>
         </div>
         <nav
@@ -774,7 +1389,7 @@ export default function BrandGuidelinesPage() {
             overflowY: "auto",
           }}
         >
-          {NAV.map((n) => (
+          {NAV_IDS.map((n) => (
             <button
               key={n.id}
               onClick={() => scrollTo(n.id)}
@@ -801,7 +1416,7 @@ export default function BrandGuidelinesPage() {
               }}
             >
               <span style={{ fontSize: 14, opacity: 0.7 }}>{n.icon}</span>
-              {n.label}
+              {t.nav[n.id as keyof typeof t.nav] ?? n.id}
             </button>
           ))}
         </nav>
@@ -867,7 +1482,7 @@ export default function BrandGuidelinesPage() {
                 marginBottom: 12,
               }}
             >
-              Brand Guidelines
+              {t.brandGuidelines}
             </div>
             <h1
               style={{
@@ -902,7 +1517,7 @@ export default function BrandGuidelinesPage() {
                 margin: 0,
               }}
             >
-              {BRAND.description}
+              {t.brandDescription}
             </p>
           </div>
         </div>
@@ -910,8 +1525,9 @@ export default function BrandGuidelinesPage() {
         {/* 1. FOUNDATION */}
         <div id="foundation" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Brand Foundation"
-            subtitle="Душа бренда — зачем мы существуем и во что верим"
+            title={t.foundationTitle}
+            subtitle={t.foundationSubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -921,24 +1537,7 @@ export default function BrandGuidelinesPage() {
                 marginBottom: 24,
               }}
             >
-              {[
-                {
-                  label: "Mission",
-                  text: "Создать экосистему для настоящих человеческих связей — без алгоритмов, ботов и фальши",
-                },
-                {
-                  label: "Vision",
-                  text: "Мир, где онлайн-сообщества становятся реальными движениями, меняющими жизни людей",
-                },
-                {
-                  label: "Values",
-                  text: "Подлинность · Свобода · Сообщество · Рост · Децентрализация",
-                },
-                {
-                  label: "Positioning",
-                  text: "Новая здоровая социальная сеть — настоящие встречи, настоящие люди, реальное взаимодействие",
-                },
-              ].map((item) => (
+              {t.foundationItems.map((item) => (
                 <div
                   key={item.label}
                   style={{
@@ -992,7 +1591,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 14,
                 }}
               >
-                Brand Personality
+                {t.brandPersonality}
               </div>
               <div
                 style={{
@@ -1039,7 +1638,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 14,
                 }}
               >
-                Brand Voice
+                {t.brandVoiceLabel}
               </div>
               <div
                 style={{
@@ -1048,7 +1647,7 @@ export default function BrandGuidelinesPage() {
                   gap: 10,
                 }}
               >
-                {BRAND.voice.map((v) => (
+                {t.brandVoice.map((v) => (
                   <div
                     key={v}
                     style={{
@@ -1071,8 +1670,9 @@ export default function BrandGuidelinesPage() {
         {/* 2. COLORS */}
         <div id="colors" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Color System"
-            subtitle="Палитра, которая передаёт энергию, жизнь и движение"
+            title={t.colorsTitle}
+            subtitle={t.colorsSubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div style={{ marginBottom: 32 }}>
               <div
@@ -1085,7 +1685,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 16,
                 }}
               >
-                Primary Palette
+                {t.primaryPalette}
               </div>
               <div
                 style={{
@@ -1094,8 +1694,8 @@ export default function BrandGuidelinesPage() {
                   gap: 12,
                 }}
               >
-                {BRAND.colors.primary.map((c) => (
-                  <ColorSwatch key={c.hex} color={c} />
+                {BRAND.colors.primary.map((c, i) => (
+                  <ColorSwatch key={c.hex} color={c} useOverride={t.colorUses.primary[i]} copiedLabel={t.copied} />
                 ))}
               </div>
             </div>
@@ -1110,7 +1710,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 16,
                 }}
               >
-                Secondary / Accent
+                {t.secondaryAccent}
               </div>
               <div
                 style={{
@@ -1119,8 +1719,8 @@ export default function BrandGuidelinesPage() {
                   gap: 12,
                 }}
               >
-                {BRAND.colors.secondary.map((c) => (
-                  <ColorSwatch key={c.hex} color={c} />
+                {BRAND.colors.secondary.map((c, i) => (
+                  <ColorSwatch key={c.hex} color={c} useOverride={t.colorUses.secondary[i]} copiedLabel={t.copied} />
                 ))}
               </div>
             </div>
@@ -1135,7 +1735,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 16,
                 }}
               >
-                Neutral Palette
+                {t.neutralPalette}
               </div>
               <div
                 style={{
@@ -1144,8 +1744,8 @@ export default function BrandGuidelinesPage() {
                   gap: 12,
                 }}
               >
-                {BRAND.colors.neutral.map((c) => (
-                  <ColorSwatch key={c.hex} color={c} />
+                {BRAND.colors.neutral.map((c, i) => (
+                  <ColorSwatch key={c.hex} color={c} useOverride={t.colorUses.neutral[i]} copiedLabel={t.copied} />
                 ))}
               </div>
             </div>
@@ -1160,7 +1760,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 16,
                 }}
               >
-                Gradients
+                {t.gradients}
               </div>
               <div
                 style={{
@@ -1170,7 +1770,7 @@ export default function BrandGuidelinesPage() {
                 }}
               >
                 {BRAND.colors.gradients.map((g) => (
-                  <GradientSwatch key={g.name} g={g} />
+                  <GradientSwatch key={g.name} g={g} copyCssLabel={t.copyCss} copiedLabel={t.copied} />
                 ))}
               </div>
             </div>
@@ -1180,8 +1780,9 @@ export default function BrandGuidelinesPage() {
         {/* 3. TYPOGRAPHY */}
         <div id="typography" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Typography"
-            subtitle="Inter Tight — чистый, современный, человечный"
+            title={t.typographyTitle}
+            subtitle={t.typographySubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -1235,7 +1836,7 @@ export default function BrandGuidelinesPage() {
                     Inter Tight
                   </div>
                   <div style={{ fontSize: 13, color: "#808080" }}>
-                    Primary typeface · All weights 100–900
+                    {t.typefaceNote}
                   </div>
                   <div style={{ fontSize: 13, color: "#808080", marginTop: 2 }}>
                     google.com/fonts/specimen/Inter+Tight
@@ -1276,12 +1877,12 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Type Scale
+                {t.typeScale}
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-                {BRAND.typography.scale.map((t, i) => (
+                {BRAND.typography.scale.map((scaleItem, i) => (
                   <div
-                    key={t.name}
+                    key={scaleItem.name}
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -1302,7 +1903,7 @@ export default function BrandGuidelinesPage() {
                           letterSpacing: "0.05em",
                         }}
                       >
-                        {t.name}
+                        {scaleItem.name}
                       </div>
                       <div
                         style={{
@@ -1311,33 +1912,33 @@ export default function BrandGuidelinesPage() {
                           marginTop: 2,
                         }}
                       >
-                        {t.size} / {t.weight}
+                        {scaleItem.size} / {scaleItem.weight}
                       </div>
                     </div>
                     <div
                       style={{
                         flex: 1,
-                        fontSize: t.size,
-                        fontWeight: t.weight as React.CSSProperties["fontWeight"],
-                        letterSpacing: t.ls,
-                        lineHeight: t.lh,
+                        fontSize: scaleItem.size,
+                        fontWeight: scaleItem.weight as React.CSSProperties["fontWeight"],
+                        letterSpacing: scaleItem.ls,
+                        lineHeight: scaleItem.lh,
                         color: "#1E1E1E",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
                         whiteSpace: "nowrap",
                       }}
                     >
-                      {t.name === "Display"
-                        ? "One Tribe"
-                        : t.name === "H1"
-                          ? "Начало нового мира"
-                          : t.name === "H2"
-                            ? "Настоящие люди, настоящие встречи"
-                            : t.name === "H3"
-                              ? "Присоединись к движению"
-                              : t.name === "Overline"
-                                ? "TRIBE AWAKENING"
-                                : "Мы создаём экосистему для жизни завтрашнего дня"}
+                      {scaleItem.name === "Display"
+                        ? t.typeScaleExamples.display
+                        : scaleItem.name === "H1"
+                          ? t.typeScaleExamples.h1
+                          : scaleItem.name === "H2"
+                            ? t.typeScaleExamples.h2
+                            : scaleItem.name === "H3"
+                              ? t.typeScaleExamples.h3
+                              : scaleItem.name === "Overline"
+                                ? t.typeScaleExamples.overline
+                                : t.typeScaleExamples.body}
                     </div>
                     <div
                       style={{
@@ -1348,7 +1949,7 @@ export default function BrandGuidelinesPage() {
                         textAlign: "right",
                       }}
                     >
-                      {t.use}
+                      {t.typographyUses[i]}
                     </div>
                   </div>
                 ))}
@@ -1360,8 +1961,9 @@ export default function BrandGuidelinesPage() {
         {/* 4. LOGO */}
         <div id="logo" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Logo System"
-            subtitle="Правила использования и охранное поле"
+            title={t.logoTitle}
+            subtitle={t.logoSubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -1373,7 +1975,7 @@ export default function BrandGuidelinesPage() {
                 marginBottom: 12,
               }}
             >
-              OneTribe — продукт / бренд
+              {t.onetribeProduct}
             </div>
             <div
               style={{
@@ -1404,7 +2006,7 @@ export default function BrandGuidelinesPage() {
                     textTransform: "uppercase",
                   }}
                 >
-                  Light Background
+                  {t.lightBackground}
                 </div>
                 <OneTribeLogo dark={false} width={160} gradientId="logo-lg1" />
               </div>
@@ -1428,7 +2030,7 @@ export default function BrandGuidelinesPage() {
                     textTransform: "uppercase",
                   }}
                 >
-                  Dark Background
+                  {t.darkBackground}
                 </div>
                 <OneTribeLogo dark={true} width={160} gradientId="logo-lg2" />
               </div>
@@ -1443,8 +2045,8 @@ export default function BrandGuidelinesPage() {
                 textTransform: "uppercase",
                 marginBottom: 12,
               }}
-            >
-              Tribe — платформа
+              >
+                {t.tribePlatform}
             </div>
             <div
               style={{
@@ -1475,7 +2077,7 @@ export default function BrandGuidelinesPage() {
                     textTransform: "uppercase",
                   }}
                 >
-                  Light Background
+                  {t.lightBackground}
                 </div>
                 <TribeLogo width={180} gradientId="logo-tribe1" />
               </div>
@@ -1499,7 +2101,7 @@ export default function BrandGuidelinesPage() {
                     textTransform: "uppercase",
                   }}
                 >
-                  Dark Background
+                  {t.darkBackground}
                 </div>
                 <TribeLogo width={180} gradientId="logo-tribe2" />
               </div>
@@ -1523,7 +2125,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 16,
                 }}
               >
-                Do / Don&apos;t
+                {t.doDont}
               </div>
               <div
                 style={{
@@ -1541,14 +2143,9 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 10,
                     }}
                   >
-                    ✓ DO
+                    {t.doLabel}
                   </div>
-                  {[
-                    "Использовать оригинальные цвета бренда",
-                    "Соблюдать охранное поле (мин. 16px)",
-                    "Использовать на контрастном фоне",
-                    "Сохранять пропорции логотипа",
-                  ].map((d) => (
+                  {t.logoDo.map((d) => (
                     <div
                       key={d}
                       style={{
@@ -1573,14 +2170,9 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 10,
                     }}
                   >
-                    ✗ DON&apos;T
+                    {t.dontLabel}
                   </div>
-                  {[
-                    "Растягивать или деформировать",
-                    "Менять цвета на нефирменные",
-                    "Добавлять тени или обводки",
-                    "Размещать на пёстром фоне без подложки",
-                  ].map((d) => (
+                  {t.logoDont.map((d) => (
                     <div
                       key={d}
                       style={{
@@ -1604,8 +2196,9 @@ export default function BrandGuidelinesPage() {
         {/* 5. ICONOGRAPHY */}
         <div id="iconography" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Iconography"
-            subtitle="Стиль иконок — outline, 2px stroke, скруглённые концы"
+            title={t.iconographyTitle}
+            subtitle={t.iconographySubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -1641,7 +2234,7 @@ export default function BrandGuidelinesPage() {
                       fontWeight: 500,
                     }}
                   >
-                    App Icon
+                    {t.appIcon}
                   </span>
                 </div>
                 {[
@@ -1733,12 +2326,7 @@ export default function BrandGuidelinesPage() {
                 }}
               >
                 <div style={{ fontSize: 11, color: "#808080" }}>
-                  <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> Outline ·{" "}
-                  <strong style={{ color: "#1E1E1E" }}>Stroke:</strong> 1.8–2px
-                  · <strong style={{ color: "#1E1E1E" }}>Grid:</strong> 24×24px ·{" "}
-                  <strong style={{ color: "#1E1E1E" }}>Corner:</strong> Round ·{" "}
-                  <strong style={{ color: "#1E1E1E" }}>Color:</strong> Brand
-                  Purple / Gradient
+                  {t.iconStyleNote}
                 </div>
               </div>
             </div>
@@ -1748,8 +2336,9 @@ export default function BrandGuidelinesPage() {
         {/* 6. IMAGERY */}
         <div id="imagery" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Imagery & Photography"
-            subtitle="Визуальный язык, который транслирует ценности бренда"
+            title={t.imageryTitle}
+            subtitle={t.imagerySubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -1776,16 +2365,9 @@ export default function BrandGuidelinesPage() {
                     marginBottom: 14,
                   }}
                 >
-                  ✓ Используем
+                  {t.imageryUse}
                 </div>
-                {[
-                  "Живые моменты, не постановочные",
-                  "Люди в настоящих ситуациях",
-                  "Тёплые, натуральные тона",
-                  "Офлайн-встречи и события",
-                  "Эмоции: радость, концентрация, связь",
-                  "Естественный свет",
-                ].map((i) => (
+                {t.imageryUseList.map((i) => (
                   <div
                     key={i}
                     style={{
@@ -1819,16 +2401,9 @@ export default function BrandGuidelinesPage() {
                     marginBottom: 14,
                   }}
                 >
-                  ✗ Избегаем
+                  {t.imageryAvoid}
                 </div>
-                {[
-                  "Стоковые улыбающиеся офисные люди",
-                  "Перенасыщенные фильтры",
-                  "Холодный корпоративный стиль",
-                  "Изолированные объекты на белом",
-                  "Клише: рукопожатия, галочки",
-                  "Постановочное счастье",
-                ].map((i) => (
+                {t.imageryAvoidList.map((i) => (
                   <div
                     key={i}
                     style={{
@@ -1864,7 +2439,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 10,
                 }}
               >
-                Visual Treatment
+                {t.visualTreatment}
               </div>
               <div
                 style={{
@@ -1873,10 +2448,7 @@ export default function BrandGuidelinesPage() {
                   lineHeight: 1.7,
                 }}
               >
-                Декоративные элементы — размытые градиентные пятна с мягкими
-                краями. Эффект глубины резкости. Создают ощущение живого медиа,
-                динамики и воздуха. Всегда на светлом или тёмном фоне, никогда
-                не перекрывают основной контент.
+                {t.visualTreatmentText}
               </div>
             </div>
           </Section>
@@ -1885,8 +2457,9 @@ export default function BrandGuidelinesPage() {
         {/* 7. MOTION */}
         <div id="motion" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Motion & Animation"
-            subtitle="Движение, которое вдохновляет — не раздражает"
+            title={t.motionTitle}
+            subtitle={t.motionSubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -1896,38 +2469,7 @@ export default function BrandGuidelinesPage() {
                 marginBottom: 16,
               }}
             >
-              {[
-                {
-                  name: "Easing",
-                  value: "ease-out",
-                  note: "Для появлений и переходов",
-                },
-                {
-                  name: "Duration S",
-                  value: "200ms",
-                  note: "Hover, micro-interactions",
-                },
-                {
-                  name: "Duration M",
-                  value: "400ms",
-                  note: "Переходы между экранами",
-                },
-                {
-                  name: "Duration L",
-                  value: "600ms",
-                  note: "Hero-анимации, intro",
-                },
-                {
-                  name: "Blur Glow",
-                  value: "20–40px",
-                  note: "Декоративные пятна",
-                },
-                {
-                  name: "Opacity",
-                  value: "0 → 1",
-                  note: "Стандартное появление",
-                },
-              ].map((item) => (
+              {t.motionItems.map((item) => (
                 <div
                   key={item.name}
                   style={{
@@ -1984,15 +2526,9 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 14,
                 }}
               >
-                Принципы
+                {t.motionPrinciples}
               </div>
-              {[
-                "Движение всегда служит смыслу — не развлекает ради развлечения",
-                "Градиентные пятна дышат медленно (3–6 сек цикл)",
-                "Текст появляется снизу вверх (translateY 12px → 0)",
-                "Логотип анимируется обводкой (stroke-dashoffset)",
-                "Никаких резких вспышек или агрессивных transitions",
-              ].map((p) => (
+              {t.motionPrinciplesList.map((p) => (
                 <div
                   key={p}
                   style={{
@@ -2014,8 +2550,9 @@ export default function BrandGuidelinesPage() {
         {/* 8. PATTERNS */}
         <div id="patterns" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Patterns & Textures"
-            subtitle="Фирменные декоративные элементы"
+            title={t.patternsTitle}
+            subtitle={t.patternsSubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -2090,11 +2627,10 @@ export default function BrandGuidelinesPage() {
                     marginBottom: 4,
                   }}
                 >
-                  Glow Blobs
+                  {t.glowBlobs}
                 </div>
                 <div style={{ fontSize: 11, color: "#808080" }}>
-                  Основной декоративный мотив. Размытые цветные пятна на светлом
-                  фоне.
+                  {t.glowBlobsDesc}
                 </div>
               </div>
               <div
@@ -2176,11 +2712,10 @@ export default function BrandGuidelinesPage() {
                     marginBottom: 4,
                   }}
                 >
-                  Sacred Geometry
+                  {t.sacredGeometry}
                 </div>
                 <div style={{ fontSize: 11, color: "#808080" }}>
-                  Круги, треугольники — символы единства и племени. Используется
-                  в фоне.
+                  {t.sacredGeometryDesc}
                 </div>
               </div>
               <div
@@ -2225,11 +2760,10 @@ export default function BrandGuidelinesPage() {
                     marginBottom: 4,
                   }}
                 >
-                  Word Watermark
+                  {t.wordWatermark}
                 </div>
                 <div style={{ fontSize: 11, color: "#808080" }}>
-                  Крупный полупрозрачный текст как фоновый элемент. Из примеров
-                  креативов.
+                  {t.wordWatermarkDesc}
                 </div>
               </div>
             </div>
@@ -2239,8 +2773,9 @@ export default function BrandGuidelinesPage() {
         {/* 9. LAYOUT */}
         <div id="layout" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Layout & Grid"
-            subtitle="Принципы сетки и пространства"
+            title={t.layoutTitle}
+            subtitle={t.layoutSubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -2265,11 +2800,11 @@ export default function BrandGuidelinesPage() {
                     color: "#B289F9",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    marginBottom: 14,
-                  }}
-                >
-                  Spacing Scale
-                </div>
+                  marginBottom: 14,
+                }}
+              >
+                {t.spacingScale}
+              </div>
                 {[4, 8, 12, 16, 24, 32, 48, 64].map((s) => (
                   <div
                     key={s}
@@ -2320,19 +2855,19 @@ export default function BrandGuidelinesPage() {
                     color: "#B289F9",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    marginBottom: 14,
-                  }}
-                >
-                  Border Radius Scale
-                </div>
-                {[
-                  { r: 4, name: "XS — inputs, tags" },
-                  { r: 8, name: "S — buttons" },
-                  { r: 12, name: "M — cards small" },
-                  { r: 16, name: "L — cards" },
-                  { r: 24, name: "XL — panels, modals" },
-                  { r: 9999, name: "Full — pills, avatars" },
-                ].map((item) => (
+                  marginBottom: 14,
+                }}
+              >
+                {t.borderRadiusScale}
+              </div>
+                {([
+                  { r: 4, name: t.radiusItems[0] },
+                  { r: 8, name: t.radiusItems[1] },
+                  { r: 12, name: t.radiusItems[2] },
+                  { r: 16, name: t.radiusItems[3] },
+                  { r: 24, name: t.radiusItems[4] },
+                  { r: 9999, name: t.radiusItems[5] },
+                ]).map((item) => (
                   <div
                     key={item.r}
                     style={{
@@ -2387,7 +2922,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 14,
                 }}
               >
-                Принципы композиции
+                {t.compositionPrinciples}
               </div>
               <div
                 style={{
@@ -2396,14 +2931,7 @@ export default function BrandGuidelinesPage() {
                   gap: 10,
                 }}
               >
-                {[
-                  "Воздух важнее плотности — не бойся пустого пространства",
-                  "Контент всегда на первом месте, декор — поддерживает",
-                  "Выравнивание по сетке 8px",
-                  "Максимальная ширина контента 1280px",
-                  "Мобайл-фёрст для всех digital-форматов",
-                  "Контраст текста минимум 4.5:1 (WCAG AA)",
-                ].map((p) => (
+                {t.compositionList.map((p) => (
                   <div
                     key={p}
                     style={{
@@ -2425,8 +2953,9 @@ export default function BrandGuidelinesPage() {
         {/* 10. APPLICATIONS */}
         <div id="applications" style={{ scrollMarginTop: 60 }}>
           <Section
-            title="Applications"
-            subtitle="Бренд в реальном мире — digital и физические носители"
+            title={t.applicationsTitle}
+            subtitle={t.applicationsSubtitle}
+            sectionLabel={t.sectionLabel}
           >
             <div
               style={{
@@ -2447,7 +2976,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Merch — T-Shirt
+                {t.merchTshirt}
               </div>
               <div
                 style={{
@@ -2468,7 +2997,7 @@ export default function BrandGuidelinesPage() {
                   >
                     <Image
                       src="/tshirt-mockup-man.png"
-                      alt="OneTribe футболка — фото на модели"
+                      alt={t.tshirtAlt}
                       width={280}
                       height={360}
                       style={{
@@ -2488,7 +3017,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    Classic Tee — Minimal Logo
+                    {t.classicTee}
                   </div>
                   <div
                     style={{
@@ -2498,8 +3027,7 @@ export default function BrandGuidelinesPage() {
                       maxWidth: 260,
                     }}
                   >
-                    Логотип по центру груди. Градиентный символ + wordmark.
-                    Минимализм, который говорит сам за себя.
+                    {t.classicTeeDesc}
                   </div>
                   <div style={{ marginTop: 16, display: "flex", gap: 8 }}>
                     {["#FFFFFF", "#1E1E1E", "#6E22F2"].map((c) => (
@@ -2518,7 +3046,7 @@ export default function BrandGuidelinesPage() {
                     ))}
                   </div>
                   <div style={{ marginTop: 8, fontSize: 11, color: "#808080" }}>
-                    Доступные цвета: White, Black, Deep Purple
+                    {t.availableColors}
                   </div>
                 </div>
               </div>
@@ -2543,7 +3071,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Physical — Water Bottle
+                {t.physicalWaterBottle}
               </div>
               <div
                 style={{
@@ -2563,7 +3091,7 @@ export default function BrandGuidelinesPage() {
                 >
                   <Image
                     src="/water-bottle.png"
-                    alt="OneTribe бутылка воды — логотип на этикетке"
+                    alt={t.waterBottleAlt}
                     width={240}
                     height={360}
                     style={{
@@ -2582,7 +3110,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    OneTribe Water Bottle
+                    {t.waterBottleTitle}
                   </div>
                   <div
                     style={{
@@ -2592,17 +3120,14 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    Бутылка воды с этикеткой onetribe. «one» в градиенте
-                    (purple → pink → orange → cyan), «tribe» — чёрный.
+                    {t.waterBottleDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> wrap
-                      print
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.waterBottleFormat}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> белая
-                      этикетка, логотип по центру
+                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.waterBottleStyle}
                     </div>
                   </div>
                 </div>
@@ -2628,7 +3153,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Physical — Sticker Pack
+                {t.physicalStickerPack}
               </div>
               <div
                 style={{
@@ -2691,7 +3216,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    OneTribe Sticker Pack
+                    {t.stickerPackTitle}
                   </div>
                   <div
                     style={{
@@ -2701,17 +3226,14 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    6 стикеров в фирменном стиле. Градиентные фоны, белая обводка,
-                    мотивационные фразы (RU/EN/DE). Для мессенджеров и соцсетей.
+                    {t.stickerPackDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> 512
-                      × 512px
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.stickerFormat}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> белая
-                      обводка 4px
+                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.stickerStyle}
                     </div>
                   </div>
                 </div>
@@ -2737,7 +3259,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Digital — Stories / Reels
+                {t.digitalStories}
               </div>
               <div
                 style={{
@@ -2747,7 +3269,7 @@ export default function BrandGuidelinesPage() {
                   flexWrap: "wrap",
                 }}
               >
-                <StoriesMockup />
+                <StoriesMockup t={t} />
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div
                     style={{
@@ -2757,7 +3279,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    Tribe Awakening Stories
+                    {t.tribeAwakeningStories}
                   </div>
                   <div
                     style={{
@@ -2767,21 +3289,17 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    Тёмный фон + градиентные пятна. Создаёт ощущение живого
-                    медиа. Энергия, вдохновение, движение.
+                    {t.storiesDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> 1080
-                      × 1920px
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.storiesFormat}
                     </div>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Шрифт:</strong> Inter
-                      Tight Bold
+                      <strong style={{ color: "#1E1E1E" }}>{t.fontLabel}</strong> {t.storiesFont}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Фон:</strong> #0a0a1a
-                      + gradient blobs
+                      <strong style={{ color: "#1E1E1E" }}>{t.bgLabel}</strong> {t.storiesBg}
                     </div>
                   </div>
                 </div>
@@ -2807,7 +3325,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Digital — Invite Card
+                {t.digitalInviteCard}
               </div>
               <div
                 style={{
@@ -2817,7 +3335,7 @@ export default function BrandGuidelinesPage() {
                   flexWrap: "wrap",
                 }}
               >
-                <InviteCardMockup />
+                <InviteCardMockup t={t} />
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <div
                     style={{
@@ -2827,7 +3345,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    Личный QR-код приглашения
+                    {t.inviteCardTitle}
                   </div>
                   <div
                     style={{
@@ -2837,18 +3355,16 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    Карточка, которую клиент получает, когда хочет поделиться
-                    приглашением в сообщество с другом. QR-код ведёт на персональную
-                    ссылку-приглашение. Код формата INVITE-XXXXXX.
+                    {t.inviteCardDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Контекст:</strong>{" "}
-                      раздел «Пригласить» в приложении
+                      <strong style={{ color: "#1E1E1E" }}>{t.contextLabel}</strong>{" "}
+                      {t.inviteContext}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong>{" "}
-                      карточка 280×400px, share / export
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong>{" "}
+                      {t.inviteFormat}
                     </div>
                   </div>
                 </div>
@@ -2874,7 +3390,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Physical — Flag
+                {t.physicalFlag}
               </div>
               <div
                 style={{
@@ -2894,7 +3410,7 @@ export default function BrandGuidelinesPage() {
                 >
                   <Image
                     src="/flag-mockup.png"
-                    alt="OneTribe flag mockup — white flag with onetribe logo"
+                    alt={t.flagAlt}
                     width={320}
                     height={480}
                     style={{
@@ -2913,7 +3429,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    OneTribe Flag
+                    {t.flagTitle}
                   </div>
                   <div
                     style={{
@@ -2923,17 +3439,14 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    Белый флаг с логотипом onetribe по центру. «one» в градиенте
-                    (purple → pink → orange), «tribe» — чёрный. Формат 2:3.
+                    {t.flagDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> 900
-                      × 1350px (2:3)
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.flagFormat}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Фон:</strong> белый
-                      (#FFFFFF)
+                      <strong style={{ color: "#1E1E1E" }}>{t.bgLabel}</strong> {t.flagBg}
                     </div>
                   </div>
                 </div>
@@ -2959,7 +3472,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Physical — Pin Badge
+                {t.physicalPinBadge}
               </div>
               <div
                 style={{
@@ -2979,7 +3492,7 @@ export default function BrandGuidelinesPage() {
                 >
                   <Image
                     src="/pin-badge.png"
-                    alt="OneTribe pin badge — gradient circle with tribe text"
+                    alt={t.pinBadgeAlt}
                     width={280}
                     height={280}
                     style={{
@@ -2998,7 +3511,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    OneTribe Pin Badge
+                    {t.pinBadgeTitle}
                   </div>
                   <div
                     style={{
@@ -3008,16 +3521,14 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    Круглый значок с градиентом (cyan → lavender → pink) и белым
-                    словом «tribe». Глянцевая выпуклая поверхность.
+                    {t.pinBadgeDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> круг
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.pinFormat}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> pin
-                      badge с застёжкой
+                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.pinStyle}
                     </div>
                   </div>
                 </div>
@@ -3043,7 +3554,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Physical — Roll-up Banner
+                {t.physicalRollup}
               </div>
               <div
                 style={{
@@ -3063,7 +3574,7 @@ export default function BrandGuidelinesPage() {
                 >
                   <Image
                     src="/rollup-mockup.png"
-                    alt="OneTribe roll-up banners — vertical stand banners with gradient"
+                    alt={t.rollupAlt}
                     width={400}
                     height={600}
                     style={{
@@ -3082,7 +3593,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    OneTribe Roll-up
+                    {t.rollupTitle}
                   </div>
                   <div
                     style={{
@@ -3092,18 +3603,14 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    Вертикальный роллап-баннер с градиентным фоном (cyan → pink
-                    → purple). Логотип tribe, заголовок, CTA-кнопка. Стенд на
-                    мероприятиях.
+                    {t.rollupDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> 850
-                      × 2000mm
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.rollupFormat}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Варианты:</strong> с
-                      мокапом приложения или отзывами
+                      <strong style={{ color: "#1E1E1E" }}>{t.variantsLabel}</strong> {t.rollupVariants}
                     </div>
                   </div>
                 </div>
@@ -3129,7 +3636,7 @@ export default function BrandGuidelinesPage() {
                   marginBottom: 20,
                 }}
               >
-                Physical — Chocolate Bar
+                {t.physicalChocolate}
               </div>
               <div
                 style={{
@@ -3149,7 +3656,7 @@ export default function BrandGuidelinesPage() {
                 >
                   <Image
                     src="/chocolate.png"
-                    alt="OneTribe chocolate bars — wrapped and unwrapped"
+                    alt={t.chocolateAlt}
                     width={360}
                     height={240}
                     style={{
@@ -3168,7 +3675,7 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 12,
                     }}
                   >
-                    OneTribe Chocolate
+                    {t.chocolateTitle}
                   </div>
                   <div
                     style={{
@@ -3178,17 +3685,14 @@ export default function BrandGuidelinesPage() {
                       marginBottom: 16,
                     }}
                   >
-                    Шоколадный мерч с логотипом tribe. Обёртка с иридисцентным
-                    градиентом (голубой, розовый, фиолетовый). Тёмная плитка с
-                    тиснением.
+                    {t.chocolateDesc}
                   </div>
                   <div style={{ fontSize: 11, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>Обёртка:</strong> иридисцентный градиент
+                      <strong style={{ color: "#1E1E1E" }}>{t.wrapLabel}</strong> {t.chocolateWrap}
                     </div>
                     <div>
-                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> cyan,
-                      purple, pink, peach
+                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.chocolateStyle}
                     </div>
                   </div>
                 </div>
@@ -3205,7 +3709,7 @@ export default function BrandGuidelinesPage() {
                 marginBottom: 16,
               }}
             >
-              Brand at a glance
+              {t.brandAtGlance}
             </div>
             <div
               style={{
@@ -3214,38 +3718,7 @@ export default function BrandGuidelinesPage() {
                 gap: 12,
               }}
             >
-              {[
-                {
-                  name: "Tribe in one word",
-                  size: "Community",
-                  note: "Племя. Связь. Настоящие люди.",
-                },
-                {
-                  name: "Voice pillars",
-                  size: "Authentic · Bold · Human",
-                  note: "Прямо, без корпоратива, с энергией движения",
-                },
-                {
-                  name: "Key hashtags",
-                  size: "#onetribe #tribelife",
-                  note: "Соцсети, UGC, мероприятия",
-                },
-                {
-                  name: "Community moments",
-                  size: "Офлайн → онлайн",
-                  note: "Встречи, события, живые связи",
-                },
-                {
-                  name: "Gradient when",
-                  size: "CTA · Hero · Праздник",
-                  note: "Акценты, призывы, эмоциональные блоки",
-                },
-                {
-                  name: "Collab ready",
-                  size: "Partnership",
-                  note: "Партнёрства, амбассадоры, коллабы",
-                },
-              ].map((f) => (
+              {t.glanceItems.map((f) => (
                 <div
                   key={f.name}
                   style={{
@@ -3296,7 +3769,7 @@ export default function BrandGuidelinesPage() {
           }}
         >
           <div style={{ fontSize: 12, color: "#808080" }}>
-            OneTribe Brand Guidelines v1.0
+            {t.brandGuidelinesV1}
           </div>
           <div
             style={{
