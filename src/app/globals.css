@@ -258,6 +258,53 @@ body {
   50% { background-position: 100% 50%; }
 }
 
+/* Brand Guidelines hero — переливающийся градиент */
+.brand-hero-bg {
+  background: linear-gradient(
+    135deg,
+    rgba(72, 229, 255, 0.06) 0%,
+    rgba(178, 137, 249, 0.12) 25%,
+    rgba(249, 137, 180, 0.08) 50%,
+    rgba(255, 188, 111, 0.06) 75%,
+    rgba(72, 229, 255, 0.06) 100%
+  );
+  background-size: 200% 200%;
+  animation: brand-hero-flow 10s ease-in-out infinite;
+}
+@keyframes brand-hero-flow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Brand hero blobs — медленное движение и пульс размера */
+.brand-hero-blob-1 {
+  animation: brand-hero-blob-float 12s ease-in-out infinite;
+}
+.brand-hero-blob-2 {
+  animation: brand-hero-blob-float 14s ease-in-out infinite 1.5s;
+}
+@keyframes brand-hero-blob-float {
+  0%, 100% {
+    transform: translate(0, 0) scale(0.9);
+  }
+  50% {
+    transform: translate(15px, -12px) scale(4);
+  }
+}
+
+/* Applications grid — на узких экранах в колонку */
+.app-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .app-grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
 /* Horizontal scroll on mobile - touch-friendly */
 .scroll-x-mobile {
   overflow-x: scroll;

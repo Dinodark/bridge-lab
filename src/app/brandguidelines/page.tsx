@@ -346,6 +346,12 @@ const TRANSLATIONS = {
     stickerPackDesc: "6 стикеров в фирменном стиле. Градиентные фоны, белая обводка, мотивационные фразы (RU/EN/DE). Для мессенджеров и соцсетей.",
     stickerFormat: "512 × 512px",
     stickerStyle: "белая обводка 4px",
+    physicalCarSticker: "Physical — Car Window Sticker",
+    carStickerAlt: "OneTribe наклейка на заднее стекло автомобиля",
+    carStickerTitle: "OneTribe Car Sticker",
+    carStickerDesc: "Наклейка на заднее стекло. «one» в градиенте (purple → pink → orange), «tribe» — белый. Крупный шрифт, читаемость с расстояния.",
+    carStickerFormat: "под размер стекла",
+    carStickerStyle: "виниловая наклейка, съёмная",
     digitalStories: "Digital — Stories / Reels",
     tribeAwakeningStories: "Tribe Awakening Stories",
     storiesDesc: "Тёмный фон + градиентные пятна. Создаёт ощущение живого медиа. Энергия, вдохновение, движение.",
@@ -607,6 +613,12 @@ const TRANSLATIONS = {
     stickerPackDesc: "6 Sticker im Markenstil. Verlaufs-Hintergründe, weiße Kontur, motivierende Slogans (RU/EN/DE). Für Messenger und Social Media.",
     stickerFormat: "512 × 512px",
     stickerStyle: "weiße Kontur 4px",
+    physicalCarSticker: "Physical — Auto-Heckfenster-Aufkleber",
+    carStickerAlt: "OneTribe Aufkleber auf der Heckscheibe",
+    carStickerTitle: "OneTribe Car Sticker",
+    carStickerDesc: "Aufkleber für die Heckscheibe. «one» im Verlauf (purple → pink → orange), «tribe» — weiß. Große Schrift, gute Lesbarkeit aus der Entfernung.",
+    carStickerFormat: "an Scheibengröße anpassbar",
+    carStickerStyle: "Vinyl-Aufkleber, abziehbar",
     digitalStories: "Digital — Stories / Reels",
     tribeAwakeningStories: "Tribe Awakening Stories",
     storiesDesc: "Dunkler Hintergrund + Verlaufs-Flecken. Schafft das Gefühl von lebendigen Medien. Energie, Inspiration, Bewegung.",
@@ -769,7 +781,7 @@ function ColorSwatch({
     >
       <div
         style={{
-          height: 80,
+          height: 100,
           background: color.hex,
           border: isLight ? "1px solid #E6E6E6" : "none",
         }}
@@ -817,7 +829,7 @@ function GradientSwatch({
         boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
       }}
     >
-      <div style={{ height: 80, background: g.value }} />
+      <div style={{ height: 100, background: g.value }} />
       <div style={{ padding: "12px 14px", background: "#fff" }}>
         <div
           style={{
@@ -1043,6 +1055,10 @@ function InviteCardMockup({
   );
 }
 
+const STORIES_SCALE = 2.25;
+const PHONE_W = 160;
+const PHONE_H = 284;
+
 function StoriesMockup({
   t,
 }: {
@@ -1051,16 +1067,45 @@ function StoriesMockup({
   return (
     <div
       style={{
-        width: 160,
-        height: 284,
-        borderRadius: 20,
-        background:
-          "linear-gradient(160deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)",
-        overflow: "hidden",
-        position: "relative",
-        boxShadow: "0 20px 50px rgba(0,0,0,0.3)",
+        width: PHONE_W * STORIES_SCALE,
+        height: PHONE_H * STORIES_SCALE,
+        flexShrink: 0,
       }}
     >
+      <div
+        style={{
+          width: PHONE_W,
+          height: PHONE_H,
+          transform: `scale(${STORIES_SCALE})`,
+          transformOrigin: "top left",
+          position: "relative",
+        }}
+      >
+        {/* iPhone silhouette — ободок тоньше, козырёк, кнопки */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "#2f2f2f",
+            border: "1px solid #2f2f2f",
+            borderRadius: 24,
+          }}
+        >
+          {/* Экран с контентом — больше площадь, рамка тоньше */}
+          <div
+            style={{
+              position: "absolute",
+              top: "1.2%",
+              left: "1.2%",
+              right: "1.2%",
+              bottom: "1.2%",
+              borderRadius: 20,
+              background:
+                "linear-gradient(160deg, #0a0a1a 0%, #1a0a2e 50%, #0a0a1a 100%)",
+              overflow: "hidden",
+              zIndex: 1,
+            }}
+          >
       <div
         style={{
           position: "absolute",
@@ -1107,7 +1152,7 @@ function StoriesMockup({
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          padding: "16px 14px",
+          padding: "24px 14px 16px",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
@@ -1184,8 +1229,51 @@ function StoriesMockup({
         </div>
       </div>
     </div>
+          </div>
+          {/* Козырёк (notch) — сверху, тот же цвет что рамка */}
+          <div
+            style={{
+              position: "absolute",
+              top: "3.2%",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 36,
+              height: 10,
+              background: "#2f2f2f",
+              borderRadius: 5,
+              zIndex: 2,
+            }}
+          />
+          {/* Кнопки слева — громкость */}
+          <div style={{ position: "absolute", left: 0, top: "22%", width: 1.5, height: 24, background: "#2f2f2f", borderRadius: 1, zIndex: 2 }} />
+          <div style={{ position: "absolute", left: 0, top: "28%", width: 1.5, height: 24, background: "#2f2f2f", borderRadius: 1, zIndex: 2 }} />
+          <div style={{ position: "absolute", left: 0, top: "34%", width: 1.5, height: 24, background: "#2f2f2f", borderRadius: 1, zIndex: 2 }} />
+          {/* Кнопка справа — питание */}
+          <div style={{ position: "absolute", right: 0, top: "38%", width: 1.5, height: 40, background: "#2f2f2f", borderRadius: 1, zIndex: 2 }} />
+  </div>
+    </div>
   );
 }
+
+const CARD_STYLE = {
+  padding: 40,
+  borderRadius: 24,
+  background: "#fff",
+  border: "1px solid rgba(0,0,0,0.06)",
+  boxShadow: "0 8px 40px rgba(0,0,0,0.04)",
+} as const;
+
+/** Applications — без рамок, картинка крупно, горизонтально */
+const APP_BLOCK_STYLE = {
+  padding: "48px 0",
+  marginBottom: 64,
+  borderBottom: "1px solid rgba(0,0,0,0.04)",
+} as const;
+
+const APP_BLOCK_LAST = {
+  ...APP_BLOCK_STYLE,
+  borderBottom: "none",
+} as const;
 
 function Section({
   title,
@@ -1199,27 +1287,28 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div style={{ marginBottom: 64 }}>
-      <div style={{ marginBottom: 32 }}>
+    <div style={{ marginBottom: 96 }}>
+      <div style={{ marginBottom: 48 }}>
         <div
           style={{
             fontSize: 11,
             fontWeight: 700,
-            letterSpacing: "0.12em",
+            letterSpacing: "0.14em",
             color: "#B289F9",
             textTransform: "uppercase",
-            marginBottom: 8,
+            marginBottom: 12,
           }}
         >
           {sectionLabel}
         </div>
         <h2
           style={{
-            fontSize: 32,
+            fontSize: 36,
             fontWeight: 800,
             color: "#1E1E1E",
             margin: 0,
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.03em",
+            lineHeight: 1.2,
           }}
         >
           {title}
@@ -1227,10 +1316,11 @@ function Section({
         {subtitle && (
           <p
             style={{
-              fontSize: 16,
+              fontSize: 17,
               color: "#808080",
-              marginTop: 8,
-              lineHeight: 1.6,
+              marginTop: 12,
+              lineHeight: 1.7,
+              maxWidth: 560,
             }}
           >
             {subtitle}
@@ -1283,7 +1373,7 @@ export default function BrandGuidelinesPage() {
         display: "flex",
         minHeight: "100vh",
         fontFamily: "'Inter Tight', Inter, sans-serif",
-        background: "#FCFCFC",
+        background: "#FAFAFC",
       }}
     >
       {/* Sidebar — sticky с прокруткой навигации */}
@@ -1422,30 +1512,33 @@ export default function BrandGuidelinesPage() {
         </nav>
       </div>
 
-      {/* Main content */}
+      {/* Main content — воздушный, минималистичный */}
       <div
         id="scroll-container"
         style={{
           flex: 1,
           overflowY: "auto",
-          padding: "48px 56px",
-          scrollPaddingTop: 60,
+          padding: "72px 96px",
+          scrollPaddingTop: 80,
+          maxWidth: 1280,
+          margin: "0 auto",
         }}
       >
         {/* Header */}
         <div
+          className="brand-hero-bg"
           style={{
-            marginBottom: 64,
-            padding: 48,
-            borderRadius: 24,
-            background:
-              "linear-gradient(135deg, #48E5FF08, #B289F915, #F989B410, #FFBC6F08)",
-            border: "1px solid #E6E6E6",
+            marginBottom: 96,
+            padding: 64,
+            borderRadius: 28,
+            border: "1px solid rgba(0,0,0,0.05)",
+            boxShadow: "0 12px 48px rgba(0,0,0,0.03)",
             position: "relative",
             overflow: "hidden",
           }}
         >
           <div
+            className="brand-hero-blob-1"
             style={{
               position: "absolute",
               top: -40,
@@ -1459,6 +1552,7 @@ export default function BrandGuidelinesPage() {
             }}
           />
           <div
+            className="brand-hero-blob-2"
             style={{
               position: "absolute",
               bottom: -20,
@@ -1533,18 +1627,16 @@ export default function BrandGuidelinesPage() {
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                gap: 16,
-                marginBottom: 24,
+                gap: 24,
+                marginBottom: 32,
               }}
             >
               {t.foundationItems.map((item) => (
                 <div
                   key={item.label}
                   style={{
-                    padding: 24,
-                    borderRadius: 16,
-                    background: "#fff",
-                    border: "1px solid #E6E6E6",
+                    ...CARD_STYLE,
+                    padding: 32,
                   }}
                 >
                   <div
@@ -1574,11 +1666,8 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                ...CARD_STYLE,
+                marginBottom: 24,
               }}
             >
               <div
@@ -1588,7 +1677,7 @@ export default function BrandGuidelinesPage() {
                   letterSpacing: "0.1em",
                   color: "#B289F9",
                   textTransform: "uppercase",
-                  marginBottom: 14,
+                  marginBottom: 16,
                 }}
               >
                 {t.brandPersonality}
@@ -1620,14 +1709,7 @@ export default function BrandGuidelinesPage() {
               </div>
             </div>
 
-            <div
-              style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-              }}
-            >
+            <div style={CARD_STYLE}>
               <div
                 style={{
                   fontSize: 10,
@@ -1635,7 +1717,7 @@ export default function BrandGuidelinesPage() {
                   letterSpacing: "0.1em",
                   color: "#B289F9",
                   textTransform: "uppercase",
-                  marginBottom: 14,
+                  marginBottom: 16,
                 }}
               >
                 {t.brandVoiceLabel}
@@ -1691,7 +1773,7 @@ export default function BrandGuidelinesPage() {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(4,1fr)",
-                  gap: 12,
+                  gap: 20,
                 }}
               >
                 {BRAND.colors.primary.map((c, i) => (
@@ -1716,7 +1798,7 @@ export default function BrandGuidelinesPage() {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(4,1fr)",
-                  gap: 12,
+                  gap: 20,
                 }}
               >
                 {BRAND.colors.secondary.map((c, i) => (
@@ -1741,7 +1823,7 @@ export default function BrandGuidelinesPage() {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "repeat(5,1fr)",
-                  gap: 12,
+                  gap: 20,
                 }}
               >
                 {BRAND.colors.neutral.map((c, i) => (
@@ -1766,7 +1848,7 @@ export default function BrandGuidelinesPage() {
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr",
-                  gap: 12,
+                  gap: 20,
                 }}
               >
                 {BRAND.colors.gradients.map((g) => (
@@ -1786,11 +1868,8 @@ export default function BrandGuidelinesPage() {
           >
             <div
               style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                ...CARD_STYLE,
+                marginBottom: 24,
               }}
             >
               <div
@@ -1861,10 +1940,7 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
+                ...CARD_STYLE,
               }}
             >
               <div
@@ -1987,10 +2063,7 @@ export default function BrandGuidelinesPage() {
             >
               <div
                 style={{
-                  padding: 40,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -2008,13 +2081,14 @@ export default function BrandGuidelinesPage() {
                 >
                   {t.lightBackground}
                 </div>
-                <OneTribeLogo dark={false} width={160} gradientId="logo-lg1" />
+                <OneTribeLogo dark={false} width={220} gradientId="logo-lg1" />
               </div>
               <div
                 style={{
                   padding: 40,
-                  borderRadius: 16,
+                  borderRadius: 24,
                   background: "#1E1E1E",
+                  boxShadow: "0 8px 40px rgba(0,0,0,0.2)",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -2032,7 +2106,7 @@ export default function BrandGuidelinesPage() {
                 >
                   {t.darkBackground}
                 </div>
-                <OneTribeLogo dark={true} width={160} gradientId="logo-lg2" />
+                <OneTribeLogo dark={true} width={220} gradientId="logo-lg2" />
               </div>
             </div>
 
@@ -2058,10 +2132,7 @@ export default function BrandGuidelinesPage() {
             >
               <div
                 style={{
-                  padding: 40,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -2079,13 +2150,14 @@ export default function BrandGuidelinesPage() {
                 >
                   {t.lightBackground}
                 </div>
-                <TribeLogo width={180} gradientId="logo-tribe1" />
+                <TribeLogo width={240} gradientId="logo-tribe1" />
               </div>
               <div
                 style={{
                   padding: 40,
-                  borderRadius: 16,
+                  borderRadius: 24,
                   background: "#1E1E1E",
+                  boxShadow: "0 8px 40px rgba(0,0,0,0.2)",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
@@ -2103,16 +2175,13 @@ export default function BrandGuidelinesPage() {
                 >
                   {t.darkBackground}
                 </div>
-                <TribeLogo width={180} gradientId="logo-tribe2" />
+                <TribeLogo width={240} gradientId="logo-tribe2" />
               </div>
             </div>
 
             <div
               style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
+                ...CARD_STYLE,
               }}
             >
               <div
@@ -2202,10 +2271,7 @@ export default function BrandGuidelinesPage() {
           >
             <div
               style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
+                ...CARD_STYLE,
               }}
             >
               <div
@@ -2349,10 +2415,7 @@ export default function BrandGuidelinesPage() {
             >
               <div
                 style={{
-                  padding: 24,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                 }}
               >
                 <div
@@ -2385,10 +2448,7 @@ export default function BrandGuidelinesPage() {
               </div>
               <div
                 style={{
-                  padding: 24,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                 }}
               >
                 <div
@@ -2510,10 +2570,7 @@ export default function BrandGuidelinesPage() {
             </div>
             <div
               style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
+                ...CARD_STYLE,
               }}
             >
               <div
@@ -2563,10 +2620,7 @@ export default function BrandGuidelinesPage() {
             >
               <div
                 style={{
-                  padding: 24,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                 }}
               >
                 <div
@@ -2635,10 +2689,7 @@ export default function BrandGuidelinesPage() {
               </div>
               <div
                 style={{
-                  padding: 24,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                 }}
               >
                 <div
@@ -2720,10 +2771,7 @@ export default function BrandGuidelinesPage() {
               </div>
               <div
                 style={{
-                  padding: 24,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                 }}
               >
                 <div
@@ -2787,10 +2835,7 @@ export default function BrandGuidelinesPage() {
             >
               <div
                 style={{
-                  padding: 24,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                 }}
               >
                 <div
@@ -2842,10 +2887,7 @@ export default function BrandGuidelinesPage() {
               </div>
               <div
                 style={{
-                  padding: 24,
-                  borderRadius: 16,
-                  background: "#fff",
-                  border: "1px solid #E6E6E6",
+                  ...CARD_STYLE,
                 }}
               >
                 <div
@@ -2906,10 +2948,7 @@ export default function BrandGuidelinesPage() {
             </div>
             <div
               style={{
-                padding: 24,
-                borderRadius: 16,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
+                ...CARD_STYLE,
               }}
             >
               <div
@@ -2959,59 +2998,43 @@ export default function BrandGuidelinesPage() {
           >
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
               }}
             >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.merchTshirt}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
-                  <div
+              {t.merchTshirt}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
+              }}
+            >
+              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
+                <div style={{ minWidth: 0, marginBottom: -40 }}>
+                  <Image
+                    src="/tshirt-mockup-man.png"
+                    alt={t.tshirtAlt}
+                    width={400}
+                    height={520}
                     style={{
-                      borderRadius: 16,
-                      overflow: "hidden",
-                      boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                      maxWidth: 280,
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                      objectFit: "cover",
                     }}
-                  >
-                    <Image
-                      src="/tshirt-mockup-man.png"
-                      alt={t.tshirtAlt}
-                      width={280}
-                      height={360}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        display: "block",
-                      }}
-                    />
-                  </div>
+                  />
                 </div>
-                <div>
+                <div style={{ paddingLeft: 24 }}>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3029,17 +3052,17 @@ export default function BrandGuidelinesPage() {
                   >
                     {t.classicTeeDesc}
                   </div>
-                  <div style={{ marginTop: 16, display: "flex", gap: 8 }}>
+                  <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
                     {["#FFFFFF", "#1E1E1E", "#6E22F2"].map((c) => (
                       <div
                         key={c}
                         title={c}
                         style={{
-                          width: 28,
-                          height: 28,
+                          width: 24,
+                          height: 24,
                           borderRadius: "50%",
                           background: c,
-                          border: "2px solid #E6E6E6",
+                          border: "1px solid rgba(0,0,0,0.12)",
                           cursor: "pointer",
                         }}
                       />
@@ -3054,46 +3077,31 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
               }}
             >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.physicalWaterBottle}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                    maxWidth: 240,
-                  }}
-                >
+              {t.physicalWaterBottle}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
+              }}
+            >
+              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
+                <div style={{ minWidth: 0, marginBottom: -40 }}>
                   <Image
                     src="/water-bottle.png"
                     alt={t.waterBottleAlt}
-                    width={240}
-                    height={360}
+                    width={360}
+                    height={540}
                     style={{
                       width: "100%",
                       height: "auto",
@@ -3101,10 +3109,10 @@ export default function BrandGuidelinesPage() {
                     }}
                   />
                 </div>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ paddingLeft: 24 }}>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3114,7 +3122,7 @@ export default function BrandGuidelinesPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: 13,
+                      fontSize: 14,
                       color: "#808080",
                       lineHeight: 1.7,
                       marginBottom: 16,
@@ -3122,7 +3130,7 @@ export default function BrandGuidelinesPage() {
                   >
                     {t.waterBottleDesc}
                   </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
+                  <div style={{ fontSize: 12, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
                       <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.waterBottleFormat}
                     </div>
@@ -3136,39 +3144,36 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
+              }}
+            >
+              {t.physicalStickerPack}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
               }}
             >
               <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.physicalStickerPack}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
+                className="app-grid-2"
+                style={{ gridTemplateColumns: "1.2fr 1fr", padding: "0 40px 40px 0", gap: 32 }}
               >
                 <div
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gap: 12,
-                    maxWidth: 420,
+                    gridTemplateColumns: "repeat(2, 1fr)",
+                    gap: 16,
+                    minWidth: 0,
+                    marginBottom: -40,
+                    paddingLeft: 40,
                   }}
                 >
                   {[
@@ -3179,25 +3184,12 @@ export default function BrandGuidelinesPage() {
                     { src: "/sticker-5-feuer.png", alt: "Ich bin Feuer und Flamme" },
                     { src: "/sticker-6-rocken.png", alt: "Wir rocken das!" },
                   ].map((s) => (
-                    <div
-                      key={s.src}
-                      style={{
-                        borderRadius: 12,
-                        overflow: "hidden",
-                        boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
-                        aspectRatio: "1",
-                        background: "#FCFCFC",
-                        padding: 8,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
+                    <div key={s.src} style={{ aspectRatio: "1" }}>
                       <Image
                         src={s.src}
                         alt={s.alt}
-                        width={128}
-                        height={128}
+                        width={200}
+                        height={200}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -3207,10 +3199,10 @@ export default function BrandGuidelinesPage() {
                     </div>
                   ))}
                 </div>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ paddingLeft: 24 }}>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3220,7 +3212,7 @@ export default function BrandGuidelinesPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: 13,
+                      fontSize: 14,
                       color: "#808080",
                       lineHeight: 1.7,
                       marginBottom: 16,
@@ -3228,7 +3220,7 @@ export default function BrandGuidelinesPage() {
                   >
                     {t.stickerPackDesc}
                   </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
+                  <div style={{ fontSize: 12, color: "#808080" }}>
                     <div style={{ marginBottom: 4 }}>
                       <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.stickerFormat}
                     </div>
@@ -3242,13 +3234,76 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
               }}
             >
+              {t.physicalCarSticker}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
+              }}
+            >
+              <div
+                className="app-grid-2"
+                style={{ gridTemplateColumns: "1.2fr 1fr", padding: "0 40px 40px 0", gap: 32 }}
+              >
+                <div style={{ minWidth: 0, marginBottom: -40 }}>
+                  <Image
+                    src="/car-sticker.png"
+                    alt={t.carStickerAlt}
+                    width={640}
+                    height={426}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      objectFit: "cover",
+                      borderRadius: 8,
+                    }}
+                  />
+                </div>
+                <div style={{ paddingLeft: 24 }}>
+                  <div
+                    style={{
+                      fontSize: 18,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    {t.carStickerTitle}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    {t.carStickerDesc}
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.carStickerFormat}
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.carStickerStyle}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={APP_BLOCK_STYLE}>
               <div
                 style={{
                   fontSize: 10,
@@ -3256,24 +3311,16 @@ export default function BrandGuidelinesPage() {
                   color: "#B289F9",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  marginBottom: 20,
+                  marginBottom: 24,
                 }}
               >
                 {t.digitalStories}
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
-              >
-                <StoriesMockup t={t} />
-                <div style={{ flex: 1, minWidth: 200 }}>
+              <div className="app-grid-2">
+                <div>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3303,18 +3350,11 @@ export default function BrandGuidelinesPage() {
                     </div>
                   </div>
                 </div>
+                <StoriesMockup t={t} />
               </div>
             </div>
 
-            <div
-              style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
-              }}
-            >
+            <div style={APP_BLOCK_STYLE}>
               <div
                 style={{
                   fontSize: 10,
@@ -3322,24 +3362,16 @@ export default function BrandGuidelinesPage() {
                   color: "#B289F9",
                   letterSpacing: "0.1em",
                   textTransform: "uppercase",
-                  marginBottom: 20,
+                  marginBottom: 24,
                 }}
               >
                 {t.digitalInviteCard}
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
-              >
-                <InviteCardMockup t={t} />
-                <div style={{ flex: 1, minWidth: 200 }}>
+              <div className="app-grid-2">
+                <div>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3368,51 +3400,37 @@ export default function BrandGuidelinesPage() {
                     </div>
                   </div>
                 </div>
+                <InviteCardMockup t={t} />
               </div>
             </div>
 
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
               }}
             >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.physicalFlag}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                    maxWidth: 320,
-                  }}
-                >
+              {t.physicalFlag}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
+              }}
+            >
+              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
+                <div style={{ minWidth: 0, marginBottom: -40 }}>
                   <Image
                     src="/flag-mockup.png"
                     alt={t.flagAlt}
-                    width={320}
-                    height={480}
+                    width={560}
+                    height={840}
                     style={{
                       width: "100%",
                       height: "auto",
@@ -3420,10 +3438,10 @@ export default function BrandGuidelinesPage() {
                     }}
                   />
                 </div>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ paddingLeft: 24, display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3455,46 +3473,31 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
               }}
             >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.physicalPinBadge}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                    maxWidth: 280,
-                  }}
-                >
+              {t.physicalPinBadge}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
+              }}
+            >
+              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
+                <div style={{ minWidth: 0, marginBottom: -40 }}>
                   <Image
                     src="/pin-badge.png"
                     alt={t.pinBadgeAlt}
-                    width={280}
-                    height={280}
+                    width={400}
+                    height={400}
                     style={{
                       width: "100%",
                       height: "auto",
@@ -3502,10 +3505,10 @@ export default function BrandGuidelinesPage() {
                     }}
                   />
                 </div>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ paddingLeft: 24 }}>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3537,46 +3540,31 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
               }}
             >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.physicalRollup}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                    maxWidth: 400,
-                  }}
-                >
+              {t.physicalRollup}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
+              }}
+            >
+              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
+                <div style={{ minWidth: 0, marginBottom: -40 }}>
                   <Image
                     src="/rollup-mockup.png"
                     alt={t.rollupAlt}
-                    width={400}
-                    height={600}
+                    width={560}
+                    height={840}
                     style={{
                       width: "100%",
                       height: "auto",
@@ -3584,10 +3572,10 @@ export default function BrandGuidelinesPage() {
                     }}
                   />
                 </div>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ paddingLeft: 24 }}>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
@@ -3619,46 +3607,31 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
-                padding: 32,
-                borderRadius: 20,
-                background: "#fff",
-                border: "1px solid #E6E6E6",
-                marginBottom: 16,
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 24,
               }}
             >
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                }}
-              >
-                {t.physicalChocolate}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: 32,
-                  alignItems: "flex-start",
-                  flexWrap: "wrap",
-                }}
-              >
-                <div
-                  style={{
-                    borderRadius: 16,
-                    overflow: "hidden",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
-                    maxWidth: 360,
-                  }}
-                >
+              {t.physicalChocolate}
+            </div>
+            <div
+              style={{
+                ...CARD_STYLE,
+                padding: 0,
+                overflow: "hidden",
+                marginBottom: 64,
+              }}
+            >
+              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
+                <div style={{ minWidth: 0, marginBottom: -40 }}>
                   <Image
                     src="/chocolate.png"
                     alt={t.chocolateAlt}
-                    width={360}
-                    height={240}
+                    width={480}
+                    height={320}
                     style={{
                       width: "100%",
                       height: "auto",
@@ -3666,10 +3639,10 @@ export default function BrandGuidelinesPage() {
                     }}
                   />
                 </div>
-                <div style={{ flex: 1, minWidth: 200 }}>
+                <div style={{ paddingLeft: 24 }}>
                   <div
                     style={{
-                      fontSize: 14,
+                      fontSize: 18,
                       fontWeight: 700,
                       color: "#1E1E1E",
                       marginBottom: 12,
