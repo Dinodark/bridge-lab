@@ -388,59 +388,6 @@ function TribeLogo({
   );
 }
 
-function TshirtMockup({ dark }: { dark: boolean }) {
-  const bg = dark ? "#1E1E1E" : "#FFFFFF";
-  const strokeColor = dark ? "#2a2a2a" : "#E0E0E0";
-  return (
-    <svg
-      viewBox="0 0 520 540"
-      style={{
-        width: "100%",
-        maxWidth: 280,
-        filter: "drop-shadow(0 16px 40px rgba(0,0,0,0.15))",
-      }}
-    >
-      <defs>
-        <linearGradient id="tg1" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#48E5FF" />
-          <stop offset="33%" stopColor="#B289F9" />
-          <stop offset="66%" stopColor="#F989B4" />
-          <stop offset="100%" stopColor="#FFBC6F" />
-        </linearGradient>
-        <filter id="tglow">
-          <feGaussianBlur stdDeviation="20" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      <path
-        d="M60 80 L0 180 L80 210 L80 510 L440 510 L440 210 L520 180 L460 80 C430 90 390 110 350 115 C330 148 300 165 260 165 C220 165 190 148 170 115 C130 110 90 90 60 80Z"
-        fill={bg}
-        stroke={strokeColor}
-        strokeWidth="1.5"
-      />
-      <ellipse
-        cx="260"
-        cy="300"
-        rx="100"
-        ry="70"
-        fill="url(#tg1)"
-        opacity={dark ? 0.12 : 0.07}
-        filter="url(#tglow)"
-      />
-      <g transform="translate(150, 222)">
-        <OneTribeLogo
-          dark={dark}
-          width={220}
-          gradientId={`tshirt-grad-${dark ? "d" : "l"}`}
-        />
-      </g>
-    </svg>
-  );
-}
-
 function InviteCardMockup() {
   // Simplified QR-like pattern (21x21 modules)
   const qrSize = 21;
@@ -664,8 +611,10 @@ function StoriesMockup() {
               marginTop: 10,
               background: "linear-gradient(90deg,#6E22F2,#C752FF)",
               borderRadius: 20,
-              padding: "5px 10px",
-              display: "inline-block",
+              padding: "6px 10px",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             <span
@@ -674,6 +623,7 @@ function StoriesMockup() {
                 fontSize: 8,
                 fontWeight: 700,
                 fontFamily: "Inter,sans-serif",
+                lineHeight: 1,
               }}
             >
               Присоединиться →
@@ -2507,9 +2457,27 @@ export default function BrandGuidelinesPage() {
                   flexWrap: "wrap",
                 }}
               >
-                <div style={{ display: "flex", gap: 24 }}>
-                  <TshirtMockup dark={false} />
-                  <TshirtMockup dark={true} />
+                <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+                  <div
+                    style={{
+                      borderRadius: 16,
+                      overflow: "hidden",
+                      boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                      maxWidth: 280,
+                    }}
+                  >
+                    <Image
+                      src="/tshirt-mockup-man.png"
+                      alt="OneTribe футболка — фото на модели"
+                      width={280}
+                      height={360}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                      }}
+                    />
+                  </div>
                 </div>
                 <div>
                   <div
@@ -2551,6 +2519,200 @@ export default function BrandGuidelinesPage() {
                   </div>
                   <div style={{ marginTop: 8, fontSize: 11, color: "#808080" }}>
                     Доступные цвета: White, Black, Deep Purple
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 32,
+                borderRadius: 20,
+                background: "#fff",
+                border: "1px solid #E6E6E6",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                Physical — Water Bottle
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    borderRadius: 16,
+                    overflow: "hidden",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+                    maxWidth: 240,
+                  }}
+                >
+                  <Image
+                    src="/water-bottle.png"
+                    alt="OneTribe бутылка воды — логотип на этикетке"
+                    width={240}
+                    height={360}
+                    style={{
+                      width: "100%",
+                      height: "auto",
+                      display: "block",
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    OneTribe Water Bottle
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    Бутылка воды с этикеткой onetribe. «one» в градиенте
+                    (purple → pink → orange → cyan), «tribe» — чёрный.
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> wrap
+                      print
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> белая
+                      этикетка, логотип по центру
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style={{
+                padding: 32,
+                borderRadius: 20,
+                background: "#fff",
+                border: "1px solid #E6E6E6",
+                marginBottom: 16,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 20,
+                }}
+              >
+                Physical — Sticker Pack
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  alignItems: "flex-start",
+                  flexWrap: "wrap",
+                }}
+              >
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, 1fr)",
+                    gap: 12,
+                    maxWidth: 420,
+                  }}
+                >
+                  {[
+                    { src: "/sticker-1-onetribe.png", alt: "onetribe + flame" },
+                    { src: "/sticker-2-letsgo.png", alt: "Let's gooo!" },
+                    { src: "/sticker-3-fullyin.png", alt: "Fully in!" },
+                    { src: "/sticker-4-starting.png", alt: "We are just starting" },
+                    { src: "/sticker-5-feuer.png", alt: "Ich bin Feuer und Flamme" },
+                    { src: "/sticker-6-rocken.png", alt: "Wir rocken das!" },
+                  ].map((s) => (
+                    <div
+                      key={s.src}
+                      style={{
+                        borderRadius: 12,
+                        overflow: "hidden",
+                        boxShadow: "0 4px 16px rgba(0,0,0,0.08)",
+                        aspectRatio: "1",
+                        background: "#FCFCFC",
+                        padding: 8,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Image
+                        src={s.src}
+                        alt={s.alt}
+                        width={128}
+                        height={128}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "contain",
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <div
+                    style={{
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: "#1E1E1E",
+                      marginBottom: 12,
+                    }}
+                  >
+                    OneTribe Sticker Pack
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 13,
+                      color: "#808080",
+                      lineHeight: 1.7,
+                      marginBottom: 16,
+                    }}
+                  >
+                    6 стикеров в фирменном стиле. Градиентные фоны, белая обводка,
+                    мотивационные фразы (RU/EN/DE). Для мессенджеров и соцсетей.
+                  </div>
+                  <div style={{ fontSize: 11, color: "#808080" }}>
+                    <div style={{ marginBottom: 4 }}>
+                      <strong style={{ color: "#1E1E1E" }}>Формат:</strong> 512
+                      × 512px
+                    </div>
+                    <div>
+                      <strong style={{ color: "#1E1E1E" }}>Стиль:</strong> белая
+                      обводка 4px
+                    </div>
                   </div>
                 </div>
               </div>
