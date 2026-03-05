@@ -3197,6 +3197,18 @@ export default function BrandGuidelinesPage() {
 
             <div
               style={{
+                fontSize: 10,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 16,
+              }}
+            >
+              Brand at a glance
+            </div>
+            <div
+              style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr 1fr",
                 gap: 12,
@@ -3204,34 +3216,34 @@ export default function BrandGuidelinesPage() {
             >
               {[
                 {
-                  name: "Event Banner",
-                  size: "3000 × 1000px",
-                  note: "Горизонтальный баннер мероприятия",
+                  name: "Tribe in one word",
+                  size: "Community",
+                  note: "Племя. Связь. Настоящие люди.",
                 },
                 {
-                  name: "Flag",
-                  size: "900 × 1350px",
-                  note: "Флаг 2:3, логотип по центру",
+                  name: "Voice pillars",
+                  size: "Authentic · Bold · Human",
+                  note: "Прямо, без корпоратива, с энергией движения",
                 },
                 {
-                  name: "Name Badge",
-                  size: "90 × 55mm",
-                  note: "Бейдж участника события",
+                  name: "Key hashtags",
+                  size: "#onetribe #tribelife",
+                  note: "Соцсети, UGC, мероприятия",
                 },
                 {
-                  name: "Sticker Pack",
-                  size: "512 × 512px",
-                  note: "6 стикеров, белая обводка 4px",
+                  name: "Community moments",
+                  size: "Офлайн → онлайн",
+                  note: "Встречи, события, живые связи",
                 },
                 {
-                  name: "Roll-up",
-                  size: "850 × 2000mm",
-                  note: "Стенд на мероприятии",
+                  name: "Gradient when",
+                  size: "CTA · Hero · Праздник",
+                  note: "Акценты, призывы, эмоциональные блоки",
                 },
                 {
-                  name: "Mug / Bottle",
-                  size: "wrap print",
-                  note: "Логотип + слоган по кругу",
+                  name: "Collab ready",
+                  size: "Partnership",
+                  note: "Партнёрства, амбассадоры, коллабы",
                 },
               ].map((f) => (
                 <div
