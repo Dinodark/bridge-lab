@@ -15,7 +15,7 @@ const reasons = [
 
 export default function WhyNow() {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5">
+    <section className="why-now-gradient-bg py-20 px-4 sm:px-6 lg:px-8 bg-white/[0.04] backdrop-blur-md">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-16">
           Why Now
@@ -24,7 +24,7 @@ export default function WhyNow() {
           {reasons.map((reason) => (
             <div
               key={reason.title}
-              className="p-6 rounded-xl bg-white/5 border border-white/10"
+              className="p-6 rounded-xl bg-white/[0.04] backdrop-blur-md border border-white/10"
             >
               <h3 className="text-xl font-bold text-white mb-3">{reason.title}</h3>
               <p className="text-white/70">{reason.desc}</p>

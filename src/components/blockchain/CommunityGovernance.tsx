@@ -7,7 +7,7 @@ const revenueItems = [
 
 export default function CommunityGovernance() {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/5">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/[0.04] backdrop-blur-md">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-16">
           Powered by Community Governance
@@ -19,7 +19,7 @@ export default function CommunityGovernance() {
               Token holders vote on platform decisions, campaign verification, 
               and fund allocation.
             </p>
-            <p className="text-white/80">
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-medium leading-tight bg-gradient-to-r from-cyan-400 via-violet-400 to-purple-400 bg-clip-text text-transparent">
               We simplify charitable giving while ensuring every donation 
               creates verifiable, on-chain impact.
             </p>
@@ -34,7 +34,7 @@ export default function CommunityGovernance() {
                 </li>
               ))}
             </ul>
-            <button className="mt-8 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 transition-all">
+            <button className="mt-8 px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 btn-gradient-glow">
               Token Utility
             </button>
             <p className="text-white/50 text-sm mt-2">Learn more about our token model</p>

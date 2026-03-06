@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 const campaigns = [
   {
@@ -22,11 +25,29 @@ const campaigns = [
   },
 ];
 
+const CARD_PARALLAX = [
+  { base: 0, factor: 0.18 },
+  { base: 12, factor: -0.12 },
+  { base: 24, factor: 0.15 },
+];
+
 export default function BlockchainHero() {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <section className="relative min-h-screen pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-900/30 via-transparent to-transparent" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%239C27B0%22%20fill-opacity%3D%220.1%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E')] opacity-50" />
+    <section className="relative min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden py-20">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-900/25 via-transparent to-transparent backdrop-blur-sm" />
+      <div className="absolute inset-0 hero-lilac-glow" />
+      <div className="absolute inset-0 hero-cross-pattern hero-cross-pattern-base" />
+      <div className="absolute inset-0 hero-cross-pattern hero-cross-pattern-flicker" />
+      <div className="absolute inset-0 hero-darken" />
       
       <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-16">
         <div className="flex-1 mb-12 lg:mb-0">
@@ -41,24 +62,34 @@ export default function BlockchainHero() {
             NFTs, and community governance to create transparent, traceable impact.
           </p>
           <div className="flex flex-wrap gap-4">
-            <button className="px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 transition-all">
-              Join The Movement
-            </button>
+            <div className="relative inline-block">
+              <div
+                className="absolute -inset-4 rounded-full bg-violet-500/40 blur-2xl animate-[hero-arc-float_10s_ease-in-out_infinite]"
+                aria-hidden
+              />
+              <button className="relative px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 btn-gradient-glow">
+                Join The Movement
+              </button>
+            </div>
             <Link
               href="#how-it-works"
-              className="px-6 py-3 border border-white/50 text-white rounded-lg font-medium hover:bg-white/10 transition-colors"
+              className="px-6 py-3 rounded-lg font-medium btn-ghost-violet"
             >
               Learn More
             </Link>
           </div>
         </div>
         <div className="flex-1 flex gap-4 justify-center lg:justify-end">
-          {campaigns.map((campaign, i) => (
+          {campaigns.map((campaign, i) => {
+            const p = CARD_PARALLAX[i];
+            const parallaxY = scrollY * p.factor * 0.4;
+            return (
             <div
               key={campaign.id}
-              className="w-48 sm:w-56 flex-shrink-0 bg-white/5 backdrop-blur rounded-xl overflow-hidden border border-white/10"
-              style={{ transform: `translateY(${i * 12}px)` }}
+              className="w-48 sm:w-56 flex-shrink-0 transition-transform duration-[400ms] ease-out"
+              style={{ transform: `translateY(${p.base + parallaxY}px)` }}
             >
+              <div className="rounded-xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-[4px] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_0_24px_rgba(139,92,246,0.35)] hover:border-violet-400/30">
               <div className="relative aspect-[4/3]">
                 <Image
                   src={campaign.image}
@@ -80,8 +111,10 @@ export default function BlockchainHero() {
                   Browse Now
                 </button>
               </div>
+              </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2">

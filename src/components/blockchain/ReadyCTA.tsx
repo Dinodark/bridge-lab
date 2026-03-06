@@ -10,10 +10,10 @@ export default function ReadyCTA() {
           with transparency, technology, and collective impact.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <button className="px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 transition-all">
+          <button className="px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 btn-gradient-glow">
             Join Telegram
           </button>
-          <button className="px-6 py-3 border border-white/50 text-white rounded-lg font-medium hover:bg-white/10 transition-colors">
+          <button className="px-6 py-3 rounded-lg font-medium btn-ghost-violet">
             Download Deck
           </button>
         </div>

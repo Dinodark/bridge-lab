@@ -1,3 +1,4 @@
+import BlockchainDecorativeLogos from "@/components/blockchain/BlockchainDecorativeLogos";
 import BlockchainHeader from "@/components/blockchain/BlockchainHeader";
 import BlockchainHero from "@/components/blockchain/BlockchainHero";
 import CharityParadox from "@/components/blockchain/CharityParadox";
@@ -19,9 +20,11 @@ export const metadata = {
 
 export default function BlockchainPage() {
   return (
-    <div className="min-h-screen bg-[#0f0a1e]">
-      <BlockchainHeader />
-      <main>
+    <div className="relative min-h-screen bg-[#0f0a1e]">
+      <BlockchainDecorativeLogos />
+      <div className="relative z-10">
+        <BlockchainHeader />
+        <main>
         <BlockchainHero />
         <CharityParadox />
         <CharityMeetsCulture />
@@ -34,7 +37,8 @@ export default function BlockchainPage() {
         <RoadmapSection />
         <ReadyCTA />
       </main>
-      <BlockchainFooter />
+        <BlockchainFooter />
+      </div>
     </div>
   );
 }

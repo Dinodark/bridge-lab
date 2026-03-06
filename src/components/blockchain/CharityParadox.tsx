@@ -25,7 +25,7 @@ export default function CharityParadox() {
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {stats.map((stat) => (
-            <div key={stat.value} className="text-center p-6 rounded-xl bg-white/5 border border-white/10">
+            <div key={stat.value} className="text-center p-6 rounded-xl bg-white/[0.04] backdrop-blur-md border border-white/10">
               <div className="text-3xl font-bold text-violet-400 mb-2">{stat.value}</div>
               <div className="text-white font-medium mb-3">{stat.label}</div>
               <p className="text-white/60 text-sm">{stat.desc}</p>

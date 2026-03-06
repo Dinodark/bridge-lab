@@ -20,7 +20,7 @@ export default function BlockchainHeader() {
             Roadmap
           </Link>
         </nav>
-        <button className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-violet-500 hover:to-purple-500 transition-all">
+        <button className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg text-sm font-medium hover:from-violet-500 hover:to-purple-500 btn-gradient-glow">
           Launch App
         </button>
       </div>
