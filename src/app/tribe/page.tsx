@@ -108,6 +108,7 @@ export default function TribePage() {
   const [flash, setFlash] = useState(false);
   const triCanvasRef = useRef<HTMLCanvasElement>(null);
   const fireCanvasRef = useRef<HTMLCanvasElement>(null);
+  const waterOrbitRef = useRef<HTMLCanvasElement>(null);
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
   const timeRef = useRef(0);
 
@@ -256,6 +257,80 @@ export default function TribePage() {
   }, [theme]);
 
   useEffect(() => {
+    const canvas = waterOrbitRef.current;
+    if (!canvas || theme !== "water") return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = 280;
+    canvas.height = 280;
+    const cx = 140;
+    const cy = 140;
+    const r1 = 55;
+    const r2 = 95;
+
+    const CYCLE = 3;
+    type Orbiter = { angle: number; speed: number; radius: number; phaseOffset: number; size: number };
+    const orbiters: Orbiter[] = [
+      { angle: 0, speed: 1.2, radius: r1, phaseOffset: 0, size: 2 },
+      { angle: 2.1, speed: 0.6, radius: r1, phaseOffset: 0.5, size: 2 },
+      { angle: 4.2, speed: 0.9, radius: r1, phaseOffset: 1, size: 2 },
+      { angle: 0.5, speed: 0.4, radius: r2, phaseOffset: 0.2, size: 3 },
+      { angle: 2.6, speed: 0.7, radius: r2, phaseOffset: 0.7, size: 2 },
+      { angle: 4.7, speed: 0.5, radius: r2, phaseOffset: 1.2, size: 2 },
+    ];
+
+    let raf: number;
+    const draw = () => {
+      ctx.clearRect(0, 0, 280, 280);
+
+      ctx.save();
+      ctx.strokeStyle = "rgba(0, 200, 255, 0.15)";
+      ctx.lineWidth = 0.8;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r1, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(cx, cy, r2, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      const t = Date.now() / 1000;
+      orbiters.forEach((o) => {
+        o.angle += o.speed * 0.016;
+        const x = cx + Math.cos(o.angle) * o.radius;
+        const y = cy + Math.sin(o.angle) * o.radius;
+
+        const cycle = ((t + o.phaseOffset) % CYCLE) / CYCLE;
+        let fade = 0;
+        if (cycle < 0.1) {
+          fade = cycle / 0.1;
+        } else if (cycle < 0.7) {
+          fade = 1;
+        } else if (cycle < 0.85) {
+          fade = (0.85 - cycle) / 0.15;
+        }
+
+        if (fade > 0) {
+          ctx.save();
+          ctx.globalAlpha = fade;
+          ctx.fillStyle = "#00CFFF";
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = "rgba(0, 200, 255, 0.8)";
+          ctx.beginPath();
+          ctx.arc(x, y, o.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      });
+
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [theme]);
+
+  useEffect(() => {
     const canvas = particleCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -355,6 +430,13 @@ export default function TribePage() {
             {theme === "fire" && (
               <canvas
                 ref={fireCanvasRef}
+                className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+                aria-hidden
+              />
+            )}
+            {theme === "water" && (
+              <canvas
+                ref={waterOrbitRef}
                 className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
                 aria-hidden
               />
