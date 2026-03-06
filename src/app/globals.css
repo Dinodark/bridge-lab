@@ -429,17 +429,11 @@ body {
 
 /* Hero: акцент на слове Blockchain */
 .hero-title-blockchain {
-  background: linear-gradient(90deg, #22d3ee, #a78bfa, #c084fc, #a78bfa);
-  background-size: 200% 100%;
+  background: linear-gradient(90deg, #22d3ee, #a78bfa, #c084fc);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
-  animation: hero-blockchain-gradient 4s ease-in-out infinite;
-}
-@keyframes hero-blockchain-gradient {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
 }
 
 /* Прогресс-бар: классический shimmer */
