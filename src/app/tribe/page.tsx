@@ -3,12 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 
 type TriAnim = "none" | "rotate" | "pulse-ball" | "scale" | "rotate-slow" | "flicker" | "float";
+type Lang = "ru" | "de";
 
 const THEMES = {
   fire: {
-    name: "Year of the Fire Horse · 2026",
+    nameRu: "Year of the Fire Horse · 2026",
+    nameDe: "Jahr des Feuerpferds · 2026",
+    descRu: "Огонь очищает · Племя зажигает мир. Огненная Лошадь несёт перемены.",
+    descDe: "Feuer reinigt · Tribe entzündet die Welt. Das Feuerpferd bringt den Wandel.",
     triAnim: "none" as TriAnim,
-    desc: "Огонь очищает · Племя зажигает мир. Огненная Лошадь несёт перемены.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 75%, rgba(200,50,0,0.25) 0%, rgba(80,10,0,0.08) 45%, transparent 70%)",
     c1: "#FF6600",
     c2: "#FF2200",
@@ -20,9 +23,11 @@ const THEMES = {
     count: 24,
   },
   water: {
-    name: "Flow · Поток",
+    nameRu: "Flow · Поток",
+    nameDe: "Flow · Fluss",
+    descRu: "Сила воды — в движении. Tribe течёт везде. Гибкость — наша сила.",
+    descDe: "Die Kraft des Wassers liegt in der Bewegung. Tribe fließt überall. Flexibilität ist unsere Stärke.",
     triAnim: "pulse-ball" as TriAnim,
-    desc: "Сила воды — в движении. Tribe течёт везде. Гибкость — наша сила.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 25%, rgba(0,100,220,0.2) 0%, rgba(0,20,80,0.06) 45%, transparent 70%)",
     c1: "#00CFFF",
     c2: "#0055FF",
@@ -34,9 +39,11 @@ const THEMES = {
     count: 20,
   },
   earth: {
-    name: "Roots · Корни",
+    nameRu: "Roots · Корни",
+    nameDe: "Roots · Wurzeln",
+    descRu: "Племя укоренено. Мы растём вместе. Сила — в земле.",
+    descDe: "Tribe ist verwurzelt. Wir wachsen gemeinsam. Die Kraft liegt in der Erde.",
     triAnim: "scale" as TriAnim,
-    desc: "Племя укоренено. Мы растём вместе. Сила — в земле.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 65%, rgba(30,110,20,0.18) 0%, rgba(5,30,0,0.06) 45%, transparent 70%)",
     c1: "#55FF33",
     c2: "#1A7700",
@@ -48,9 +55,11 @@ const THEMES = {
     count: 18,
   },
   cosmos: {
-    name: "Cosmos · Бесконечность",
+    nameRu: "Cosmos · Бесконечность",
+    nameDe: "Cosmos · Unendlichkeit",
+    descRu: "Tribe за пределами границ. One Universe. Мы везде — и нигде.",
+    descDe: "Tribe jenseits der Grenzen. One Universe. Wir sind überall — und nirgends.",
     triAnim: "rotate-slow" as TriAnim,
-    desc: "Tribe за пределами границ. One Universe. Мы везде — и нигде.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(90,0,180,0.22) 0%, rgba(15,0,50,0.08) 45%, transparent 70%)",
     c1: "#CC88FF",
     c2: "#5500FF",
@@ -62,9 +71,11 @@ const THEMES = {
     count: 28,
   },
   storm: {
-    name: "Storm · Буря перемен",
+    nameRu: "Storm · Буря перемен",
+    nameDe: "Storm · Sturm des Wandels",
+    descRu: "Из хаоса — рождается порядок. Tribe в движении · Неудержимо.",
+    descDe: "Aus dem Chaos entsteht Ordnung. Tribe in Bewegung · Unaufhaltsam.",
     triAnim: "flicker" as TriAnim,
-    desc: "Из хаоса — рождается порядок. Tribe в движении · Неудержимо.",
     bg: "radial-gradient(ellipse 70% 50% at 35% 40%, rgba(200,190,0,0.15) 0%, rgba(60,50,0,0.05) 45%, transparent 70%)",
     c1: "#FFEE00",
     c2: "#FF7700",
@@ -76,9 +87,11 @@ const THEMES = {
     count: 18,
   },
   void: {
-    name: "Void · Начало начал",
+    nameRu: "Void · Начало начал",
+    nameDe: "Void · Anfang des Anfangs",
+    descRu: "Тишина перед рождением нового. Из пустоты — всё возможное.",
+    descDe: "Stille vor der Geburt des Neuen. Aus der Leere — alles möglich.",
     triAnim: "float" as TriAnim,
-    desc: "Тишина перед рождением нового. Из пустоты — всё возможное.",
     bg: "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 50%)",
     c1: "#ffffff",
     c2: "#888888",
@@ -103,9 +116,26 @@ const THEME_ICONS: Record<ThemeKey, string> = {
   void: "◎",
 };
 
+const UI = {
+  ru: { subtitle: "Tribe · Living Identity", keys: "Keys 1–6" },
+  de: { subtitle: "Tribe · Lebendige Identität", keys: "Tasten 1–6" },
+};
+
+const LANG_KEY = "tribe-lang";
+
 export default function TribePage() {
   const [theme, setTheme] = useState<ThemeKey>("fire");
+  const [lang, setLang] = useState<Lang>(() => {
+    if (typeof window === "undefined") return "ru";
+    const stored = localStorage.getItem(LANG_KEY);
+    return stored === "de" ? "de" : "ru";
+  });
   const [flash, setFlash] = useState(false);
+
+  const setLangAndStore = (l: Lang) => {
+    setLang(l);
+    if (typeof window !== "undefined") localStorage.setItem(LANG_KEY, l);
+  };
   const triCanvasRef = useRef<HTMLCanvasElement>(null);
   const fireCanvasRef = useRef<HTMLCanvasElement>(null);
   const waterOrbitRef = useRef<HTMLCanvasElement>(null);
@@ -113,6 +143,8 @@ export default function TribePage() {
   const timeRef = useRef(0);
 
   const t = THEMES[theme];
+  const tName = lang === "ru" ? t.nameRu : t.nameDe;
+  const tDesc = lang === "ru" ? t.descRu : t.descDe;
 
   const applyTheme = (key: ThemeKey) => {
     if (key === theme) return;
@@ -412,10 +444,32 @@ export default function TribePage() {
         aria-hidden
       />
 
-      <div className="fixed top-6 left-6 text-[10px] tracking-[0.2em] text-white/25 uppercase z-10">
-        Tribe · Living Identity
+      <div className="fixed top-20 left-6 flex items-center gap-4 z-[60]">
+        <span className="text-[10px] tracking-[0.2em] text-white/25 uppercase">
+          {UI[lang].subtitle}
+        </span>
+        <div className="flex gap-1">
+          <button
+            type="button"
+            onClick={() => setLangAndStore("ru")}
+            className={`px-2 py-0.5 text-[9px] uppercase tracking-wider rounded transition-colors ${
+              lang === "ru" ? "bg-white/15 text-white" : "text-white/40 hover:text-white/60"
+            }`}
+          >
+            RU
+          </button>
+          <button
+            type="button"
+            onClick={() => setLangAndStore("de")}
+            className={`px-2 py-0.5 text-[9px] uppercase tracking-wider rounded transition-colors ${
+              lang === "de" ? "bg-white/15 text-white" : "text-white/40 hover:text-white/60"
+            }`}
+          >
+            DE
+          </button>
+        </div>
       </div>
-      <div className="fixed top-6 right-6 text-[10px] tracking-[0.2em] text-white/25 uppercase z-10">
+      <div className="fixed top-20 right-6 text-[10px] tracking-[0.2em] text-white/25 uppercase z-[60]">
         v2026.1
       </div>
 
@@ -496,10 +550,10 @@ export default function TribePage() {
             className="mt-4 text-[13px] tracking-[5px] text-white/40 uppercase italic text-center transition-all duration-500 min-h-[22px]"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
-            {t.name}
+            {tName}
           </div>
           <p className="mt-3 text-[11px] tracking-[1px] text-white/25 text-center max-w-[320px] leading-[2] transition-all duration-500">
-            {t.desc}
+            {tDesc}
           </p>
         </div>
       </section>
@@ -515,7 +569,7 @@ export default function TribePage() {
                 ? "bg-white/12 border-white/35 scale-110 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
                 : "bg-white/[0.04] border-white/[0.07] hover:bg-white/10 hover:scale-105"
             }`}
-            title={THEMES[key].name}
+            title={lang === "ru" ? THEMES[key].nameRu : THEMES[key].nameDe}
           >
             {THEME_ICONS[key]}
           </button>
@@ -536,7 +590,7 @@ export default function TribePage() {
       </div>
 
       <div className="fixed bottom-24 left-8 text-[9px] tracking-[2px] text-white/15 uppercase z-20">
-        Keys 1–6
+        {UI[lang].keys}
       </div>
     </div>
   );
