@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function BlockchainHeader() {
   return (
-    <header className="fixed top-14 left-0 right-0 z-50">
+    <header className="w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <Link href="/blockchain" className="text-xl font-bold text-white tracking-widest">
           BRIDGE

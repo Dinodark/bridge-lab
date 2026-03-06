@@ -427,6 +427,44 @@ body {
   box-shadow: 0 0 24px rgba(139, 92, 246, 0.5), 0 0 40px rgba(147, 51, 234, 0.25);
 }
 
+/* Hero: акцент на слове Blockchain */
+.hero-title-blockchain {
+  background: linear-gradient(90deg, #22d3ee, #a78bfa, #c084fc, #a78bfa);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.4));
+  animation: hero-blockchain-gradient 4s ease-in-out infinite;
+}
+@keyframes hero-blockchain-gradient {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Прогресс-бар: классический shimmer */
+.progress-bar-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.progress-bar-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: progress-shimmer 2s ease-in-out infinite;
+}
+@keyframes progress-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* Applications grid — на узких экранах в колонку */
 .app-grid-2 {
   display: grid;

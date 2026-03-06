@@ -48,17 +48,21 @@ export default function BlockchainHero() {
       <div className="absolute inset-0 hero-cross-pattern hero-cross-pattern-base" />
       <div className="absolute inset-0 hero-cross-pattern hero-cross-pattern-flicker" />
       <div className="absolute inset-0 hero-darken" />
-      
+
       <div className="relative max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-16">
         <div className="flex-1 mb-12 lg:mb-0">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-            The First Blockchain Charity Platform
+            The First{" "}
+            <span className="hero-title-blockchain">
+              Blockchain
+            </span>{" "}
+            Charity Platform
           </h1>
           <p className="text-xl text-cyan-300/90 mb-6">
             Where Good Deeds Become Digital Legacy
           </p>
           <p className="text-white/80 mb-8 max-w-xl">
-            Bridge combines traditional charitable giving with blockchain technology, 
+            Bridge combines traditional charitable giving with blockchain technology,
             NFTs, and community governance to create transparent, traceable impact.
           </p>
           <div className="flex flex-wrap gap-4">
@@ -84,35 +88,35 @@ export default function BlockchainHero() {
             const p = CARD_PARALLAX[i];
             const parallaxY = scrollY * p.factor * 0.4;
             return (
-            <div
-              key={campaign.id}
-              className="w-48 sm:w-56 flex-shrink-0 transition-transform duration-[400ms] ease-out"
-              style={{ transform: `translateY(${p.base + parallaxY}px)` }}
-            >
-              <div className="rounded-xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-[4px] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_0_24px_rgba(139,92,246,0.35)] hover:border-violet-400/30">
-              <div className="relative aspect-[4/3]">
-                <Image
-                  src={campaign.image}
-                  alt={campaign.title}
-                  fill
-                  className="object-cover grayscale"
-                  sizes="224px"
-                />
-              </div>
-              <div className="p-4">
-                <h3 className="font-semibold text-white text-sm mb-2">{campaign.title}</h3>
-                <div className="h-1.5 bg-white/20 rounded-full overflow-hidden mb-3">
-                  <div
-                    className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full"
-                    style={{ width: `${campaign.progress}%` }}
-                  />
+              <div
+                key={campaign.id}
+                className="w-48 sm:w-56 flex-shrink-0 transition-transform duration-[1000ms] ease-out"
+                style={{ transform: `translateY(${p.base + parallaxY}px)` }}
+              >
+                <div className="rounded-xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-[4px] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_0_24px_rgba(139,92,246,0.35)] hover:border-violet-400/30">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={campaign.image}
+                      alt={campaign.title}
+                      fill
+                      className="object-cover grayscale"
+                      sizes="224px"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-white text-sm mb-2">{campaign.title}</h3>
+                    <div className="h-1.5 bg-white/20 rounded-full overflow-hidden mb-3">
+                      <div
+                        className="h-full bg-gradient-to-r from-violet-500 to-purple-500 rounded-full progress-bar-shimmer"
+                        style={{ width: `${campaign.progress}%` }}
+                      />
+                    </div>
+                    <button className="w-full py-2 text-sm font-medium text-violet-300 hover:text-violet-200 transition-colors">
+                      Browse Now
+                    </button>
+                  </div>
                 </div>
-                <button className="w-full py-2 text-sm font-medium text-violet-300 hover:text-violet-200 transition-colors">
-                  Browse Now
-                </button>
               </div>
-              </div>
-            </div>
             );
           })}
         </div>
