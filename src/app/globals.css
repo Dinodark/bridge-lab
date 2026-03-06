@@ -118,6 +118,45 @@ body {
   }
 }
 
+/* Tribe triangle animations */
+@keyframes tribe-tri-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes tribe-tri-pulse-ball {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.8); opacity: 1; }
+}
+@keyframes tribe-tri-scale {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+@keyframes tribe-tri-rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes tribe-tri-flicker {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  25% { opacity: 0.85; filter: brightness(1.1); }
+  50% { opacity: 1; filter: brightness(1); }
+  75% { opacity: 0.9; filter: brightness(1.05); }
+}
+@keyframes tribe-tri-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+.tribe-tri-rotate { animation: tribe-tri-rotate 8s linear infinite; }
+.tribe-tri-pulse-ball .tribe-ball {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: tribe-tri-pulse-ball 2s ease-in-out infinite;
+}
+.tribe-tri-scale { animation: tribe-tri-scale 3s ease-in-out infinite; }
+.tribe-tri-rotate-slow { animation: tribe-tri-rotate-slow 24s linear infinite; }
+.tribe-tri-flicker { animation: tribe-tri-flicker 1.5s ease-in-out infinite; }
+.tribe-tri-float { animation: tribe-tri-float 4s ease-in-out infinite; }
+
 .animate-dao-pulse {
   animation: dao-pulse 4s ease-in-out infinite;
 }

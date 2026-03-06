@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
+type TriAnim = "none" | "rotate" | "pulse-ball" | "scale" | "rotate-slow" | "flicker" | "float";
+
 const THEMES = {
   fire: {
     name: "Year of the Fire Horse · 2026",
+    triAnim: "none" as TriAnim,
     desc: "Огонь очищает · Племя зажигает мир. Огненная Лошадь несёт перемены.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 75%, rgba(200,50,0,0.25) 0%, rgba(80,10,0,0.08) 45%, transparent 70%)",
     c1: "#FF6600",
@@ -18,6 +21,7 @@ const THEMES = {
   },
   water: {
     name: "Flow · Поток",
+    triAnim: "pulse-ball" as TriAnim,
     desc: "Сила воды — в движении. Tribe течёт везде. Гибкость — наша сила.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 25%, rgba(0,100,220,0.2) 0%, rgba(0,20,80,0.06) 45%, transparent 70%)",
     c1: "#00CFFF",
@@ -31,6 +35,7 @@ const THEMES = {
   },
   earth: {
     name: "Roots · Корни",
+    triAnim: "scale" as TriAnim,
     desc: "Племя укоренено. Мы растём вместе. Сила — в земле.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 65%, rgba(30,110,20,0.18) 0%, rgba(5,30,0,0.06) 45%, transparent 70%)",
     c1: "#55FF33",
@@ -44,6 +49,7 @@ const THEMES = {
   },
   cosmos: {
     name: "Cosmos · Бесконечность",
+    triAnim: "rotate-slow" as TriAnim,
     desc: "Tribe за пределами границ. One Universe. Мы везде — и нигде.",
     bg: "radial-gradient(ellipse 80% 60% at 50% 50%, rgba(90,0,180,0.22) 0%, rgba(15,0,50,0.08) 45%, transparent 70%)",
     c1: "#CC88FF",
@@ -57,6 +63,7 @@ const THEMES = {
   },
   storm: {
     name: "Storm · Буря перемен",
+    triAnim: "flicker" as TriAnim,
     desc: "Из хаоса — рождается порядок. Tribe в движении · Неудержимо.",
     bg: "radial-gradient(ellipse 70% 50% at 35% 40%, rgba(200,190,0,0.15) 0%, rgba(60,50,0,0.05) 45%, transparent 70%)",
     c1: "#FFEE00",
@@ -70,6 +77,7 @@ const THEMES = {
   },
   void: {
     name: "Void · Начало начал",
+    triAnim: "float" as TriAnim,
     desc: "Тишина перед рождением нового. Из пустоты — всё возможное.",
     bg: "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 50%)",
     c1: "#ffffff",
@@ -99,6 +107,7 @@ export default function TribePage() {
   const [theme, setTheme] = useState<ThemeKey>("fire");
   const [flash, setFlash] = useState(false);
   const triCanvasRef = useRef<HTMLCanvasElement>(null);
+  const fireCanvasRef = useRef<HTMLCanvasElement>(null);
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
   const timeRef = useRef(0);
 
@@ -162,7 +171,7 @@ export default function TribePage() {
         ctx.restore();
       });
 
-      if (theme === "fire" || theme === "storm") {
+      if (theme === "storm") {
         pts.forEach((p1, i) => {
           const p2 = pts[(i + 1) % 3];
           const f = Math.sin(timeRef.current * 3 + i * 2) * 0.5 + 0.5;
@@ -185,6 +194,66 @@ export default function TribePage() {
     raf = requestAnimationFrame(draw);
     return () => cancelAnimationFrame(raf);
   }, [theme, t.pulse, t.glow, t.c1]);
+
+  useEffect(() => {
+    const canvas = fireCanvasRef.current;
+    if (!canvas || theme !== "fire") return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = 280;
+    canvas.height = 280;
+
+    type Ember = { x: number; y: number; vy: number; vx: number; r: number; life: number; maxLife: number; hue: number; flicker: number };
+    const embers: Ember[] = [];
+    for (let i = 0; i < 32; i++) {
+      embers.push({
+        x: 100 + Math.random() * 80,
+        y: 140 + Math.random() * 80,
+        vy: -(0.8 + Math.random() * 1.5),
+        vx: (Math.random() - 0.5) * 0.8,
+        r: 1.5 + Math.random() * 2.5,
+        life: Math.random() * 60,
+        maxLife: 40 + Math.random() * 80,
+        hue: 15 + Math.random() * 35,
+        flicker: Math.random() * Math.PI * 2,
+      });
+    }
+
+    let raf: number;
+    const draw = () => {
+      ctx.clearRect(0, 0, 280, 280);
+      embers.forEach((e) => {
+        e.x += e.vx;
+        e.y += e.vy;
+        e.life++;
+        if (e.life > e.maxLife || e.y < -10) {
+          e.x = 100 + Math.random() * 80;
+          e.y = 180 + Math.random() * 40;
+          e.vy = -(0.8 + Math.random() * 1.5);
+          e.vx = (Math.random() - 0.5) * 0.8;
+          e.life = 0;
+          e.maxLife = 40 + Math.random() * 80;
+          e.hue = 15 + Math.random() * 35;
+        }
+        const t = e.life / e.maxLife;
+        const alpha = Math.sin(t * Math.PI) * 0.7;
+        const r = e.r * (0.7 + 0.3 * Math.sin(Date.now() * 0.01 + e.flicker));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = `hsla(${e.hue}, 100%, ${50 + t * 20}%, 0.9)`;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = `hsla(${e.hue}, 100%, 60%, 0.8)`;
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [theme]);
 
   useEffect(() => {
     const canvas = particleCanvasRef.current;
@@ -277,10 +346,23 @@ export default function TribePage() {
 
       <section className="relative z-[3] min-h-screen flex flex-col items-center justify-center px-6 py-24">
         <div className="flex flex-col items-center">
-          <div className="relative w-[280px] h-[280px] flex items-center justify-center">
+          <div
+            className={`relative w-[280px] h-[280px] flex items-center justify-center origin-center ${
+              t.triAnim !== "none" && (t.triAnim === "rotate" || t.triAnim === "rotate-slow") ? `tribe-tri-${t.triAnim}` : ""
+            }`}
+          >
             <canvas ref={triCanvasRef} className="absolute inset-0 w-full h-full" />
+            {theme === "fire" && (
+              <canvas
+                ref={fireCanvasRef}
+                className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+                aria-hidden
+              />
+            )}
             <svg
-              className="relative z-[2] w-[200px] h-[200px] transition-[filter] duration-500"
+              className={`relative z-[2] w-[200px] h-[200px] transition-[filter] duration-500 origin-center ${
+                t.triAnim === "pulse-ball" ? "tribe-tri-pulse-ball" : t.triAnim !== "none" && t.triAnim !== "rotate" && t.triAnim !== "rotate-slow" ? `tribe-tri-${t.triAnim}` : ""
+              }`}
               viewBox="0 0 240 240"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -315,7 +397,7 @@ export default function TribePage() {
                 strokeWidth={0.6}
                 opacity={0.2}
               />
-              <circle cx="120" cy="126" r="2.5" fill="url(#tg)" opacity={0.5} />
+              <circle className="tribe-ball" cx="120" cy="126" r="2.5" fill="url(#tg)" opacity={0.5} />
               <circle cx="120" cy="16" r="2" fill="url(#tg)" opacity={0.5} />
               <circle cx="218" cy="188" r="2" fill="url(#tg)" opacity={0.5} />
               <circle cx="22" cy="188" r="2" fill="url(#tg)" opacity={0.5} />
