@@ -12,6 +12,8 @@ const MENU_ITEMS = [
   { href: "/explore", label: "Explore" },
   { href: "/crypto", label: "Crypto" },
   { href: "/blockchain", label: "Blockchain" },
+  { href: "/media", label: "Media" },
+  { href: "/tribe", label: "Tribe" },
 ];
 
 export default function GlobalMenu() {

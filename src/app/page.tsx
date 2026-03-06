@@ -2,6 +2,20 @@ import Link from "next/link";
 
 const feedItems = [
   {
+    href: "/tribe",
+    title: "TRIBE — Living Identity System",
+    excerpt: "Одно ядро. Бесконечные воплощения. Интерактивные темы: Fire, Water, Earth, Cosmos, Storm, Void.",
+    createdAt: "2026-03-04",
+    tag: "Tribe",
+  },
+  {
+    href: "/media",
+    title: "Media — Видео, изображения, AI-модели",
+    excerpt: "Галерея медиа-контента. FLUX LoRA модели персонажей. Видео и изображения в разных форматах.",
+    createdAt: "2026-03-04",
+    tag: "Media",
+  },
+  {
     href: "/roadmap",
     title: "OneBridge Roadmap",
     excerpt: "План развития. Версионность, OneBridge Guidelines, локализация RU/EN/ZH/DE, ИИ-агенты, инструменты Tribe.",
