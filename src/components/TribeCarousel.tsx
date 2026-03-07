@@ -50,8 +50,8 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
   if (TRIBE_IMAGES.length === 0) return null;
 
   return (
-    <section className={`border-b py-12 overflow-x-auto scrollbar-hide ${borderClass}`} style={borderStyle}>
-      <div className="min-w-[1024px] max-w-[1024px] mx-auto px-6">
+    <section className={`border-b py-12 overflow-hidden ${borderClass}`} style={borderStyle}>
+      <div className="w-full max-w-[1024px] mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-lg font-semibold uppercase tracking-wider ${textClass}`} style={textStyle}>
             {t.tribe}

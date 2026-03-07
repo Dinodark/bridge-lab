@@ -72,6 +72,33 @@ export default function TribeBannerTool() {
           </div>
         </div>
 
+        <div className="mt-8 rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04] backdrop-blur-md relative">
+          <div className="relative aspect-[21/9] min-h-[200px]">
+            <img
+              src="/assets/media-cta-banner.webp"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover opacity-90"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0f0a1e] via-[#0f0a1e]/60 to-transparent" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 sm:p-10 text-center">
+              <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                {t.mediaCtaTitle}
+              </h3>
+              <p className="text-white/90 text-sm sm:text-base max-w-xl mb-6">
+                {t.mediaCtaSubtitle}
+              </p>
+              <a
+                href="https://tribe.de/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-[#0f0a1e] font-semibold hover:bg-white/95 transition-all shadow-lg hover:shadow-violet-500/25 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                {t.mediaCtaButton}
+              </a>
+            </div>
+          </div>
+        </div>
+
         {popupOpen && (
           <LikePopup
             open={popupOpen}

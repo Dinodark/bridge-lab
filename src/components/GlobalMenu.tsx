@@ -21,6 +21,47 @@ const CRYPTO_LINKS = [
   { href: "/explore", label: "Starter" },
 ];
 
+function LangSwitcher({
+  lang,
+  setLang,
+  palette,
+  className = "",
+}: {
+  lang: string;
+  setLang: (l: "ru" | "de") => void;
+  palette: { cta1: string };
+  className?: string;
+}) {
+  return (
+    <div className={`flex items-center gap-1 border-[var(--color-border)] pl-2 ${className}`}>
+      <button
+        onClick={() => setLang("ru")}
+        className="rounded-md px-2 py-1 text-xs font-medium transition-all hover:opacity-80"
+        style={{
+          background: lang === "ru" ? "var(--color-bg-active)" : "transparent",
+          color: lang === "ru" ? palette.cta1 : "var(--color-muted)",
+          border: "1px solid var(--color-border)",
+        }}
+        title="Русский"
+      >
+        RU
+      </button>
+      <button
+        onClick={() => setLang("de")}
+        className="rounded-md px-2 py-1 text-xs font-medium transition-all hover:opacity-80"
+        style={{
+          background: lang === "de" ? "var(--color-bg-active)" : "transparent",
+          color: lang === "de" ? palette.cta1 : "var(--color-muted)",
+          border: "1px solid var(--color-border)",
+        }}
+        title="Deutsch"
+      >
+        DE
+      </button>
+    </div>
+  );
+}
+
 function Dropdown({
   label,
   items,
@@ -128,19 +169,55 @@ function Dropdown({
   );
 }
 
+function NavLink({
+  href,
+  label,
+  isActive,
+  palette,
+  onClick,
+  className = "",
+}: {
+  href: string;
+  label: string;
+  isActive: boolean;
+  palette: { cta1: string };
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      onClick={onClick}
+      className={`nav-link-mobile block w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors hover:bg-violet-100 active:bg-violet-200 ${isActive ? "bg-[var(--color-bg-active)]" : ""} ${className}`}
+      style={{
+        color: isActive ? palette.cta1 : "var(--color-muted)",
+      }}
+    >
+      {label}
+    </Link>
+  );
+}
+
 export default function GlobalMenu() {
   const pathname = usePathname();
   const { palette } = useTheme();
   const { lang, setLang } = useLanguage();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileOpen) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   return (
     <header
       className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-header)]/95 backdrop-blur-sm"
       style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
     >
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
+          <span className="text-xl font-bold sm:text-2xl">
             <span className="italic" style={{ color: "#1E1E1E", marginRight: 2 }}>one</span>
             <span
               style={{
@@ -155,7 +232,8 @@ export default function GlobalMenu() {
           </span>
         </Link>
 
-        <nav className="flex items-center gap-1 overflow-x-auto scrollbar-hide sm:gap-2">
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-1 md:flex md:gap-2">
           <Link
             href="/"
             className="rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors sm:px-3"
@@ -188,35 +266,106 @@ export default function GlobalMenu() {
           >
             Bridge
           </Link>
-
-          <div className="ml-2 flex items-center gap-1 border-l border-[var(--color-border)] pl-2">
-            <button
-              onClick={() => setLang("ru")}
-              className="rounded-md px-2 py-1 text-xs font-medium transition-all hover:opacity-80"
-              style={{
-                background: lang === "ru" ? "var(--color-bg-active)" : "transparent",
-                color: lang === "ru" ? palette.cta1 : "var(--color-muted)",
-                border: "1px solid var(--color-border)",
-              }}
-              title="Русский"
-            >
-              RU
-            </button>
-            <button
-              onClick={() => setLang("de")}
-              className="rounded-md px-2 py-1 text-xs font-medium transition-all hover:opacity-80"
-              style={{
-                background: lang === "de" ? "var(--color-bg-active)" : "transparent",
-                color: lang === "de" ? palette.cta1 : "var(--color-muted)",
-                border: "1px solid var(--color-border)",
-              }}
-              title="Deutsch"
-            >
-              DE
-            </button>
-          </div>
+          <LangSwitcher lang={lang} setLang={setLang} palette={palette} className="ml-2 border-l" />
         </nav>
+
+        {/* Mobile: lang + hamburger */}
+        <div className="flex items-center gap-2 md:hidden">
+          <LangSwitcher lang={lang} setLang={setLang} palette={palette} className="border-l pl-2" />
+          <button
+            type="button"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "Закрыть меню" : "Открыть меню"}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border)] transition-colors hover:bg-[var(--color-bg-active)]"
+          >
+            <span className="relative flex h-5 w-5 flex-col items-center justify-center gap-1">
+              <span
+                className={`h-0.5 w-4 rounded-full bg-current transition-all ${mobileOpen ? "translate-y-1.5 rotate-45" : ""}`}
+                style={{ background: "var(--color-muted)" }}
+              />
+              <span
+                className={`h-0.5 w-4 rounded-full transition-all ${mobileOpen ? "opacity-0" : ""}`}
+                style={{ background: "var(--color-muted)" }}
+              />
+              <span
+                className={`h-0.5 w-4 rounded-full bg-current transition-all ${mobileOpen ? "-translate-y-1.5 -rotate-45" : ""}`}
+                style={{ background: "var(--color-muted)" }}
+              />
+            </span>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile menu overlay — portaled to body */}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className={`fixed inset-x-0 top-14 bottom-0 z-[100] flex flex-col overflow-y-auto md:hidden transition-opacity duration-300 ${mobileOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"}`}
+            style={{ backgroundColor: "#ffffff" }}
+            aria-hidden={!mobileOpen}
+          >
+            <nav
+              className={`flex flex-shrink-0 flex-col gap-0 p-4 transition-all duration-300 ${mobileOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"}`}
+            >
+              <NavLink href="/" label="Home" isActive={pathname === "/"} palette={palette} onClick={() => setMobileOpen(false)} />
+              <NavLink href="/roadmap" label="Roadmap" isActive={pathname === "/roadmap"} palette={palette} onClick={() => setMobileOpen(false)} />
+
+              <div className="mt-4 rounded-xl border border-[var(--color-border)] bg-gray-50 overflow-hidden">
+                <div className="px-4 py-2.5 border-b border-[var(--color-border)]" style={{ color: palette.cta1 }}>
+                  <span className="text-xs font-semibold uppercase tracking-wider">Tribe</span>
+                </div>
+                <div className="flex flex-col gap-2 py-2">
+                  {TRIBE_LINKS.map((item) => {
+                    const itemActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="block w-full rounded-lg mx-2 px-3 py-2.5 text-left text-sm font-medium transition-colors hover:bg-[var(--color-bg-active)] active:bg-[var(--color-bg-active)] border-l-2 border-transparent pl-5"
+                        style={{
+                          color: itemActive ? palette.cta1 : "var(--color-muted)",
+                          borderLeftColor: itemActive ? palette.cta1 : "transparent",
+                        }}
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="mt-3 rounded-xl border border-[var(--color-border)] bg-gray-50 overflow-hidden">
+                <div className="px-4 py-2.5 border-b border-[var(--color-border)]" style={{ color: palette.cta1 }}>
+                  <span className="text-xs font-semibold uppercase tracking-wider">Crypto</span>
+                </div>
+                <div className="flex flex-col gap-2 py-2">
+                  {CRYPTO_LINKS.map((item) => {
+                    const itemActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setMobileOpen(false)}
+                        className="block w-full rounded-lg mx-2 px-3 py-2.5 text-left text-sm font-medium transition-colors hover:bg-[var(--color-bg-active)] active:bg-[var(--color-bg-active)] border-l-2 border-transparent pl-5"
+                        style={{
+                          color: itemActive ? palette.cta1 : "var(--color-muted)",
+                          borderLeftColor: itemActive ? palette.cta1 : "transparent",
+                        }}
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <NavLink href="/blockchain" label="Bridge" isActive={pathname.startsWith("/blockchain")} palette={palette} onClick={() => setMobileOpen(false)} className="mt-4" />
+            </nav>
+          </div>,
+          document.body
+        )}
     </header>
   );
 }

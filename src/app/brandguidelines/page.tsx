@@ -1440,8 +1440,9 @@ export default function BrandGuidelinesPage() {
         background: "#FAFAFC",
       }}
     >
-      {/* Sidebar — sticky с прокруткой навигации */}
+      {/* Sidebar — sticky с прокруткой навигации, скрыт на мобильном */}
       <div
+        className="brand-sidebar"
         style={{
           width: 200,
           flexShrink: 0,
@@ -1533,10 +1534,10 @@ export default function BrandGuidelinesPage() {
       {/* Main content — воздушный, минималистичный */}
       <div
         id="scroll-container"
+        className="brand-scroll-container"
         style={{
           flex: 1,
           overflowY: "auto",
-          padding: "72px 96px",
           scrollPaddingTop: 80,
           maxWidth: 1280,
           margin: "0 auto",
@@ -2072,6 +2073,7 @@ export default function BrandGuidelinesPage() {
               {t.onetribeProduct}
             </div>
             <div
+              className="brand-logo-grid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -2141,6 +2143,7 @@ export default function BrandGuidelinesPage() {
                 {t.tribePlatform}
             </div>
             <div
+              className="brand-logo-grid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",

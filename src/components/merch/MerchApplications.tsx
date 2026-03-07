@@ -751,9 +751,9 @@ export default function MerchApplications() {
         >
           <div
             className="app-grid-2"
-            style={{ padding: "0 40px 40px 0", gap: 32 }}
+            style={{ gap: 32 }}
           >
-            <div style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/tshirt-mockup-man.png"
                 alt={t.tshirtAlt}
@@ -767,7 +767,7 @@ export default function MerchApplications() {
                 }}
               />
             </div>
-            <div style={{ paddingLeft: 24 }}>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -823,9 +823,9 @@ export default function MerchApplications() {
         >
           <div
             className="app-grid-2"
-            style={{ padding: "0 40px 40px 0", gap: 32 }}
+            style={{ gap: 32 }}
           >
-            <div style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/water-bottle.png"
                 alt={t.waterBottleAlt}
@@ -838,7 +838,7 @@ export default function MerchApplications() {
                 }}
               />
             </div>
-            <div style={{ paddingLeft: 24 }}>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -887,18 +887,17 @@ export default function MerchApplications() {
             className="app-grid-2"
             style={{
               gridTemplateColumns: "1.2fr 1fr",
-              padding: "0 40px 40px 0",
               gap: 32,
             }}
           >
             <div
+              className="app-grid-image-cell"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(2, 1fr)",
                 gap: 16,
                 minWidth: 0,
                 marginBottom: -40,
-                paddingLeft: 40,
               }}
             >
               {[
@@ -924,7 +923,7 @@ export default function MerchApplications() {
                 </div>
               ))}
             </div>
-            <div style={{ paddingLeft: 24 }}>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -973,11 +972,10 @@ export default function MerchApplications() {
             className="app-grid-2"
             style={{
               gridTemplateColumns: "1.2fr 1fr",
-              padding: "0 40px 40px 0",
               gap: 32,
             }}
           >
-            <div style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/car-sticker.png"
                 alt={t.carStickerAlt}
@@ -986,12 +984,13 @@ export default function MerchApplications() {
                 style={{
                   width: "100%",
                   height: "auto",
+                  display: "block",
                   objectFit: "cover",
                   borderRadius: 8,
                 }}
               />
             </div>
-            <div style={{ paddingLeft: 24 }}>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -1030,7 +1029,7 @@ export default function MerchApplications() {
         <div style={APP_BLOCK_STYLE}>
           <div style={SECTION_LABEL_STYLE}>{t.digitalStories}</div>
           <div className="app-grid-2">
-            <div>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -1074,7 +1073,7 @@ export default function MerchApplications() {
         <div style={APP_BLOCK_STYLE}>
           <div style={SECTION_LABEL_STYLE}>{t.digitalInviteCard}</div>
           <div className="app-grid-2">
-            <div>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -1122,9 +1121,9 @@ export default function MerchApplications() {
         >
           <div
             className="app-grid-2"
-            style={{ padding: "0 40px 40px 0", gap: 32 }}
+            style={{ gap: 32 }}
           >
-            <div style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/flag-mockup.png"
                 alt={t.flagAlt}
@@ -1138,8 +1137,8 @@ export default function MerchApplications() {
               />
             </div>
             <div
+              className="app-grid-text-cell"
               style={{
-                paddingLeft: 24,
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -1191,9 +1190,9 @@ export default function MerchApplications() {
         >
           <div
             className="app-grid-2"
-            style={{ padding: "0 40px 40px 0", gap: 32 }}
+            style={{ gap: 32 }}
           >
-            <div style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/pin-badge.png"
                 alt={t.pinBadgeAlt}
@@ -1206,7 +1205,7 @@ export default function MerchApplications() {
                 }}
               />
             </div>
-            <div style={{ paddingLeft: 24 }}>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -1253,9 +1252,9 @@ export default function MerchApplications() {
         >
           <div
             className="app-grid-2"
-            style={{ padding: "0 40px 40px 0", gap: 32 }}
+            style={{ gap: 32 }}
           >
-            <div style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/rollup-mockup.png"
                 alt={t.rollupAlt}
@@ -1268,7 +1267,7 @@ export default function MerchApplications() {
                 }}
               />
             </div>
-            <div style={{ paddingLeft: 24 }}>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,
@@ -1315,9 +1314,9 @@ export default function MerchApplications() {
         >
           <div
             className="app-grid-2"
-            style={{ padding: "0 40px 40px 0", gap: 32 }}
+            style={{ gap: 32 }}
           >
-            <div style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/chocolate.png"
                 alt={t.chocolateAlt}
@@ -1330,7 +1329,7 @@ export default function MerchApplications() {
                 }}
               />
             </div>
-            <div style={{ paddingLeft: 24 }}>
+            <div className="app-grid-text-cell">
               <div
                 style={{
                   fontSize: 18,

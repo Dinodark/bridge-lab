@@ -26,6 +26,9 @@ export const T = {
     tribeBannerToolDesc: "Создание маркетинговых материалов: баннеры, анонсы мероприятий, креативы для продвижения Tribe.",
     makeEventBanner: "Сделать баннер для мероприятия",
     bannerPlaceholder: "Баннеры • Анонсы • Соцсети • Презентации",
+    mediaCtaTitle: "Создай свой визуал",
+    mediaCtaSubtitle: "AI-модели, баннеры и креативы — всё в одном месте. Присоединяйся к Tribe.",
+    mediaCtaButton: "Попробовать бесплатно →",
   },
   de: {
     pageTitle: "Media",
@@ -54,5 +57,8 @@ export const T = {
     tribeBannerToolDesc: "Erstellung von Marketing-Materialien: Banner, Event-Ankündigungen, Kreatives für Tribe-Promotion.",
     makeEventBanner: "Banner für Event erstellen",
     bannerPlaceholder: "Banner • Ankündigungen • Social Media • Präsentationen",
+    mediaCtaTitle: "Erstelle dein Visual",
+    mediaCtaSubtitle: "KI-Modelle, Banner und Kreatives — alles an einem Ort. Werde Teil von Tribe.",
+    mediaCtaButton: "Kostenlos ausprobieren →",
   },
 } as const;

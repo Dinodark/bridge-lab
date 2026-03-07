@@ -67,6 +67,14 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Mobile menu link hover — сиреневый, переопределяет inline */
+.nav-link-mobile:hover {
+  background-color: rgb(237 233 254) !important;
+}
+.nav-link-mobile:active {
+  background-color: rgb(221 214 254) !important;
+}
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
@@ -498,15 +506,64 @@ body {
   100% { background-position: -200% 0; }
 }
 
-/* Applications grid — на узких экранах в колонку */
+/* Applications grid — на узких экранах в колонку, карточки на всю ширину */
 .app-grid-2 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 48px;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 0 40px 0;
+}
+.app-grid-2 > * {
+  min-width: 0;
+}
+/* Изображение в карточках — на всю ширину колонки, без отступов, до краёв */
+.app-grid-2 .app-grid-image-cell {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100%;
+}
+.app-grid-2 .app-grid-image-cell img {
+  width: 100% !important;
+  display: block !important;
+}
+/* Текст в карточках — свой отступ справа, без отступа сверху */
+.app-grid-2 .app-grid-text-cell {
+  padding: 0 40px 0 24px !important;
 }
 @media (max-width: 768px) {
   .app-grid-2 {
+    grid-template-columns: 1fr !important;
+    padding: 0 0 24px 0 !important;
+    gap: 24px !important;
+  }
+  .app-grid-2 .app-grid-text-cell {
+    padding: 0 16px 0 16px !important;
+  }
+}
+
+/* Brand Guidelines — сайдбар скрыт на мобильном */
+@media (max-width: 767px) {
+  .brand-sidebar {
+    display: none !important;
+  }
+}
+
+/* Brand Guidelines — контент, маленькие паддинги на мобильном */
+.brand-scroll-container {
+  padding: 72px 96px;
+}
+@media (max-width: 767px) {
+  .brand-scroll-container {
+    padding: 24px 16px !important;
+  }
+}
+
+/* Brand Guidelines — лого-сетки вертикально на мобильном */
+@media (max-width: 767px) {
+  .brand-logo-grid {
     grid-template-columns: 1fr !important;
   }
 }

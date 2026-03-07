@@ -55,9 +55,9 @@ export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProp
   }, [fullscreen, goNext, goPrev]);
 
   return (
-    <section className={`border-b py-12 overflow-x-auto scrollbar-hide ${borderClass}`} style={borderStyle}>
-      <div className="w-[1024px] min-w-[1024px] mx-auto">
-        <div className="flex items-center justify-between mb-6 px-4">
+    <section className={`border-b py-12 overflow-hidden ${borderClass}`} style={borderStyle}>
+      <div className="w-full max-w-[1024px] mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between mb-6">
           <h2 className={`text-lg font-semibold uppercase tracking-wider ${textClass}`} style={textStyle}>
             {t.marvin}
           </h2>
@@ -66,8 +66,8 @@ export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProp
           </span>
         </div>
 
-        {/* Carousel — ровно 1024px для 1:1 качества */}
-        <div className="relative overflow-hidden rounded-2xl w-[1024px]" style={{ aspectRatio: "16/10" }}>
+        {/* Carousel */}
+        <div className="relative overflow-hidden rounded-2xl w-full" style={{ aspectRatio: "16/10" }}>
           <div
             className="flex h-full transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${index * 100}%)` }}
@@ -141,7 +141,7 @@ export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProp
           </div>
         </div>
 
-        <p className={`mt-4 text-sm px-4 ${textClass}`} style={textStyle}>
+        <p className={`mt-4 text-sm ${textClass}`} style={textStyle}>
           Кликните на фото для полноэкранного просмотра. ← → для навигации.
         </p>
       </div>

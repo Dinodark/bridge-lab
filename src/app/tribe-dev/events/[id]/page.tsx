@@ -14,9 +14,6 @@ export default function EventDetailPage() {
         href="/tribe-dev/events"
         className="inline-flex items-center gap-1.5 text-sm text-[#6E22F2] hover:text-[#7C3AED] transition-colors mb-6"
       >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
         {t.back}
       </Link>
 
