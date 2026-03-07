@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { T } from "@/app/media/translations";
 
 const TRIBE_IMAGES = [
   "/tribe/tribe.jpg",
@@ -12,6 +14,8 @@ interface TribeCarouselProps {
 }
 
 export default function TribeCarousel({ variant = "light" }: TribeCarouselProps) {
+  const { lang } = useLanguage();
+  const t = T[lang];
   const isDark = variant === "dark";
   const borderClass = isDark ? "border-white/10" : "";
   const textClass = isDark ? "text-white/70" : "";
@@ -50,7 +54,7 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
       <div className="min-w-[1024px] max-w-[1024px] mx-auto px-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-lg font-semibold uppercase tracking-wider ${textClass}`} style={textStyle}>
-            Tribe
+            {t.tribe}
           </h2>
           {TRIBE_IMAGES.length > 1 && (
             <span className={`text-xs ${textClass}`} style={textStyle}>

@@ -1,8 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useEffect } from "react";
-
-export type ThemeId = "onetribe" | "onebridge";
+import { createContext, useContext } from "react";
 
 export const THEME_PALETTES = {
   onetribe: {
@@ -15,57 +13,18 @@ export const THEME_PALETTES = {
     gradient1: "linear-gradient(135deg, #48E5FF, #B289F9, #F989B4, #FFBC6F)",
     gradient2: "linear-gradient(135deg, #6E22F2, #C752FF)",
   },
-  onebridge: {
-    accent1: "#00D4AA",
-    accent2: "#2563EB",
-    accent3: "#F59E0B",
-    accent4: "#10B981",
-    cta1: "#0D9488",
-    cta2: "#38BDF8",
-    gradient1: "linear-gradient(135deg, #00D4AA, #2563EB, #F59E0B, #10B981)",
-    gradient2: "linear-gradient(135deg, #0D9488, #38BDF8)",
-  },
 } as const;
 
 type ThemeContextValue = {
-  theme: ThemeId;
-  setTheme: (t: ThemeId) => void;
-  palette: (typeof THEME_PALETTES)[ThemeId];
+  palette: (typeof THEME_PALETTES)["onetribe"];
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeId>("onetribe");
-
-  const setTheme = useCallback((t: ThemeId) => {
-    setThemeState(t);
-    if (typeof document !== "undefined") {
-      document.documentElement.setAttribute("data-theme", t);
-      try {
-        localStorage.setItem("onebridge-theme", t);
-      } catch (_) {}
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem("onebridge-theme") as ThemeId | null;
-      if (stored && (stored === "onetribe" || stored === "onebridge")) {
-        setThemeState(stored);
-        document.documentElement.setAttribute("data-theme", stored);
-      } else {
-        document.documentElement.setAttribute("data-theme", theme);
-      }
-    } catch (_) {
-      document.documentElement.setAttribute("data-theme", theme);
-    }
-  }, []);
-
-  const palette = THEME_PALETTES[theme];
-
+  const palette = THEME_PALETTES.onetribe;
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, palette }}>
+    <ThemeContext.Provider value={{ palette }}>
       {children}
     </ThemeContext.Provider>
   );

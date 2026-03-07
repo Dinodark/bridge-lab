@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
+import CustomSelect from "@/components/ui/CustomSelect";
 
 // ============================================================
 // BRAND DATA — меняй под любой проект
@@ -130,10 +132,11 @@ const NAV_IDS = [
   { id: "logo", icon: "◎" },
   { id: "iconography", icon: "⬡" },
   { id: "imagery", icon: "▣" },
+  { id: "media", icon: "▶" },
   { id: "motion", icon: "◌" },
   { id: "patterns", icon: "⊞" },
   { id: "layout", icon: "▦" },
-  { id: "applications", icon: "◧" },
+  { id: "form-controls", icon: "☐" },
 ];
 
 // ============================================================
@@ -148,9 +151,11 @@ const TRANSLATIONS = {
       logo: "Logo",
       iconography: "Icons",
       imagery: "Imagery",
+      media: "Media",
       motion: "Motion",
       patterns: "Patterns",
       layout: "Layout",
+      formControls: "Form Controls",
       applications: "Applications",
     },
     brandDescription:
@@ -279,6 +284,26 @@ const TRANSLATIONS = {
     visualTreatment: "Visual Treatment",
     visualTreatmentText:
       "Декоративные элементы — размытые градиентные пятна с мягкими краями. Эффект глубины резкости. Создают ощущение живого медиа, динамики и воздуха. Всегда на светлом или тёмном фоне, никогда не перекрывают основной контент.",
+    mediaTitle: "Media Page",
+    mediaSubtitle: "Страница визуального контента: видео, изображения, AI-модели",
+    mediaTheme: "Тема",
+    mediaThemeDark: "Тёмная (#0f0a1e) — как Bridge/Blockchain. Для визуального контента.",
+    mediaStructure: "Структура",
+    mediaStructureList: [
+      "Overline: «Media» (11px, uppercase, tracking 0.1em)",
+      "H1: градиент бренда (Electric Blue → Soft Violet → Warm Pink)",
+      "Subtitle: Body M, line-height 1.6",
+      "Секции: Marvin, Tribe, Gallery, Character Models",
+    ],
+    mediaContentTypes: "Типы контента",
+    mediaContentList: [
+      "Marvin — AI-генерированные изображения, карусель 16:10",
+      "Tribe — визуал сообщества, карусель",
+      "Gallery — сетка/марки изображений (Souly и др.)",
+      "Character Models — FLUX LoRA, карточки с триггерами",
+    ],
+    mediaLanguage: "Язык: RU/DE через useLanguage()",
+    mediaLocalization: "Локализация",
     motionTitle: "Motion & Animation",
     motionSubtitle: "Движение, которое вдохновляет — не раздражает",
     motionItems: [
@@ -326,6 +351,14 @@ const TRANSLATIONS = {
       "Мобайл-фёрст для всех digital-форматов",
       "Контраст текста минимум 4.5:1 (WCAG AA)",
     ],
+    formControlsTitle: "Form Controls",
+    formControlsSubtitle: "Input, Select, Checkbox — единый стиль форм",
+    formInputSpec: "Input: px-4 py-2, rounded-lg, border #CCCCCC, focus border #4D4D4D. Высота как у кнопок (py-2). В формах — h-12.",
+    formSelectSpec: "CustomSelect: выпадашка как в меню. px-4 py-2, chevron справа. Компонент @/components/ui/CustomSelect.",
+    formSelectNote: "CustomSelect — выпадашка в стиле меню (rounded-lg, border, shadow). Portal в body, позиция под кнопкой.",
+    formCheckboxSpec: "Checkbox: 24×24px, border-radius 6px, accent color — brand purple",
+    formClasses: "Input: form-input. Select: CustomSelect (выпадашка в стиле меню).",
+    formSelectPlaceholder: "Выберите...",
     applicationsTitle: "Applications",
     applicationsSubtitle: "Бренд в реальном мире — digital и физические носители",
     merchTshirt: "Merch — T-Shirt",
@@ -415,9 +448,11 @@ const TRANSLATIONS = {
       logo: "Logo",
       iconography: "Icons",
       imagery: "Bilder",
+      media: "Media",
       motion: "Bewegung",
       patterns: "Muster",
       layout: "Layout",
+      formControls: "Form Controls",
       applications: "Anwendungen",
     },
     brandDescription:
@@ -546,6 +581,26 @@ const TRANSLATIONS = {
     visualTreatment: "Visual Treatment",
     visualTreatmentText:
       "Dekorative Elemente — weiche Farbverläufe mit unscharfen Rändern. Tiefenschärfe-Effekt. Schaffen das Gefühl von lebendigen Medien, Dynamik und Luft. Immer auf hellem oder dunklem Hintergrund, überdecken nie den Hauptinhalt.",
+    mediaTitle: "Media Page",
+    mediaSubtitle: "Seite für visuelle Inhalte: Videos, Bilder, KI-Modelle",
+    mediaTheme: "Theme",
+    mediaThemeDark: "Dunkel (#0f0a1e) — wie Bridge/Blockchain. Für visuelle Inhalte.",
+    mediaStructure: "Struktur",
+    mediaStructureList: [
+      "Overline: «Media» (11px, uppercase, tracking 0.1em)",
+      "H1: Markenverlauf (Electric Blue → Soft Violet → Warm Pink)",
+      "Subtitle: Body M, line-height 1.6",
+      "Sektionen: Marvin, Tribe, Gallery, Character Models",
+    ],
+    mediaContentTypes: "Inhaltstypen",
+    mediaContentList: [
+      "Marvin — KI-generierte Bilder, Karussell 16:10",
+      "Tribe — Community-Visuals, Karussell",
+      "Gallery — Bildergrid/Marquee (Souly etc.)",
+      "Character Models — FLUX LoRA, Karten mit Triggern",
+    ],
+    mediaLanguage: "Sprache: RU/DE über useLanguage()",
+    mediaLocalization: "Lokalisierung",
     motionTitle: "Motion & Animation",
     motionSubtitle: "Bewegung, die inspiriert — nicht nervt",
     motionItems: [
@@ -593,6 +648,14 @@ const TRANSLATIONS = {
       "Mobile-First für alle Digital-Formate",
       "Textkontrast mindestens 4.5:1 (WCAG AA)",
     ],
+    formControlsTitle: "Form Controls",
+    formControlsSubtitle: "Input, Select, Checkbox — einheitlicher Formularstil",
+    formInputSpec: "Input: px-4 py-2, rounded-lg, border #CCCCCC, focus border #4D4D4D. Höhe wie Buttons (py-2). In Formularen — h-12.",
+    formSelectSpec: "CustomSelect: Dropdown wie im Menü. px-4 py-2, Chevron rechts. Komponente @/components/ui/CustomSelect.",
+    formSelectNote: "CustomSelect — Dropdown im Menü-Stil (rounded-lg, border, shadow). Portal in body, Position unter dem Button.",
+    formCheckboxSpec: "Checkbox: 24×24px, border-radius 6px, accent color — Marken-Lila",
+    formClasses: "Input: form-input. Select: CustomSelect (Dropdown im Menü-Stil).",
+    formSelectPlaceholder: "Auswählen...",
     applicationsTitle: "Applications",
     applicationsSubtitle: "Die Marke in der realen Welt — digital und physische Träger",
     merchTshirt: "Merch — T-Shirt",
@@ -1333,8 +1396,9 @@ function Section({
 }
 
 export default function BrandGuidelinesPage() {
-  const [lang, setLang] = useState<Lang>("ru");
+  const { lang } = useLanguage();
   const [active, setActive] = useState("foundation");
+  const [formSelectValue, setFormSelectValue] = useState("");
   const t = TRANSLATIONS[lang];
 
   const scrollTo = (id: string) => {
@@ -1410,52 +1474,6 @@ export default function BrandGuidelinesPage() {
             }}
           >
             <OneTribeIcon size={32} gradientId="sidebar-icon-grad" />
-            <div style={{ display: "flex", gap: 4 }}>
-              <button
-                onClick={() => setLang("ru")}
-                style={{
-                  padding: "6px 10px",
-                  borderRadius: 8,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  background:
-                    lang === "ru"
-                      ? "linear-gradient(90deg, #48E5FF, #B289F9, #F989B4)"
-                      : "transparent",
-                  color: lang === "ru" ? "#fff" : "#808080",
-                  borderWidth: lang === "ru" ? 0 : 1,
-                  borderStyle: "solid",
-                  borderColor: "#E6E6E6",
-                }}
-              >
-                RU
-              </button>
-              <button
-                onClick={() => setLang("de")}
-                style={{
-                  padding: "6px 10px",
-                  borderRadius: 8,
-                  fontSize: 12,
-                  fontWeight: 600,
-                  border: "none",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  background:
-                    lang === "de"
-                      ? "linear-gradient(90deg, #48E5FF, #B289F9, #F989B4)"
-                      : "transparent",
-                  color: lang === "de" ? "#fff" : "#808080",
-                  borderWidth: lang === "de" ? 0 : 1,
-                  borderStyle: "solid",
-                  borderColor: "#E6E6E6",
-                }}
-              >
-                DE
-              </button>
-            </div>
           </div>
           <div
             style={{
@@ -2514,6 +2532,108 @@ export default function BrandGuidelinesPage() {
           </Section>
         </div>
 
+        {/* 6b. MEDIA PAGE */}
+        <div id="media" style={{ scrollMarginTop: 60 }}>
+          <Section
+            title={t.mediaTitle}
+            subtitle={t.mediaSubtitle}
+            sectionLabel={t.sectionLabel}
+          >
+            <div style={{ ...CARD_STYLE, marginBottom: 16 }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 14,
+                }}
+              >
+                {t.mediaTheme}
+              </div>
+              <div style={{ fontSize: 14, color: "#1E1E1E", lineHeight: 1.7 }}>
+                {t.mediaThemeDark}
+              </div>
+            </div>
+            <div style={{ ...CARD_STYLE, marginBottom: 16 }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 14,
+                }}
+              >
+                {t.mediaStructure}
+              </div>
+              {t.mediaStructureList.map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    fontSize: 13,
+                    color: "#1E1E1E",
+                    marginBottom: 7,
+                    display: "flex",
+                    gap: 8,
+                  }}
+                >
+                  <span style={{ color: "#22C55E" }}>✓</span>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div style={{ ...CARD_STYLE, marginBottom: 16 }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 14,
+                }}
+              >
+                {t.mediaContentTypes}
+              </div>
+              {t.mediaContentList.map((item) => (
+                <div
+                  key={item}
+                  style={{
+                    fontSize: 13,
+                    color: "#1E1E1E",
+                    marginBottom: 7,
+                    display: "flex",
+                    gap: 8,
+                  }}
+                >
+                  <span style={{ color: "#22C55E" }}>✓</span>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div style={{ ...CARD_STYLE }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 10,
+                }}
+              >
+                {t.mediaLocalization}
+              </div>
+              <div style={{ fontSize: 14, color: "#1E1E1E", lineHeight: 1.7 }}>
+                {t.mediaLanguage}
+              </div>
+            </div>
+          </Section>
+        </div>
+
         {/* 7. MOTION */}
         <div id="motion" style={{ scrollMarginTop: 60 }}>
           <Section
@@ -2989,746 +3109,95 @@ export default function BrandGuidelinesPage() {
           </Section>
         </div>
 
-        {/* 10. APPLICATIONS */}
-        <div id="applications" style={{ scrollMarginTop: 60 }}>
+        {/* 10. FORM CONTROLS */}
+        <div id="form-controls" style={{ scrollMarginTop: 60 }}>
           <Section
-            title={t.applicationsTitle}
-            subtitle={t.applicationsSubtitle}
+            title={t.formControlsTitle}
+            subtitle={t.formControlsSubtitle}
             sectionLabel={t.sectionLabel}
           >
             <div
               style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.merchTshirt}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
-                <div style={{ minWidth: 0, marginBottom: -40 }}>
-                  <Image
-                    src="/tshirt-mockup-man.png"
-                    alt={t.tshirtAlt}
-                    width={400}
-                    height={520}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 24 }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.classicTee}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      maxWidth: 260,
-                    }}
-                  >
-                    {t.classicTeeDesc}
-                  </div>
-                  <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
-                    {["#FFFFFF", "#1E1E1E", "#6E22F2"].map((c) => (
-                      <div
-                        key={c}
-                        title={c}
-                        style={{
-                          width: 24,
-                          height: 24,
-                          borderRadius: "50%",
-                          background: c,
-                          border: "1px solid rgba(0,0,0,0.12)",
-                          cursor: "pointer",
-                        }}
-                      />
-                    ))}
-                  </div>
-                  <div style={{ marginTop: 8, fontSize: 11, color: "#808080" }}>
-                    {t.availableColors}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.physicalWaterBottle}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
-                <div style={{ minWidth: 0, marginBottom: -40 }}>
-                  <Image
-                    src="/water-bottle.png"
-                    alt={t.waterBottleAlt}
-                    width={360}
-                    height={540}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 24 }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.waterBottleTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 14,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.waterBottleDesc}
-                  </div>
-                  <div style={{ fontSize: 12, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.waterBottleFormat}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.waterBottleStyle}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.physicalStickerPack}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div
-                className="app-grid-2"
-                style={{ gridTemplateColumns: "1.2fr 1fr", padding: "0 40px 40px 0", gap: 32 }}
-              >
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, 1fr)",
-                    gap: 16,
-                    minWidth: 0,
-                    marginBottom: -40,
-                    paddingLeft: 40,
-                  }}
-                >
-                  {[
-                    { src: "/sticker-1-onetribe.png", alt: "onetribe + flame" },
-                    { src: "/sticker-2-letsgo.png", alt: "Let's gooo!" },
-                    { src: "/sticker-3-fullyin.png", alt: "Fully in!" },
-                    { src: "/sticker-4-starting.png", alt: "We are just starting" },
-                    { src: "/sticker-5-feuer.png", alt: "Ich bin Feuer und Flamme" },
-                    { src: "/sticker-6-rocken.png", alt: "Wir rocken das!" },
-                  ].map((s) => (
-                    <div key={s.src} style={{ aspectRatio: "1" }}>
-                      <Image
-                        src={s.src}
-                        alt={s.alt}
-                        width={200}
-                        height={200}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "contain",
-                        }}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div style={{ paddingLeft: 24 }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.stickerPackTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 14,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.stickerPackDesc}
-                  </div>
-                  <div style={{ fontSize: 12, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.stickerFormat}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.stickerStyle}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.physicalCarSticker}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div
-                className="app-grid-2"
-                style={{ gridTemplateColumns: "1.2fr 1fr", padding: "0 40px 40px 0", gap: 32 }}
-              >
-                <div style={{ minWidth: 0, marginBottom: -40 }}>
-                  <Image
-                    src="/car-sticker.png"
-                    alt={t.carStickerAlt}
-                    width={640}
-                    height={426}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      objectFit: "cover",
-                      borderRadius: 8,
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 24 }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.carStickerTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.carStickerDesc}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.carStickerFormat}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.carStickerStyle}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div style={APP_BLOCK_STYLE}>
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 24,
-                }}
-              >
-                {t.digitalStories}
-              </div>
-              <div className="app-grid-2">
-                <div>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.tribeAwakeningStories}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.storiesDesc}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.storiesFormat}
-                    </div>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.fontLabel}</strong> {t.storiesFont}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.bgLabel}</strong> {t.storiesBg}
-                    </div>
-                  </div>
-                </div>
-                <StoriesMockup t={t} />
-              </div>
-            </div>
-
-            <div style={APP_BLOCK_STYLE}>
-              <div
-                style={{
-                  fontSize: 10,
-                  fontWeight: 700,
-                  color: "#B289F9",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: 24,
-                }}
-              >
-                {t.digitalInviteCard}
-              </div>
-              <div className="app-grid-2">
-                <div>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.inviteCardTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.inviteCardDesc}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.contextLabel}</strong>{" "}
-                      {t.inviteContext}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong>{" "}
-                      {t.inviteFormat}
-                    </div>
-                  </div>
-                </div>
-                <InviteCardMockup t={t} />
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.physicalFlag}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
-                <div style={{ minWidth: 0, marginBottom: -40 }}>
-                  <Image
-                    src="/flag-mockup.png"
-                    alt={t.flagAlt}
-                    width={560}
-                    height={840}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 24, display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.flagTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.flagDesc}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.flagFormat}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.bgLabel}</strong> {t.flagBg}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.physicalPinBadge}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
-                <div style={{ minWidth: 0, marginBottom: -40 }}>
-                  <Image
-                    src="/pin-badge.png"
-                    alt={t.pinBadgeAlt}
-                    width={400}
-                    height={400}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 24 }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.pinBadgeTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.pinBadgeDesc}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.pinFormat}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.pinStyle}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.physicalRollup}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
-                <div style={{ minWidth: 0, marginBottom: -40 }}>
-                  <Image
-                    src="/rollup-mockup.png"
-                    alt={t.rollupAlt}
-                    width={560}
-                    height={840}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 24 }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.rollupTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.rollupDesc}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.rollupFormat}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.variantsLabel}</strong> {t.rollupVariants}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: 24,
-              }}
-            >
-              {t.physicalChocolate}
-            </div>
-            <div
-              style={{
-                ...CARD_STYLE,
-                padding: 0,
-                overflow: "hidden",
-                marginBottom: 64,
-              }}
-            >
-              <div className="app-grid-2" style={{ padding: "0 40px 40px 0", gap: 32 }}>
-                <div style={{ minWidth: 0, marginBottom: -40 }}>
-                  <Image
-                    src="/chocolate.png"
-                    alt={t.chocolateAlt}
-                    width={480}
-                    height={320}
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 24 }}>
-                  <div
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 12,
-                    }}
-                  >
-                    {t.chocolateTitle}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: "#808080",
-                      lineHeight: 1.7,
-                      marginBottom: 16,
-                    }}
-                  >
-                    {t.chocolateDesc}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    <div style={{ marginBottom: 4 }}>
-                      <strong style={{ color: "#1E1E1E" }}>{t.wrapLabel}</strong> {t.chocolateWrap}
-                    </div>
-                    <div>
-                      <strong style={{ color: "#1E1E1E" }}>{t.styleLabel}</strong> {t.chocolateStyle}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              style={{
-                fontSize: 10,
-                fontWeight: 700,
-                color: "#B289F9",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 16,
                 marginBottom: 16,
               }}
             >
-              {t.brandAtGlance}
-            </div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr",
-                gap: 12,
-              }}
-            >
-              {t.glanceItems.map((f) => (
+              <div style={{ ...CARD_STYLE }}>
                 <div
-                  key={f.name}
                   style={{
-                    padding: 20,
-                    borderRadius: 14,
-                    background: "#fff",
-                    border: "1px solid #E6E6E6",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "#B289F9",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    marginBottom: 14,
                   }}
                 >
-                  <div
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: "#1E1E1E",
-                      marginBottom: 4,
-                    }}
-                  >
-                    {f.name}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: 10,
-                      fontFamily: "monospace",
-                      color: "#B289F9",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {f.size}
-                  </div>
-                  <div style={{ fontSize: 11, color: "#808080" }}>
-                    {f.note}
-                  </div>
+                  Input
                 </div>
-              ))}
+                <div style={{ fontSize: 13, color: "#1E1E1E", marginBottom: 12, lineHeight: 1.5 }}>
+                  {t.formInputSpec}
+                </div>
+                <input
+                  type="text"
+                  placeholder="Placeholder..."
+                  className="form-input w-full px-4 py-2 rounded-lg border border-[#CCCCCC] bg-white text-[#1E1E1E] text-sm font-semibold placeholder:text-[#808080] focus:border-[#4D4D4D] focus:ring-2 focus:ring-[#E6E6E6] outline-none"
+                />
+              </div>
+              <div style={{ ...CARD_STYLE }}>
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "#B289F9",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    marginBottom: 14,
+                  }}
+                >
+                  Select
+                </div>
+                <div style={{ fontSize: 13, color: "#1E1E1E", marginBottom: 12, lineHeight: 1.5 }}>
+                  {t.formSelectSpec}
+                </div>
+                <CustomSelect
+                  value={formSelectValue}
+                  onChange={setFormSelectValue}
+                  options={[{ value: "", label: t.formSelectPlaceholder }]}
+                  placeholder={t.formSelectPlaceholder}
+                  className="w-full"
+                />
+                <div style={{ fontSize: 11, color: "#808080", marginTop: 10 }}>
+                  {t.formSelectNote}
+                </div>
+              </div>
+            </div>
+            <div style={{ ...CARD_STYLE }}>
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  color: "#B289F9",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  marginBottom: 14,
+                }}
+              >
+                Checkbox & Toggle
+              </div>
+              <div style={{ fontSize: 13, color: "#1E1E1E", marginBottom: 12 }}>
+                {t.formCheckboxSpec}
+              </div>
+              <div style={{ fontSize: 11, color: "#808080" }}>
+                {t.formClasses}
+              </div>
             </div>
           </Section>
         </div>
+
+        {/* APPLICATIONS MOVED TO /tribe/merch */}
 
         {/* Footer */}
         <div

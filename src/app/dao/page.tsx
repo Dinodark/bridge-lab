@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Inter_Tight } from "next/font/google";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
@@ -144,7 +145,7 @@ const TRANSLATIONS = {
 type Lang = keyof typeof TRANSLATIONS;
 
 export default function DaoPage() {
-  const [lang, setLang] = useState<Lang>("ru");
+  const { lang } = useLanguage();
   const t = TRANSLATIONS[lang];
 
   return (
@@ -161,30 +162,6 @@ export default function DaoPage() {
       />
 
       <div className="relative max-w-[900px] mx-auto px-6 py-16 sm:py-24">
-        {/* Language switcher */}
-        <div className="flex justify-end gap-2 mb-12">
-          <button
-            onClick={() => setLang("ru")}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-              lang === "ru"
-                ? "bg-gradient-to-r from-[#48E5FF] via-[#B289F9] to-[#F989B4] text-white"
-                : "text-[#808080] hover:text-[#1E1E1E] border border-[#E6E6E6] hover:border-[#B289F9]/50"
-            }`}
-          >
-            RU
-          </button>
-          <button
-            onClick={() => setLang("de")}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
-              lang === "de"
-                ? "bg-gradient-to-r from-[#48E5FF] via-[#B289F9] to-[#F989B4] text-white"
-                : "text-[#808080] hover:text-[#1E1E1E] border border-[#E6E6E6] hover:border-[#B289F9]/50"
-            }`}
-          >
-            DE
-          </button>
-        </div>
-
         {/* Header */}
         <header className="text-center mb-16 sm:mb-20 animate-fade-up">
           <div

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import LayoutContent from "@/components/LayoutContent";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import GlobalMenu from "@/components/GlobalMenu";
 
 const geistSans = Geist({
@@ -36,7 +37,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem("onebridge-theme");document.documentElement.setAttribute("data-theme",t==="onebridge"||t==="onetribe"?t:"onetribe")}catch(e){document.documentElement.setAttribute("data-theme","onetribe")}})();`,
+            __html: `document.documentElement.setAttribute("data-theme","onetribe");(function(){try{var l=localStorage.getItem("bridge-lang");document.documentElement.lang=l==="de"?"de":"ru"}catch(e){}})();`,
           }}
         />
       </head>
@@ -44,8 +45,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${interTight.variable} antialiased`}
       >
         <ThemeProvider>
-          <GlobalMenu />
-          <LayoutContent>{children}</LayoutContent>
+          <LanguageProvider>
+            <GlobalMenu />
+            <LayoutContent>{children}</LayoutContent>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

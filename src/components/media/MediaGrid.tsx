@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { T } from "@/app/media/translations";
 
 const SOULY_IMAGES = [
   "/souly/0aeptxz9jxrmw0cw7wrbf0std8.webp",
@@ -16,12 +18,14 @@ const SOULY_IMAGES = [
 ];
 
 export default function MediaGrid() {
+  const { lang } = useLanguage();
+  const t = T[lang];
   const images = [...SOULY_IMAGES, ...SOULY_IMAGES];
 
   return (
     <section className="py-16 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <h2 className="text-xl font-semibold text-white/90">Галерея</h2>
+        <h2 className="text-xl font-semibold text-white/90">{t.gallery}</h2>
       </div>
       <div className="w-screen relative left-1/2 -translate-x-1/2 overflow-hidden">
         <div className="flex gap-2 min-w-max animate-marquee">

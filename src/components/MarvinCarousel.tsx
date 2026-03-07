@@ -2,6 +2,8 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { T } from "@/app/media/translations";
 
 const MARVIN_IMAGES = [
   "/marvin/out-0%20(1).webp",
@@ -19,6 +21,8 @@ interface MarvinCarouselProps {
 }
 
 export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProps) {
+  const { lang } = useLanguage();
+  const t = T[lang];
   const isDark = variant === "dark";
   const borderClass = isDark ? "border-white/10" : "";
   const textClass = isDark ? "text-white/70" : "";
@@ -55,7 +59,7 @@ export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProp
       <div className="w-[1024px] min-w-[1024px] mx-auto">
         <div className="flex items-center justify-between mb-6 px-4">
           <h2 className={`text-lg font-semibold uppercase tracking-wider ${textClass}`} style={textStyle}>
-            Marvin
+            {t.marvin}
           </h2>
           <span className={`text-xs ${textClass}`} style={textStyle}>
             {index + 1} / {MARVIN_IMAGES.length}

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type TriAnim = "none" | "rotate" | "pulse-ball" | "scale" | "rotate-slow" | "flicker" | "float";
-type Lang = "ru" | "de";
 
 const THEMES = {
   fire: {
@@ -121,21 +121,10 @@ const UI = {
   de: { subtitle: "Tribe · Lebendige Identität", keys: "Tasten 1–6" },
 };
 
-const LANG_KEY = "tribe-lang";
-
 export default function TribePage() {
+  const { lang } = useLanguage();
   const [theme, setTheme] = useState<ThemeKey>("fire");
-  const [lang, setLang] = useState<Lang>(() => {
-    if (typeof window === "undefined") return "ru";
-    const stored = localStorage.getItem(LANG_KEY);
-    return stored === "de" ? "de" : "ru";
-  });
   const [flash, setFlash] = useState(false);
-
-  const setLangAndStore = (l: Lang) => {
-    setLang(l);
-    if (typeof window !== "undefined") localStorage.setItem(LANG_KEY, l);
-  };
   const triCanvasRef = useRef<HTMLCanvasElement>(null);
   const fireCanvasRef = useRef<HTMLCanvasElement>(null);
   const waterOrbitRef = useRef<HTMLCanvasElement>(null);
@@ -448,26 +437,6 @@ export default function TribePage() {
         <span className="text-[10px] tracking-[0.2em] text-white/25 uppercase">
           {UI[lang].subtitle}
         </span>
-        <div className="flex gap-1">
-          <button
-            type="button"
-            onClick={() => setLangAndStore("ru")}
-            className={`px-2 py-0.5 text-[9px] uppercase tracking-wider rounded transition-colors ${
-              lang === "ru" ? "bg-white/15 text-white" : "text-white/40 hover:text-white/60"
-            }`}
-          >
-            RU
-          </button>
-          <button
-            type="button"
-            onClick={() => setLangAndStore("de")}
-            className={`px-2 py-0.5 text-[9px] uppercase tracking-wider rounded transition-colors ${
-              lang === "de" ? "bg-white/15 text-white" : "text-white/40 hover:text-white/60"
-            }`}
-          >
-            DE
-          </button>
-        </div>
       </div>
       <div className="fixed top-20 right-6 text-[10px] tracking-[0.2em] text-white/25 uppercase z-[60]">
         v2026.1
