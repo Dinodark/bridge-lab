@@ -203,6 +203,11 @@ export default function GlobalMenu() {
   const { palette } = useTheme();
   const { lang, setLang } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (mobileOpen) document.body.style.overflow = "hidden";
@@ -297,8 +302,9 @@ export default function GlobalMenu() {
         </div>
       </div>
 
-      {/* Mobile menu overlay — portaled to body */}
-      {typeof document !== "undefined" &&
+      {/* Mobile menu overlay — portaled to body, только после mount (избегаем hydration mismatch) */}
+      {mounted &&
+        typeof document !== "undefined" &&
         createPortal(
           <div
             className={`fixed inset-x-0 top-14 bottom-0 z-[100] flex flex-col overflow-y-auto md:hidden transition-opacity duration-300 ${mobileOpen ? "visible opacity-100" : "invisible opacity-0 pointer-events-none"}`}

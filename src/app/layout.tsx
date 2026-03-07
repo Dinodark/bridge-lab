@@ -22,6 +22,7 @@ const interTight = Inter_Tight({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://bridge.example.com"),
   title: "OneBridge — Блокчейн, криптовалюты и благотворительность",
   description:
     "Децентрализованная платформа. Tribe и Bridge — два бренда в одном пространстве.",
