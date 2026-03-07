@@ -62,21 +62,40 @@ export default function BuiltByBelievers() {
                 </div>
               </div>
               <p className="mt-6 text-white/80 italic">&ldquo;{t.quote}&rdquo;</p>
-              <div className="flex justify-center gap-2 mt-6">
+              <div className="flex items-center justify-center gap-4 mt-6">
                 <button
+                  type="button"
                   onClick={() => setIndex((i) => (i === 0 ? testimonials.length - 1 : i - 1))}
-                  className="p-2 rounded-full btn-ghost-violet"
+                  className="group relative p-3 text-white flex items-center justify-center transition-all duration-300"
+                  aria-label="Предыдущее"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  <span className="absolute inset-0 rounded-full border-2 border-transparent opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 group-hover:border-white group-hover:shadow-[0_0_24px_rgba(255,255,255,0.2)]" />
+                  <svg className="relative w-10 h-10 -translate-x-1 transition-transform duration-300 group-hover:translate-x-0" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
+                <div className="flex gap-2">
+                  {testimonials.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setIndex(i)}
+                      className={`h-1 rounded-full transition-all duration-700 ease-in-out ${
+                        i === index ? "w-8 bg-white" : "w-1 bg-white/40 hover:bg-white/60"
+                      }`}
+                      aria-label={`Перейти к ${i + 1}`}
+                    />
+                  ))}
+                </div>
                 <button
+                  type="button"
                   onClick={() => setIndex((i) => (i === testimonials.length - 1 ? 0 : i + 1))}
-                  className="p-2 rounded-full btn-ghost-violet"
+                  className="group relative p-3 text-white flex items-center justify-center transition-all duration-300"
+                  aria-label="Следующее"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <span className="absolute inset-0 rounded-full border-2 border-transparent opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 group-hover:border-white group-hover:shadow-[0_0_24px_rgba(255,255,255,0.2)]" />
+                  <svg className="relative w-10 h-10 translate-x-1 transition-transform duration-300 group-hover:translate-x-0" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
               </div>

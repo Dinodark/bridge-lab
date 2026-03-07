@@ -15,7 +15,7 @@ export default function CreateEventPage() {
   const [type, setType] = useState<"online" | "onsite" | "hybrid">("online");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [category, setCategory] = useState(t.categoryOptions[0]);
+  const [category, setCategory] = useState<string>(t.categoryOptions[0]);
 
   useEffect(() => {
     setCategory(t.categoryOptions[0]);

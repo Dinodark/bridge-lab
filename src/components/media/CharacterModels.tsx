@@ -17,8 +17,8 @@ interface LoRAModel {
 const MODELS: Omit<LoRAModel, "name" | "description">[] = [
   {
     id: "1",
-    triggers: ["bridge guardian", "digital art", "violet cyan"],
-    image: "https://images.unsplash.com/photo-1634017839464-5c339bbe3c35?w=600&h=800&fit=crop",
+    triggers: ["souly"],
+    image: "/souly/0aeptxz9jxrmw0cw7wrbf0std8.webp",
     link: "#",
   },
   {
@@ -29,8 +29,8 @@ const MODELS: Omit<LoRAModel, "name" | "description">[] = [
   },
 ];
 
-const MODEL_KEYS = ["modelBridgeGuardian", "modelMarv"] as const;
-const MODEL_DESC_KEYS = ["modelBridgeGuardianDesc", "modelMarvDesc"] as const;
+const MODEL_KEYS = ["modelSouly", "modelMarv"] as const;
+const MODEL_DESC_KEYS = ["modelSoulyDesc", "modelMarvDesc"] as const;
 
 export function LikePopup({
   open,
@@ -131,6 +131,21 @@ export default function CharacterModels() {
                   <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-violet-600/80 text-white text-xs font-medium">
                     FLUX LoRA
                   </div>
+                  <a
+                    href="https://replicate.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-2 right-2 w-8 h-8 rounded-lg bg-black/60 backdrop-blur-sm flex items-center justify-center hover:bg-black/80 transition-colors"
+                    aria-label="Replicate"
+                  >
+                    <img
+                      src="https://unpkg.com/@lobehub/icons-static-svg@latest/icons/replicate.svg"
+                      alt="Replicate"
+                      width={20}
+                      height={20}
+                      className="opacity-90"
+                    />
+                  </a>
                 </div>
                 <div className="flex-1 p-6 flex flex-col">
                   <h3 className="text-xl font-bold text-white mb-2">{model.name}</h3>

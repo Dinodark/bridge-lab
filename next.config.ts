@@ -17,6 +17,11 @@ const nextConfig: NextConfig = {
         hostname: "replicate.delivery",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "unpkg.com",
+        pathname: "/**",
+      },
     ],
   },
 };

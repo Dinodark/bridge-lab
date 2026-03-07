@@ -144,7 +144,7 @@ export default function EventsPage() {
   );
 }
 
-function EventCard({ event, t }: { event: (typeof MOCK_EVENTS)[0]; t: (typeof T)["ru"] }) {
+function EventCard({ event, t }: { event: (typeof MOCK_EVENTS)[0]; t: (typeof T)["ru"] | (typeof T)["de"] }) {
   return (
     <Link
       href={`/tribe-dev/events/${event.id}`}

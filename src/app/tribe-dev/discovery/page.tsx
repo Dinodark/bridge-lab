@@ -12,7 +12,7 @@ export default function DiscoveryPage() {
   const tribes = t.mockTribes;
 
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState(categories[0]);
+  const [category, setCategory] = useState<string>(categories[0]);
 
   return (
     <div className="max-w-[1116px] mx-auto px-4 sm:px-6 py-8">

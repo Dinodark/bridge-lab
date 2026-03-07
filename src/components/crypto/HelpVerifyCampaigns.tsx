@@ -44,10 +44,11 @@ export default function HelpVerifyCampaigns() {
         <div className="relative overflow-hidden lg:overflow-visible">
           <button
             onClick={() => scroll("left")}
-            className="hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 items-center justify-center rounded-full bg-white shadow-lg border border-zinc-200 hover:bg-zinc-50"
+            className="group hidden lg:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 p-3 text-zinc-700 items-center justify-center transition-all duration-300"
           >
-            <svg className="w-5 h-5 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <span className="absolute inset-0 rounded-full border-2 border-transparent opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 group-hover:border-zinc-400 group-hover:shadow-[0_0_24px_rgba(0,0,0,0.08)] group-hover:bg-white" />
+            <svg className="relative w-10 h-10 -translate-x-1 transition-transform duration-300 group-hover:translate-x-0" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
@@ -91,10 +92,11 @@ export default function HelpVerifyCampaigns() {
 
           <button
             onClick={() => scroll("right")}
-            className="hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 items-center justify-center rounded-full bg-white shadow-lg border border-zinc-200 hover:bg-zinc-50"
+            className="group hidden lg:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 p-3 text-zinc-700 items-center justify-center transition-all duration-300"
           >
-            <svg className="w-5 h-5 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <span className="absolute inset-0 rounded-full border-2 border-transparent opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 group-hover:border-zinc-400 group-hover:shadow-[0_0_24px_rgba(0,0,0,0.08)] group-hover:bg-white" />
+            <svg className="relative w-10 h-10 translate-x-1 transition-transform duration-300 group-hover:translate-x-0" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
         </div>
