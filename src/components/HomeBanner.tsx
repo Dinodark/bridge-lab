@@ -86,7 +86,15 @@ export default function HomeBanner() {
   return (
     <div
       className="home-banner relative overflow-hidden w-full rounded-b-xl"
-      style={{ borderColor: "var(--color-border)", borderWidth: 1, borderStyle: "solid", borderTopWidth: 0, aspectRatio: "16/9", minHeight: 200 }}
+      style={{
+        borderColor: "var(--color-border)",
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderTopWidth: 0,
+        /* Golden ratio: 1/φ ≈ 61.8% of viewport (Fibonacci 55/89) */
+        height: "61.8vh",
+        minHeight: 240,
+      }}
     >
       {/* Blurred background */}
       <div className="absolute inset-0">

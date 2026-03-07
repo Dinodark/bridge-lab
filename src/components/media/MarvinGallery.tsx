@@ -6,6 +6,18 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { T } from "@/app/media/translations";
 import { MARVIN_ITEMS } from "./marvinGalleryData";
 
+type DriftDir = "left" | "down" | "up";
+const DRIFT_DIRS: DriftDir[] = ["left", "down", "up"];
+
+const DYNAMIC_FACTORS = [1, 0.5, 0.85, 0.25, 0.9, 0.05, 0.65, 0.75, 0.15, 0.7, 0.45, 0.95, 0.05, 0.55, 0.35, 0.8, 0.2, 0.6, 0.9, 0.05];
+
+function getDriftTransform(dir: DriftDir, phase: number, factor = 1): string {
+  const t = Math.sin(phase * Math.PI * 2) * 6 * factor;
+  if (dir === "left") return `translateX(${-t}%)`;
+  if (dir === "down") return `translateY(${t}%)`;
+  return `translateY(${-t}%)`;
+}
+
 function rgbToHex(r: number, g: number, b: number) {
   return "#" + [r, g, b].map((x) => x.toString(16).padStart(2, "0")).join("");
 }
@@ -79,7 +91,10 @@ export default function MarvinGallery() {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [likes, setLikes] = useState<Record<number, boolean>>({});
   const [gradients, setGradients] = useState<Record<number, string>>({});
+  const [parallaxOffsets, setParallaxOffsets] = useState<number[]>([]);
+  const [scrollPhases, setScrollPhases] = useState<number[]>(() => MARVIN_ITEMS.map(() => 0));
   const gradientsRequested = useRef<Set<number>>(new Set());
+  const sectionRef = useRef<HTMLElement | null>(null);
   const defaultGradient = "linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%)";
 
   const toggleLike = (index: number, e: React.MouseEvent) => {
@@ -93,6 +108,34 @@ export default function MarvinGallery() {
   const goNext = () => {
     setSelectedIndex((i) => (i === null ? null : (i + 1) % MARVIN_ITEMS.length));
   };
+
+  useEffect(() => {
+    const onScroll = () => {
+      const section = sectionRef.current;
+      const rect = section?.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const sectionCenter = rect ? rect.top + rect.height / 2 : viewportCenter;
+      const distance = sectionCenter - viewportCenter;
+      const offsets = MARVIN_ITEMS.map((_, i) => {
+        const baseFactor = (i % 7) - 3;
+        const dyn = DYNAMIC_FACTORS[i % DYNAMIC_FACTORS.length];
+        return distance * 0.06 * baseFactor * dyn;
+      });
+      setParallaxOffsets(offsets);
+      const baseDelay = 400;
+      const stagger = 120;
+      const cycle = 1400;
+      const phases = MARVIN_ITEMS.map((_, i) => {
+        const delayedScroll = Math.max(0, window.scrollY - baseDelay - i * stagger);
+        const raw = (delayedScroll / cycle) % 1;
+        return raw < 0.5 ? 4 * raw * raw * raw : 1 - Math.pow(-2 * raw + 2, 3) / 2;
+      });
+      setScrollPhases(phases);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (selectedIndex === null) return;
@@ -118,7 +161,7 @@ export default function MarvinGallery() {
   }, [selectedIndex]);
 
   return (
-    <section className="py-16 w-full overflow-hidden">
+    <section ref={sectionRef} className="py-16 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <h2 className="text-xl font-semibold text-white/90">{t.marvin} — {t.gallery}</h2>
       </div>
@@ -133,13 +176,25 @@ export default function MarvinGallery() {
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedIndex(i); } }}
               className="group relative aspect-square overflow-hidden rounded-2xl text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-[#0f0a1e]"
             >
-              <Image
-                src={item.src}
-                alt={item.title[lang]}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-                sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
-              />
+              <div
+                className="absolute inset-0 transition-transform duration-[2472ms] ease-out"
+                style={{ transform: `translateY(${parallaxOffsets[i] ?? 0}px)` }}
+              >
+                <div
+                  className="absolute inset-0 transition-transform duration-[2472ms] ease-out"
+                  style={{
+                    transform: `scale(2) ${getDriftTransform(DRIFT_DIRS[i % 3], scrollPhases[i] ?? 0, DYNAMIC_FACTORS[i % DYNAMIC_FACTORS.length])}`,
+                  }}
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.title[lang]}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+                  />
+                </div>
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-3">
                 <p className="text-sm font-medium text-white/95 truncate drop-shadow-lg">{item.title[lang]}</p>

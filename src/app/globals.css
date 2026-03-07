@@ -98,6 +98,8 @@ body {
   animation: marquee-reverse 90s linear infinite;
 }
 
+/* Marvin Gallery — drift driven by scroll (see MarvinGallery.tsx) */
+
 @keyframes dao-pulse {
   0%,
   100% {

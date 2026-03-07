@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { T } from "@/app/media/translations";
+
+const DYNAMIC_FACTORS = [0.9, 0.7];
 
 interface LoRAModel {
   id: string;
@@ -94,6 +96,40 @@ export default function CharacterModels() {
   const t = T[lang];
   const [popupOpen, setPopupOpen] = useState<string | null>(null);
   const [popupLiked, setPopupLiked] = useState<Record<string, boolean>>({});
+  const [scrollScales, setScrollScales] = useState<number[]>(() => MODELS.map(() => 1));
+  const [parallaxOffsets, setParallaxOffsets] = useState<number[]>(() => MODELS.map(() => 0));
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const lastUpdate = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const now = performance.now();
+      if (now - lastUpdate.current < 100) return;
+      lastUpdate.current = now;
+      const section = sectionRef.current;
+      const rect = section?.getBoundingClientRect();
+      const viewportCenter = window.innerHeight / 2;
+      const sectionCenter = rect ? rect.top + rect.height / 2 : viewportCenter;
+      const distance = sectionCenter - viewportCenter;
+      const baseDelay = 400;
+      const scaleRaw = Math.max(0, (window.scrollY - baseDelay) / 800);
+      const scalePhase = Math.min(1, scaleRaw);
+      const eased = scalePhase < 0.5 ? 4 * scalePhase * scalePhase * scalePhase : 1 - Math.pow(-2 * scalePhase + 2, 3) / 2;
+      const scales = MODELS.map((_, i) => 1 + eased * 0.35 * DYNAMIC_FACTORS[i % DYNAMIC_FACTORS.length]);
+      setScrollScales(scales);
+      setParallaxOffsets(
+        MODELS.map((_, i) => {
+          const baseFactor = (i % 7) - 3;
+          const dyn = DYNAMIC_FACTORS[i % DYNAMIC_FACTORS.length];
+          const scaleInfluence = scales[i] - 1;
+          return distance * 0.04 * baseFactor * dyn * scaleInfluence;
+        })
+      );
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const modelsWithText = MODELS.map((m, i) => ({
     ...m,
@@ -102,7 +138,7 @@ export default function CharacterModels() {
   }));
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
+    <section ref={sectionRef} className="py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
@@ -114,20 +150,28 @@ export default function CharacterModels() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-          {modelsWithText.map((model) => (
+          {modelsWithText.map((model, i) => (
             <div
               key={model.id}
               className="group rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04] backdrop-blur-md transition-all duration-300 hover:border-violet-400/30 hover:shadow-[0_0_32px_rgba(139,92,246,0.2)]"
             >
               <div className="flex flex-col sm:flex-row">
-                <div className="relative w-full sm:w-56 flex-shrink-0 aspect-[3/4] sm:aspect-square">
-                  <Image
-                    src={model.image}
-                    alt={model.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 640px) 100vw, 224px"
-                  />
+                <div className="relative w-full sm:w-56 flex-shrink-0 aspect-[3/4] overflow-hidden">
+                  <div
+                    className="absolute inset-0 will-change-transform"
+                    style={{
+                      transform: `translateY(${parallaxOffsets[i] ?? 0}px) scale(${scrollScales[i] ?? 1})`,
+                      transition: "transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+                    }}
+                  >
+                    <Image
+                        src={model.image}
+                        alt={model.name}
+                        fill
+                        className="object-cover object-center"
+                        sizes="(max-width: 640px) 100vw, 224px"
+                      />
+                  </div>
                   <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-violet-600/80 text-white text-xs font-medium">
                     FLUX LoRA
                   </div>
