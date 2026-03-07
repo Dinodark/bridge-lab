@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { THEME_KEYS, BRAND_COLORS_RGBA, type ThemeKey } from "@/lib/brand-library";
+import ThemeIcon from "@/components/icons/ThemeIcons";
 
 type TriAnim = "none" | "rotate" | "pulse-ball" | "scale" | "rotate-slow" | "flicker" | "float";
 
@@ -92,29 +94,17 @@ const THEMES = {
     descRu: "Тишина перед рождением нового. Из пустоты — всё возможное.",
     descDe: "Stille vor der Geburt des Neuen. Aus der Leere — alles möglich.",
     triAnim: "float" as TriAnim,
-    bg: "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 50%)",
+    bg: "radial-gradient(ellipse 60% 40% at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 50%)",
     c1: "#ffffff",
-    c2: "#888888",
-    glow: "rgba(255,255,255,0.2)",
-    blur: 2,
-    pulse: 0.12,
-    mkColor: () => `hsl(0,0%,${60 + Math.random() * 35}%)`,
+    c2: "#e0e0e0",
+    glow: "rgba(255,255,255,0.5)",
+    blur: 3,
+    pulse: 0.4,
+    mkColor: () => `hsl(0,0%,${75 + Math.random() * 25}%)`,
     up: true,
     count: 12,
   },
 } as const;
-
-type ThemeKey = keyof typeof THEMES;
-
-const THEME_KEYS: ThemeKey[] = ["fire", "water", "earth", "cosmos", "storm", "void"];
-const THEME_ICONS: Record<ThemeKey, string> = {
-  fire: "🔥",
-  water: "🌊",
-  earth: "🌿",
-  cosmos: "✦",
-  storm: "⚡",
-  void: "◎",
-};
 
 const UI = {
   ru: { subtitle: "Tribe · Living Identity", keys: "Keys 1–6" },
@@ -128,6 +118,8 @@ export default function TribePage() {
   const triCanvasRef = useRef<HTMLCanvasElement>(null);
   const fireCanvasRef = useRef<HTMLCanvasElement>(null);
   const waterOrbitRef = useRef<HTMLCanvasElement>(null);
+  const cosmosFractalRef = useRef<HTMLCanvasElement>(null);
+  const voidFractalRef = useRef<HTMLCanvasElement>(null);
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
   const timeRef = useRef(0);
 
@@ -175,27 +167,33 @@ export default function TribePage() {
       ctx.clearRect(0, 0, 280, 280);
 
       const cx = 140;
-      const pts: [number, number][] = [[140, 28], [228, 192], [52, 192]];
+      const triPts: [number, number][] = [[140, 28], [228, 192], [52, 192]];
+      const hexPts: [number, number][] = [[140, 58], [211, 99], [211, 181], [140, 222], [69, 181], [69, 99]];
+      const starPts: [number, number][] = [[140, 19], [255, 103], [211, 238], [69, 238], [25, 103]];
+      const pentagonPts: [number, number][] = [[140, 40], [228, 108], [200, 212], [80, 212], [52, 108]];
+      const squarePts: [number, number][] = [[28, 28], [252, 28], [252, 252], [28, 252]];
+      const pts = theme === "fire" ? pentagonPts : theme === "water" ? hexPts : theme === "earth" ? squarePts : theme === "void" ? [] : triPts;
 
-      [2, 1].forEach((layer, i) => {
-        ctx.save();
-        ctx.globalAlpha = (0.04 - i * 0.015) * pulse;
-        ctx.strokeStyle = t.glow;
-        ctx.lineWidth = layer * 8;
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = t.glow;
-        ctx.beginPath();
-        ctx.moveTo(pts[0][0], pts[0][1]);
-        ctx.lineTo(pts[1][0], pts[1][1]);
-        ctx.lineTo(pts[2][0], pts[2][1]);
-        ctx.closePath();
-        ctx.stroke();
-        ctx.restore();
-      });
+      if (pts.length > 0) {
+        [2, 1].forEach((layer, i) => {
+          ctx.save();
+          ctx.globalAlpha = (0.04 - i * 0.015) * pulse;
+          ctx.strokeStyle = t.glow;
+          ctx.lineWidth = layer * 8;
+          ctx.shadowBlur = 20;
+          ctx.shadowColor = t.glow;
+          ctx.beginPath();
+          ctx.moveTo(pts[0][0], pts[0][1]);
+          pts.slice(1).forEach(([x, y]) => ctx.lineTo(x, y));
+          ctx.closePath();
+          ctx.stroke();
+          ctx.restore();
+        });
+      }
 
-      if (theme === "storm") {
+      if (theme === "storm" && pts.length > 0) {
         pts.forEach((p1, i) => {
-          const p2 = pts[(i + 1) % 3];
+          const p2 = pts[(i + 1) % pts.length];
           const f = Math.sin(timeRef.current * 3 + i * 2) * 0.5 + 0.5;
           const sx = p1[0] + (p2[0] - p1[0]) * f;
           const sy = p1[1] + (p2[1] - p1[1]) * f;
@@ -352,6 +350,200 @@ export default function TribePage() {
   }, [theme]);
 
   useEffect(() => {
+    const canvas = cosmosFractalRef.current;
+    if (!canvas || theme !== "cosmos") return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = 280;
+    canvas.height = 280;
+
+    const drawSierpinski = (
+      ax: number, ay: number, bx: number, by: number, cx: number, cy: number,
+      depth: number, pulse: number
+    ) => {
+      if (depth <= 0) return;
+      const alpha = 0.03 + 0.02 * pulse * (1 - depth / 5);
+      ctx.save();
+      ctx.strokeStyle = t.glow;
+      ctx.globalAlpha = alpha;
+      ctx.lineWidth = 0.8;
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = t.glow;
+      ctx.beginPath();
+      ctx.moveTo(ax, ay);
+      ctx.lineTo(bx, by);
+      ctx.lineTo(cx, cy);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.restore();
+
+      const mx1 = (ax + bx) / 2, my1 = (ay + by) / 2;
+      const mx2 = (bx + cx) / 2, my2 = (by + cy) / 2;
+      const mx3 = (cx + ax) / 2, my3 = (cy + ay) / 2;
+
+      drawSierpinski(ax, ay, mx1, my1, mx3, my3, depth - 1, pulse);
+      drawSierpinski(mx1, my1, bx, by, mx2, my2, depth - 1, pulse);
+      drawSierpinski(mx3, my3, mx2, my2, cx, cy, depth - 1, pulse);
+    };
+
+    let raf: number;
+    const draw = () => {
+      timeRef.current += 0.016 * t.pulse;
+      const pulse = 0.7 + 0.3 * Math.sin(timeRef.current * 2);
+      ctx.clearRect(0, 0, 280, 280);
+      drawSierpinski(140, 28, 228, 192, 52, 192, 5, pulse);
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [theme, t.pulse, t.glow]);
+
+  useEffect(() => {
+    const canvas = voidFractalRef.current;
+    if (!canvas || theme !== "void") return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    canvas.width = 280;
+    canvas.height = 280;
+    const cx = 140;
+    const cy = 140;
+
+    const drawAnimatedRing = (
+      tt: number, r: number,
+      lineWBase: number, lineWAmp: number, lineWPhase: number,
+      alphaBase: number, alphaAmp: number, alphaPhase: number,
+      scaleAmp: number
+    ) => {
+      const lw = lineWBase + lineWAmp * Math.sin(tt * 1.2 + lineWPhase);
+      const scale = 1 + scaleAmp * Math.sin(tt * 0.7);
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.scale(scale, scale);
+      ctx.translate(-cx, -cy);
+      ctx.strokeStyle = "rgba(255,255,255,0.9)";
+      ctx.globalAlpha = alphaBase + alphaAmp * Math.sin(tt * 0.6 + alphaPhase);
+      ctx.lineWidth = Math.max(0.5, lw);
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = "rgba(255,255,255,0.5)";
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const BRAND_COLORS = BRAND_COLORS_RGBA;
+    const drawAnimatedRingGradient = (tt: number, rBase: number, baseAngle: number, phase: number) => {
+      const ramp = 1 + 0.85 * (1 - Math.exp(-tt * 0.04));
+      const squash = Math.sin(tt * 1.35 * ramp + phase);
+      const s = 0.24 * squash;
+      const rx = rBase * Math.exp(s);
+      const ry = rBase * Math.exp(-s);
+      const rotation = baseAngle + 0.6 * Math.sin(tt * 0.92 * ramp + phase * 0.7);
+      const lw = 2 + 1.2 * Math.sin(tt * 2.2 * ramp + phase) + 0.6 * Math.sin(tt * 3.1 * ramp + phase * 1.2);
+      const alpha = 0.4 + 0.2 * Math.sin(tt * 1.1 * ramp + phase * 0.5) + 0.08 * Math.sin(tt * 1.8 * ramp + phase);
+      const shimmer = 0.12 * Math.sin(tt * 2.1 * ramp + phase);
+      const gradient = ctx.createConicGradient(tt * 1.5 * ramp + phase * 2, cx, cy);
+      gradient.addColorStop(0, BRAND_COLORS[0] + Math.min(1, 0.88 + shimmer) + ")");
+      gradient.addColorStop(0.25, BRAND_COLORS[1] + Math.min(1, 0.55 + shimmer * 0.6) + ")");
+      gradient.addColorStop(0.5, BRAND_COLORS[2] + Math.min(1, 0.82 + shimmer) + ")");
+      gradient.addColorStop(0.75, BRAND_COLORS[3] + Math.min(1, 0.5 + shimmer * 0.6) + ")");
+      gradient.addColorStop(1, BRAND_COLORS[0] + Math.min(1, 0.88 + shimmer) + ")");
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(rotation);
+      ctx.strokeStyle = gradient;
+      ctx.globalAlpha = alpha;
+      ctx.lineWidth = Math.max(0.5, lw);
+      ctx.shadowBlur = 14 + 6 * Math.sin(tt * 1.2);
+      ctx.shadowColor = "rgba(178,137,249,0.5)";
+      ctx.beginPath();
+      ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const drawCenteredCircle = (
+      tt: number, r: number,
+      lineWBase: number, lineWAmp: number, lineWPhase: number,
+      alphaBase: number, alphaAmp: number, alphaPhase: number
+    ) => {
+      const lw = lineWBase + lineWAmp * Math.sin(tt * 0.8 + lineWPhase);
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,0.9)";
+      ctx.globalAlpha = alphaBase + alphaAmp * Math.sin(tt * 0.6 + alphaPhase);
+      ctx.lineWidth = Math.max(0.5, lw);
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = "rgba(255,255,255,0.5)";
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    };
+
+    const drawOrbitingBallOnEllipse = (
+      tt: number, rx: number, ry: number, ellipseAngle: number, speed: number, phase: number
+    ) => {
+      const c = Math.cos(ellipseAngle);
+      const s = Math.sin(ellipseAngle);
+      const trailSteps = 24;
+      const trailStep = 0.18;
+      for (let k = trailSteps; k >= 0; k--) {
+        const u = tt * speed + phase - k * trailStep;
+        const px = rx * Math.cos(u);
+        const py = ry * Math.sin(u);
+        const bx = cx + px * c - py * s;
+        const by = cy + px * s + py * c;
+        const near = 0.5 + 0.5 * Math.sin(u);
+        const alpha = k === 0 ? (0.2 + 0.75 * near) : 0.35 * (1 - k / trailSteps) * (0.4 + 0.5 * near);
+        const glow = k === 0 ? (4 + 10 * near) : 2;
+        const r = k === 0 ? 2.5 : 2.2 * (1 - k / (trailSteps * 1.5));
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = "rgba(255,255,255,0.95)";
+        ctx.shadowBlur = Math.max(0, glow);
+        ctx.shadowColor = "rgba(255,255,255,0.5)";
+        ctx.beginPath();
+        ctx.arc(bx, by, Math.max(0.5, r), 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    };
+
+    let raf: number;
+    const draw = () => {
+      timeRef.current += 0.016 * t.pulse;
+      const tt = timeRef.current;
+      ctx.clearRect(0, 0, 280, 280);
+      drawAnimatedRing(tt, 55, 1.8, 0.8, 0, 0.4, 0.15, 0, 0.06);
+      drawAnimatedRingGradient(tt, 42, 0, 0);
+      drawAnimatedRingGradient(tt, 42, Math.PI * 2 / 3, Math.PI * 0.66);
+      drawAnimatedRingGradient(tt, 42, Math.PI * 4 / 3, Math.PI * 1.33);
+      drawAnimatedRing(tt, 32, 1.4, 0.7, 1.5, 0.45, 0.12, 1.2, 0.07);
+      drawCenteredCircle(tt, 14, 1.2, 0.4, 2.8, 0.5, 0.1, 2.5);
+      drawOrbitingBallOnEllipse(tt, 68, 24, 0, 4.2, Math.PI / 4);
+      drawOrbitingBallOnEllipse(tt, 68, 24, Math.PI * 2 / 3, 4.2, Math.PI * 0.5 + Math.PI / 4);
+      drawOrbitingBallOnEllipse(tt, 68, 24, Math.PI * 4 / 3, 4.2, Math.PI + Math.PI / 4);
+      const dotAngle = tt * 19.5;
+      const dotX = cx + 14 * Math.cos(dotAngle);
+      const dotY = cy + 14 * Math.sin(dotAngle);
+      ctx.save();
+      ctx.globalAlpha = 0.6 + 0.2 * Math.sin(tt * 0.7);
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = "rgba(255,255,255,0.5)";
+      ctx.beginPath();
+      ctx.arc(dotX, dotY, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
+    return () => cancelAnimationFrame(raf);
+  }, [theme, t.pulse]);
+
+  useEffect(() => {
     const canvas = particleCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -464,11 +656,26 @@ export default function TribePage() {
                 aria-hidden
               />
             )}
+            {theme === "cosmos" && (
+              <canvas
+                ref={cosmosFractalRef}
+                className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+                aria-hidden
+              />
+            )}
+            {theme === "void" && (
+              <canvas
+                ref={voidFractalRef}
+                className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+                aria-hidden
+              />
+            )}
             <svg
               className={`relative z-[2] w-[200px] h-[200px] transition-[filter] duration-500 origin-center ${
                 t.triAnim === "pulse-ball" ? "tribe-tri-pulse-ball" : t.triAnim !== "none" && t.triAnim !== "rotate" && t.triAnim !== "rotate-slow" ? `tribe-tri-${t.triAnim}` : ""
               }`}
-              viewBox="0 0 240 240"
+              viewBox={theme === "cosmos" ? "-20 -20 280 280" : "0 0 240 240"}
+              overflow="visible"
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
@@ -488,24 +695,152 @@ export default function TribePage() {
                   <stop offset="100%" stopColor="#fff" stopOpacity={0.01} />
                 </linearGradient>
               </defs>
-              <polygon
-                points="120,16 218,188 22,188"
-                fill="url(#ig)"
-                stroke="url(#tg)"
-                strokeWidth={1.2}
-                filter="url(#gf)"
-              />
-              <polygon
-                points="120,62 172,158 68,158"
-                fill="none"
-                stroke="url(#tg)"
-                strokeWidth={0.6}
-                opacity={0.2}
-              />
-              <circle className="tribe-ball" cx="120" cy="126" r="2.5" fill="url(#tg)" opacity={0.5} />
-              <circle cx="120" cy="16" r="2" fill="url(#tg)" opacity={0.5} />
-              <circle cx="218" cy="188" r="2" fill="url(#tg)" opacity={0.5} />
-              <circle cx="22" cy="188" r="2" fill="url(#tg)" opacity={0.5} />
+              {theme === "fire" ? (
+                <>
+                  <polygon
+                    points="120,16 144,88 219,88 158,132 181,204 120,160 59,204 82,132 21,88 96,88"
+                    fill="url(#ig)"
+                    stroke="url(#tg)"
+                    strokeWidth={1.2}
+                    filter="url(#gf)"
+                  />
+                  <polygon
+                    points="120,68 132,104 169,104 139,126 151,162 120,140 89,162 101,126 71,104 108,104"
+                    fill="none"
+                    stroke="url(#tg)"
+                    strokeWidth={0.6}
+                    opacity={0.2}
+                  />
+                </>
+              ) : theme === "water" ? (
+                <>
+                  <polygon
+                    points="120,16 210,68 210,172 120,224 30,172 30,68"
+                    fill="url(#ig)"
+                    stroke="url(#tg)"
+                    strokeWidth={1.2}
+                    filter="url(#gf)"
+                  />
+                  <polygon
+                    points="120,68 169,104 169,136 120,172 71,136 71,104"
+                    fill="none"
+                    stroke="url(#tg)"
+                    strokeWidth={0.6}
+                    opacity={0.2}
+                  />
+                </>
+              ) : theme === "cosmos" ? (
+                <>
+                  <polygon
+                    points="120,-8 235,177 5,177"
+                    fill="url(#ig)"
+                    stroke="url(#tg)"
+                    strokeWidth={1.2}
+                    filter="url(#gf)"
+                  />
+                  <polygon
+                    points="120,248 5,56 235,56"
+                    fill="none"
+                    stroke="url(#tg)"
+                    strokeWidth={1.2}
+                    opacity={0.4}
+                    filter="url(#gf)"
+                  />
+                  <g opacity={0.25} stroke="url(#tg)" strokeWidth={0.5} fill="none">
+                    <polygon points="120,16 169,102 71,102" />
+                    <polygon points="71,102 22,188 120,188" />
+                    <polygon points="169,102 218,188 120,188" />
+                    <polygon points="120,55 145,79 95,79" />
+                    <polygon points="95,79 71,102 120,102" />
+                    <polygon points="145,79 169,102 120,102" />
+                    <polygon points="120,102 145,145 95,145" />
+                    <polygon points="95,145 71,188 120,188" />
+                    <polygon points="145,145 169,188 120,188" />
+                  </g>
+                </>
+              ) : theme === "earth" ? (
+                <>
+                  <rect
+                    x="24"
+                    y="24"
+                    width="192"
+                    height="192"
+                    fill="url(#ig)"
+                    stroke="url(#tg)"
+                    strokeWidth={1.2}
+                    filter="url(#gf)"
+                  />
+                  <circle
+                    cx="120"
+                    cy="120"
+                    r="60"
+                    fill="none"
+                    stroke="url(#tg)"
+                    strokeWidth={0.6}
+                    opacity={0.2}
+                  />
+                </>
+              ) : theme === "void" ? null : (
+                <>
+                  <polygon
+                    points="120,16 218,188 22,188"
+                    fill="url(#ig)"
+                    stroke="url(#tg)"
+                    strokeWidth={1.2}
+                    filter="url(#gf)"
+                  />
+                  <polygon
+                    points="120,62 172,158 68,158"
+                    fill="none"
+                    stroke="url(#tg)"
+                    strokeWidth={0.6}
+                    opacity={0.2}
+                  />
+                </>
+              )}
+              {theme !== "void" && (
+                <circle className="tribe-ball" cx="120" cy={theme === "cosmos" ? 119 : 126} r="2.5" fill="url(#tg)" opacity={0.5} />
+              )}
+              {theme === "fire" ? (
+                <>
+                  <circle cx="120" cy="16" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="219" cy="88" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="181" cy="204" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="59" cy="204" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="21" cy="88" r="2.5" fill="url(#tg)" opacity={0.5} />
+                </>
+              ) : theme === "water" ? (
+                <>
+                  <circle cx="120" cy="16" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="210" cy="68" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="210" cy="172" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="120" cy="224" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="30" cy="172" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="30" cy="68" r="2.5" fill="url(#tg)" opacity={0.5} />
+                </>
+              ) : theme === "cosmos" ? (
+                <>
+                  <circle cx="120" cy="-8" r="4" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="235" cy="177" r="4" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="5" cy="177" r="4" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="120" cy="248" r="4" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="5" cy="56" r="4" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="235" cy="56" r="4" fill="url(#tg)" opacity={0.5} />
+                </>
+              ) : theme === "earth" ? (
+                <>
+                  <circle cx="24" cy="24" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="216" cy="24" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="216" cy="216" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="24" cy="216" r="2.5" fill="url(#tg)" opacity={0.5} />
+                </>
+              ) : theme === "void" ? null : (
+                <>
+                  <circle cx="120" cy="16" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="218" cy="188" r="2.5" fill="url(#tg)" opacity={0.5} />
+                  <circle cx="22" cy="188" r="2.5" fill="url(#tg)" opacity={0.5} />
+                </>
+              )}
             </svg>
           </div>
 
@@ -533,14 +868,21 @@ export default function TribePage() {
             key={key}
             type="button"
             onClick={() => applyTheme(key)}
-            className={`w-12 h-12 rounded-full flex items-center justify-center text-xl transition-all duration-300 outline-none border ${
+            style={{ "--icon-color": THEMES[key].c1 } as React.CSSProperties}
+            className={`group w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 outline-none border ${
               theme === key
                 ? "bg-white/12 border-white/35 scale-110 shadow-[0_0_20px_rgba(255,255,255,0.08)]"
                 : "bg-white/[0.04] border-white/[0.07] hover:bg-white/10 hover:scale-105"
             }`}
             title={lang === "ru" ? THEMES[key].nameRu : THEMES[key].nameDe}
           >
-            {THEME_ICONS[key]}
+            <ThemeIcon
+              theme={key}
+              className={`w-5 h-5 transition-colors duration-300 ${
+                theme === key ? "[color:var(--icon-color)]" : "text-white/60 group-hover:[color:var(--icon-color)]"
+              }`}
+              size={20}
+            />
           </button>
         ))}
       </div>
