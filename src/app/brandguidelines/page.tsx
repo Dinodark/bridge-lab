@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import CustomSelect from "@/components/ui/CustomSelect";
+import DaoWaves from "@/components/dao/DaoWaves";
+import DaoSphere from "@/components/dao/DaoSphere";
+import DaoParticles from "@/components/dao/DaoParticles";
 
 // ============================================================
 // BRAND DATA — меняй под любой проект
@@ -322,6 +325,26 @@ const TRANSLATIONS = {
       "Логотип анимируется обводкой (stroke-dashoffset)",
       "Никаких резких вспышек или агрессивных transitions",
     ],
+    daoWavesTitle: "DAO Waves — волны и пузырьки",
+    daoWavesPhilosophy: "Философия",
+    daoWavesPhilosophyText:
+      "Переход от старого мира к новому — не разрыв, а волна. Точки на синусоиде: каждый голос — частица, вместе они образуют ритм. Пузырьки, разлетающиеся вверх и вниз от оси — индивидуальные импульсы, которые не подавляют целое, а обогащают его. Движение туда-сюда: не линейный прогресс, а дыхание системы.",
+    daoWavesMarketing: "Маркетинг",
+    daoWavesMarketingText:
+      "Визуальная метафора децентрализации и соучастия. Использовать на странице DAO, в презентациях о governance, при рассказе о том, как Tribe принимает решения. Эффект передаёт: «мы — волна», «каждый голос — точка на кривой», «движение рождается из множества».",
+    daoWavesMath: "Математика",
+    daoWavesMathText:
+      "Синусоиды: y = A·sin(2π·f·x/w + φ). Толстая волна: A=18, f=2.5, φ анимируется. Тонкие: разные A (8–14), f (3–5), статичный φ. Точки: stroke-dasharray (4 32 / 3 24–28), stroke-dashoffset 0↔−90, ease-in-out, туда-сюда. Пузырьки: canvas, частицы от центра, vy = ±(0.4–1.4), респавн при |y−center| > 120.",
+    daoSphereTitle: "DAO Sphere — шарик и мерцающие кружки",
+    daoSpherePhilosophy: "Философия",
+    daoSpherePhilosophyText:
+      "DAO — децентрализованное ядро. Шарик — это центр, который пульсирует цветом (cyan → violet → pink). Кружки вылетают из центра по 12 углам — символ того, как решения и энергия распространяются из сообщества во все стороны. Мерцание — это не баг, а фича: синхронность с цветом шарика создаёт ощущение живого, дышащего организма.",
+    daoSphereMarketing: "Маркетинг",
+    daoSphereMarketingText:
+      "Использовать на странице DAO, в презентациях о Tribe governance, при рассказе о том, как сообщество принимает решения. Эффект передаёт: «центр — это мы», «все направления равны», «движение рождается изнутри». Мерцание вдохновляет: цвета не статичны, они живут в ритме 4 секунды.",
+    daoSphereTech: "Техника",
+    daoSphereTechText:
+      "Шарик: radial-gradient слои (cyan, violet, pink). Цикл 4s, cubic-bezier. Кружки: canvas, 12 направлений (360°/12), spawn каждые 30 кадров. Радиус растёт от центра (1.5px → 10px). Цвет синхронизирован с шариком через document.timeline.currentTime — все кружки в один момент одного цвета.",
     patternsTitle: "Patterns & Textures",
     patternsSubtitle: "Фирменные декоративные элементы",
     glowBlobs: "Glow Blobs",
@@ -619,6 +642,26 @@ const TRANSLATIONS = {
       "Logo animiert mit Kontur (stroke-dashoffset)",
       "Keine harten Blitze oder aggressiven Transitions",
     ],
+    daoWavesTitle: "DAO Waves — Wellen und Blasen",
+    daoWavesPhilosophy: "Philosophie",
+    daoWavesPhilosophyText:
+      "Der Übergang von der alten zur neuen Welt — kein Bruch, sondern eine Welle. Punkte auf der Sinuskurve: jede Stimme ein Partikel, gemeinsam bilden sie den Rhythmus. Blasen, die sich nach oben und unten von der Achse lösen — individuelle Impulse, die das Ganze nicht unterdrücken, sondern bereichern. Hin-und-her-Bewegung: kein linearer Fortschritt, sondern das Atmen des Systems.",
+    daoWavesMarketing: "Marketing",
+    daoWavesMarketingText:
+      "Visuelle Metapher für Dezentralisierung und Mitbestimmung. Einsetzen auf der DAO-Seite, in Governance-Präsentationen, beim Erzählen, wie Tribe Entscheidungen trifft. Der Effekt vermittelt: «wir sind die Welle», «jede Stimme ein Punkt auf der Kurve», «Bewegung entsteht aus der Vielheit».",
+    daoWavesMath: "Mathematik",
+    daoWavesMathText:
+      "Sinuswellen: y = A·sin(2π·f·x/w + φ). Dicke Welle: A=18, f=2.5, φ animiert. Dünne: verschiedene A (8–14), f (3–5), statisches φ. Punkte: stroke-dasharray (4 32 / 3 24–28), stroke-dashoffset 0↔−90, ease-in-out, hin und her. Blasen: Canvas, Partikel vom Zentrum, vy = ±(0.4–1.4), Respawn bei |y−center| > 120.",
+    daoSphereTitle: "DAO Sphere — Kugel und flimmernde Kreise",
+    daoSpherePhilosophy: "Philosophie",
+    daoSpherePhilosophyText:
+      "DAO — dezentraler Kern. Die Kugel ist das Zentrum, das in Farbe pulsiert (cyan → violet → pink). Kreise fliegen vom Zentrum in 12 Richtungen — Symbol dafür, wie Entscheidungen und Energie sich aus der Community in alle Richtungen ausbreiten. Das Flimmern ist kein Bug, sondern ein Feature: Die Synchronität mit der Kugelfarbe erzeugt das Gefühl eines lebendigen, atmenden Organismus.",
+    daoSphereMarketing: "Marketing",
+    daoSphereMarketingText:
+      "Einsetzen auf der DAO-Seite, in Governance-Präsentationen, beim Erzählen, wie Tribe Entscheidungen trifft. Der Effekt vermittelt: «das Zentrum sind wir», «alle Richtungen sind gleich», «Bewegung entsteht von innen». Das Flimmern inspiriert: Farben sind nicht statisch, sie leben im 4-Sekunden-Rhythmus.",
+    daoSphereTech: "Technik",
+    daoSphereTechText:
+      "Kugel: radial-gradient-Schichten (cyan, violet, pink). Zyklus 4s, cubic-bezier. Kreise: Canvas, 12 Richtungen (360°/12), Spawn alle 30 Frames. Radius wächst vom Zentrum (1.5px → 10px). Farbe synchronisiert mit Kugel durch document.timeline.currentTime — alle Kreise in einem Moment gleichfarbig.",
     patternsTitle: "Patterns & Textures",
     patternsSubtitle: "Markentypische dekorative Elemente",
     glowBlobs: "Glow Blobs",
@@ -2724,6 +2767,235 @@ export default function BrandGuidelinesPage() {
                 </div>
               ))}
             </div>
+
+            {/* DAO Waves — документация эффекта */}
+            <div
+              style={{
+                ...CARD_STYLE,
+                marginTop: 32,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "#1E1E1E",
+                  marginBottom: 20,
+                }}
+              >
+                {t.daoWavesTitle}
+              </div>
+              <div style={{ marginBottom: 24, overflow: "hidden" }}>
+                <DaoWaves contained />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-5">
+                <div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: "#B289F9",
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      marginBottom: 8,
+                    }}
+                  >
+                    {t.daoWavesPhilosophy}
+                  </div>
+                  <div style={{ fontSize: 12, color: "#444", lineHeight: 1.6 }}>
+                    {t.daoWavesPhilosophyText}
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: "#B289F9",
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      marginBottom: 8,
+                    }}
+                  >
+                    {t.daoWavesMarketing}
+                  </div>
+                  <div style={{ fontSize: 12, color: "#444", lineHeight: 1.6 }}>
+                    {t.daoWavesMarketingText}
+                  </div>
+                </div>
+                <div>
+                  <div
+                    style={{
+                      fontSize: 10,
+                      fontWeight: 700,
+                      color: "#B289F9",
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      marginBottom: 8,
+                    }}
+                  >
+                    {t.daoWavesMath}
+                  </div>
+                  <div
+                    style={{
+                      fontSize: 11,
+                      color: "#444",
+                      lineHeight: 1.6,
+                      fontFamily: "monospace",
+                    }}
+                  >
+                    {t.daoWavesMathText}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* DAO Sphere + Particles — шарик и мерцающие кружки, тексты между картинками */}
+            <div
+              className="p-4 sm:p-6 md:p-10"
+              style={{
+                borderRadius: CARD_STYLE.borderRadius,
+                background: CARD_STYLE.background,
+                border: CARD_STYLE.border,
+                boxShadow: CARD_STYLE.boxShadow,
+                marginTop: 32,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 14,
+                  fontWeight: 700,
+                  color: "#1E1E1E",
+                  marginBottom: 20,
+                }}
+              >
+                {t.daoSphereTitle}
+              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-10 p-4 sm:p-6 md:p-10 bg-white rounded-[14px]">
+                <div className="flex flex-col items-center gap-6 sm:gap-8 md:gap-10">
+                  <div className="relative flex justify-center items-center min-h-[140px] sm:min-h-[160px] md:min-h-[180px]">
+                    <DaoSphere />
+                  </div>
+                  <div className="w-full max-w-md md:max-w-none text-center md:text-left">
+                    <div
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        color: "#B289F9",
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {t.daoSpherePhilosophy}
+                    </div>
+                    <div style={{ fontSize: 12, color: "#444", lineHeight: 1.6 }}>
+                      {t.daoSpherePhilosophyText}
+                    </div>
+                  </div>
+                  {/* Декоративный элемент — «след частиц», анимированный */}
+                  <div className="w-full flex justify-center pt-4">
+                    <svg
+                      viewBox="0 0 360 72"
+                      fill="none"
+                      className="dao-trail-svg w-full max-w-[360px] aspect-[5]"
+                      style={{ opacity: 0.7 }}
+                    >
+                      {Array.from({ length: 21 }, (_, i) => {
+                        const colorAnims = ["dao-trail-color-a", "dao-trail-color-b", "dao-trail-color-c"];
+                        const colorAnim = colorAnims[i % 3];
+                        const colorDuration = 2.2 + (i % 5) * 0.4;
+                        const colorDelay = (i * 0.17 + (i % 3) * 0.5) % 3;
+                        const cx = 24 + i * 16;
+                        const cy = 36 + Math.sin(i * 0.6) * 14;
+                        const pulseDelay = i * 0.12;
+                        const burstDelay = pulseDelay + 1.4;
+                        const burstCount = 8;
+                        return (
+                          <g key={i} transform={`translate(${cx}, ${cy})`}>
+                            <circle
+                              r={3 + (i % 4) * 0.8}
+                              fill="#48e5ff"
+                              style={{
+                                animation: `dao-trail-dot-pulse 2.8s ease-in-out infinite, ${colorAnim} ${colorDuration}s ease-in-out infinite`,
+                                animationDelay: `${pulseDelay}s, ${colorDelay}s`,
+                                transformOrigin: "center",
+                              }}
+                            />
+                            {Array.from({ length: burstCount }, (_, j) => {
+                              const angle = (j / burstCount) * Math.PI * 2;
+                              const dist = 28;
+                              const bx = Math.cos(angle) * dist;
+                              const by = Math.sin(angle) * dist;
+                              return (
+                                <circle
+                                  key={j}
+                                  r={2}
+                                  fill="#48e5ff"
+                                  style={{
+                                    animation: `dao-trail-burst 2.8s ease-out infinite, ${colorAnim} ${colorDuration}s ease-in-out infinite`,
+                                    animationDelay: `${burstDelay}s, ${colorDelay}s`,
+                                    transformOrigin: "0 0",
+                                    ["--bx"]: `${bx}px`,
+                                    ["--by"]: `${by}px`,
+                                  }}
+                                />
+                              );
+                            })}
+                          </g>
+                        );
+                      })}
+                    </svg>
+                  </div>
+                </div>
+                <div className="flex flex-col items-center gap-6 sm:gap-8 md:gap-10">
+                  <div className="w-full max-w-md md:max-w-none text-center md:text-left">
+                    <div
+                      style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        color: "#B289F9",
+                        letterSpacing: "0.08em",
+                        textTransform: "uppercase",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {t.daoSphereMarketing}
+                    </div>
+                    <div style={{ fontSize: 12, color: "#444", lineHeight: 1.6 }}>
+                      {t.daoSphereMarketingText}
+                    </div>
+                  </div>
+                  <div className="w-full flex justify-center min-h-[200px] sm:min-h-[240px] pt-4">
+                    <DaoParticles />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-[#E6E6E6]">
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "#B289F9",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginBottom: 8,
+                  }}
+                >
+                  {t.daoSphereTech}
+                </div>
+                <div
+                  style={{
+                    fontSize: 11,
+                    color: "#444",
+                    lineHeight: 1.6,
+                    fontFamily: "monospace",
+                  }}
+                >
+                  {t.daoSphereTechText}
+                </div>
+              </div>
+            </div>
           </Section>
         </div>
 
@@ -2734,13 +3006,7 @@ export default function BrandGuidelinesPage() {
             subtitle={t.patternsSubtitle}
             sectionLabel={t.sectionLabel}
           >
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3,1fr)",
-                gap: 16,
-              }}
-            >
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-4">
               <div
                 style={{
                   ...CARD_STYLE,

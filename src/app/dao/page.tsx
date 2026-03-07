@@ -3,6 +3,10 @@
 import { useState } from "react";
 import { Inter_Tight } from "next/font/google";
 import { useLanguage } from "@/contexts/LanguageContext";
+import DaoWaves from "@/components/dao/DaoWaves";
+import DaoSphere from "@/components/dao/DaoSphere";
+import DaoParticles from "@/components/dao/DaoParticles";
+import DaoPasswordModal from "@/components/dao/DaoPasswordModal";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
@@ -74,6 +78,13 @@ const TRANSLATIONS = {
       "Сообщества больше не просто зрители.\nОни — создатели. Решающие. Владельцы направления.",
     statementSubBold:
       "Прозрачность вместо кулуаров. Соучастие вместо контроля. Общность вместо платформы.",
+    passwordModalTitle: "Вход в систему",
+    passwordModalHint: "Логина нет — только пароль. У каждого свой.",
+    passwordModalPlaceholder: "Пароль",
+    passwordModalErrorEmpty: "Введите пароль",
+    passwordModalError: "Неверный пароль",
+    passwordModalSubmit: "Войти",
+    passwordModalCancel: "Отмена",
   },
   de: {
     tag: "Tribe Feature",
@@ -139,6 +150,13 @@ const TRANSLATIONS = {
       "Communities sind nicht mehr nur Zuschauer.\nSie sind Gestalter. Entscheider. Eigentümer der Richtung.",
     statementSubBold:
       "Transparenz statt Hinterzimmer. Mitbestimmung statt Kontrolle. Gemeinschaft statt Plattform.",
+    passwordModalTitle: "Systemzugang",
+    passwordModalHint: "Kein Login — nur Passwort. Jeder hat sein eigenes.",
+    passwordModalPlaceholder: "Passwort",
+    passwordModalErrorEmpty: "Passwort eingeben",
+    passwordModalError: "Falsches Passwort",
+    passwordModalSubmit: "Anmelden",
+    passwordModalCancel: "Abbrechen",
   },
 } as const;
 
@@ -147,10 +165,11 @@ type Lang = keyof typeof TRANSLATIONS;
 export default function DaoPage() {
   const { lang } = useLanguage();
   const t = TRANSLATIONS[lang];
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
 
   return (
     <div
-      className={`${interTight.variable} min-h-screen bg-[#FCFCFC] text-[#1E1E1E] font-[family-name:var(--font-inter-tight)]`}
+      className={`${interTight.variable} min-h-screen bg-[#FCFCFC] text-[#1E1E1E] font-[family-name:var(--font-inter-tight)] overflow-x-hidden`}
       style={{ fontFamily: "'Inter Tight', sans-serif" }}
     >
       {/* Grain overlay */}
@@ -192,24 +211,33 @@ export default function DaoPage() {
 
         {/* Old vs New */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5 rounded-xl overflow-hidden mb-16 animate-fade-up border border-[#E6E6E6]">
-          <div className="bg-[#F5F5F5] border-r border-[#E6E6E6] p-8 md:p-9">
-            <div className="text-[10px] font-bold tracking-[3px] uppercase text-[#808080] mb-5">
+          <div className="relative overflow-hidden border-r border-white/20 p-8 md:p-9 dao-old-block">
+            <img
+              src="/assets/dao-old-world-bg.webp"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover object-[top_right] dao-old-bg"
+            />
+            <div className="absolute inset-0 bg-[#0f0a1e]/88" />
+            <div className="absolute inset-0 dao-old-grain" />
+            <div className="relative z-10 dao-old-text">
+            <div className="text-[10px] font-bold tracking-[3px] uppercase text-white/70 mb-5">
               {t.oldLabel}
             </div>
-            <h2 className="text-[22px] font-bold mb-4 leading-snug text-[#666] whitespace-pre-line">
+            <h2 className="text-[22px] font-bold mb-4 leading-snug text-white/90 whitespace-pre-line">
               {t.oldTitle}
             </h2>
             <ul className="space-y-0">
               {t.oldList.map((item, i) => (
                 <li
                   key={i}
-                  className="text-sm py-2 border-b border-[#E6E6E6] flex items-center gap-2.5 text-[#666]"
+                  className="text-sm py-2 border-b border-white/15 flex items-center gap-2.5 text-white/65"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#999] shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/35 shrink-0" />
                   {item}
                 </li>
               ))}
             </ul>
+            </div>
           </div>
           <div
             className="p-8 md:p-9"
@@ -237,67 +265,75 @@ export default function DaoPage() {
             </ul>
           </div>
         </div>
+      </div>
 
-        {/* DAO Center — sphere + Matrix DAO + Tribe/Bridge */}
-        <div className="flex justify-center mb-16">
-          <div
-            className="w-40 h-40 rounded-full flex flex-col items-center justify-center relative overflow-hidden animate-dao-pulse"
-            style={{
-              boxShadow:
-                "0 0 60px rgba(178,137,249,0.4), 0 0 120px rgba(72,229,255,0.15)",
-            }}
-          >
-            {/* Тёмная база + плавная смена цвета туда-обратно (без белого) */}
-            <div
-              className="absolute inset-0 rounded-full"
-              style={{
-                background: "radial-gradient(circle at 35% 35%, #5a1fc9, #3d1590)",
-              }}
-            />
-            <div
-              className="absolute inset-0 rounded-full dao-sphere-layer dao-sphere-cyan"
-              style={{
-                background: "radial-gradient(circle at 35% 35%, #48e5ff, transparent 70%)",
-              }}
-            />
-            <div
-              className="absolute inset-0 rounded-full dao-sphere-layer dao-sphere-violet"
-              style={{
-                background: "radial-gradient(circle at 35% 35%, #b289f9, transparent 70%)",
-              }}
-            />
-            <div
-              className="absolute inset-0 rounded-full dao-sphere-layer dao-sphere-pink"
-              style={{
-                background: "radial-gradient(circle at 35% 35%, #f989b4, transparent 70%)",
-              }}
-            />
-            <div className="relative z-10 flex flex-col items-center justify-center dao-sphere-text">
-            <span className="text-[28px] font-extrabold tracking-tight">
-              {"DAO".split("").map((char, i) => (
-                <span key={i} className="dao-matrix-letter">
-                  {char}
-                </span>
-              ))}
-            </span>
-            <span className="relative block mt-0.5 h-[12px]">
-              <span className="dao-label dao-label-tribe">
-                Tribe
-              </span>
-              <span className="dao-label dao-label-bridge">
-                bridge
-              </span>
-            </span>
-            </div>
-          </div>
+      {/* DAO Center — волны, кружки (при hover на шарик), шарик (поверх) */}
+      <div className="dao-sphere-waves-block relative flex justify-center items-center min-h-[280px] py-10 mb-24 sm:mb-32 overflow-visible">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-40 sm:h-52 min-h-[160px] z-0 pointer-events-none">
+          <DaoWaves overlay />
         </div>
+        <div
+          className="group relative z-10 w-40 h-40 flex justify-center items-center overflow-visible cursor-pointer"
+          onClick={() => setPasswordModalOpen(true)}
+        >
+          {/* Кружки под шариком при hover — 360×360, центр совпадает */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[360px] h-[360px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out">
+            <DaoParticles />
+          </div>
+          <DaoSphere />
+        </div>
+      </div>
 
+      <DaoPasswordModal
+        open={passwordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+        onSuccess={() => setPasswordModalOpen(false)}
+        title={t.passwordModalTitle}
+        hint={t.passwordModalHint}
+        placeholder={t.passwordModalPlaceholder}
+        errorEmpty={t.passwordModalErrorEmpty}
+        errorWrong={t.passwordModalError}
+        submitLabel={t.passwordModalSubmit}
+        cancelLabel={t.passwordModalCancel}
+      />
+
+      <div className="relative max-w-[900px] mx-auto px-6 pb-16 sm:pb-24">
         {/* 3 Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
           {[
-            { icon: "✨", title: t.pillar1Title, desc: t.pillar1Desc },
-            { icon: "🤝", title: t.pillar2Title, desc: t.pillar2Desc },
-            { icon: "🌍", title: t.pillar3Title, desc: t.pillar3Desc },
+            {
+              icon: (
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" className="w-28 h-28 text-[#B289F9]">
+                  <ellipse cx="16" cy="16" rx="8" ry="5" />
+                  <circle cx="16" cy="16" r="2.5" />
+                  <path d="M16 4v3M16 25v3M4 16h3M25 16h3M8 8l2 2M24 8l-2 2M24 24l-2-2M8 24l2-2" />
+                </svg>
+              ),
+              title: t.pillar1Title,
+              desc: t.pillar1Desc,
+            },
+            {
+              icon: (
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" className="w-28 h-28 text-[#B289F9]">
+                  <path d="M6 22 C6 10 10 8 16 12" />
+                  <path d="M26 22 C26 10 22 8 16 12" />
+                </svg>
+              ),
+              title: t.pillar2Title,
+              desc: t.pillar2Desc,
+            },
+            {
+              icon: (
+                <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" className="w-28 h-28 text-[#B289F9]">
+                  <circle cx="16" cy="16" r="10" />
+                  <path d="M16 6v20M6 16h20" />
+                  <path d="M8 10l16 12M24 10L8 22" />
+                  <circle cx="16" cy="16" r="2" strokeWidth="0.75" />
+                </svg>
+              ),
+              title: t.pillar3Title,
+              desc: t.pillar3Desc,
+            },
           ].map((p) => (
             <div
               key={p.title}
@@ -306,7 +342,7 @@ export default function DaoPage() {
               <div
                 className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#48E5FF] via-[#B289F9] to-[#F989B4] opacity-0 group-hover:opacity-100 transition-opacity"
               />
-              <span className="text-[28px] block mb-3">{p.icon}</span>
+              <span className="block mb-3">{p.icon}</span>
               <span className="text-base font-bold text-[#1E1E1E] block mb-2">
                 {p.title}
               </span>

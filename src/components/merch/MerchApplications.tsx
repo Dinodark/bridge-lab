@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 // ============================================================
@@ -527,6 +528,125 @@ function InviteCardMockup({ t }: { t: T }) {
 }
 
 // ============================================================
+// CardTitleShimmer — блик при пересечении золотого сечения (38.2% от верха)
+// ============================================================
+const GOLDEN_RATIO = 0.382; // верхняя зона — 38.2% высоты экрана
+
+function CardTitleShimmer({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(false);
+  const wasBelow = useRef(true);
+
+  useEffect(() => {
+    const update = () => {
+      const el = ref.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const centerY = rect.top + rect.height / 2;
+      const goldenLine = window.innerHeight * GOLDEN_RATIO;
+      const isAbove = centerY < goldenLine;
+      if (wasBelow.current && isAbove) {
+        setActive(true);
+        wasBelow.current = false;
+      }
+      if (!isAbove) wasBelow.current = true;
+    };
+    const onEnd = () => setActive(false);
+    const el = ref.current;
+    el?.addEventListener("animationend", onEnd);
+    const container = document.getElementById("scroll-container") ?? window;
+    container.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+    return () => {
+      el?.removeEventListener("animationend", onEnd);
+      container.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`card-title-shimmer ${active ? "card-title-shimmer-active" : ""}`}
+      style={{ fontSize: 18, fontWeight: 700, color: "#1E1E1E", marginBottom: 12 }}
+    >
+      <span>{children}</span>
+      <span className="card-title-shimmer-glow" aria-hidden>
+        {children}
+      </span>
+    </div>
+  );
+}
+
+// ============================================================
+// InviteCardBlock — параллакс: карточка выезжает справа с отставанием
+// ============================================================
+function InviteCardBlock({ t }: { t: T }) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [translateX, setTranslateX] = useState(80);
+
+  useEffect(() => {
+    const update = () => {
+      const section = sectionRef.current;
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // Прогресс: 0 когда секция внизу вьюпорта, 1 когда секция вверху
+      const rawProgress = 1 - (rect.top + rect.height * 0.5) / (vh + rect.height * 0.5);
+      const progress = Math.max(0, Math.min(1, rawProgress));
+      // Отставание: карточка двигается только после 45% прогресса, очень медленно (степень 8)
+      const raw = Math.max(0, (progress - 0.45) / 0.55);
+      const delayedProgress = Math.pow(raw, 8);
+      setTranslateX(80 * (1 - delayedProgress));
+    };
+    update();
+    const container = document.getElementById("scroll-container") ?? window;
+    container.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      container.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  return (
+    <div ref={sectionRef} style={APP_BLOCK_STYLE}>
+      <div style={SECTION_LABEL_STYLE}>{t.digitalInviteCard}</div>
+      <div className="app-grid-2 app-grid-2-img-right" style={{ gridTemplateColumns: "1fr 1.2fr", gap: 32 }}>
+        <div className="app-grid-text-cell">
+          <CardTitleShimmer>{t.inviteCardTitle}</CardTitleShimmer>
+          <div style={{ fontSize: 13, color: "#808080", lineHeight: 1.7, marginBottom: 16 }}>
+            {t.inviteCardDesc}
+          </div>
+          <div style={{ fontSize: 11, color: "#808080" }}>
+            <div style={{ marginBottom: 4 }}>
+              <strong style={{ color: "#1E1E1E" }}>{t.contextLabel}</strong> {t.inviteContext}
+            </div>
+            <div>
+              <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.inviteFormat}
+            </div>
+          </div>
+        </div>
+        <div
+          className="app-grid-image-cell app-grid-image-cell-highlight-mirror"
+          style={{ minWidth: 0, display: "flex", justifyContent: "center", alignItems: "center" }}
+        >
+          <div
+            style={{
+              transform: `translateX(${translateX}px)`,
+              transition: "transform 0.7s ease-out",
+            }}
+          >
+            <InviteCardMockup t={t} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
 // StoriesMockup
 // ============================================================
 const STORIES_SCALE = 2.25;
@@ -750,10 +870,10 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
-            style={{ gap: 32 }}
+            className="app-grid-2 app-grid-2-img-left"
+            style={{ gridTemplateColumns: "1.2fr 1fr", gap: 32 }}
           >
-            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell app-grid-image-cell-highlight" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/tshirt-mockup-man.png"
                 alt={t.tshirtAlt}
@@ -768,16 +888,7 @@ export default function MerchApplications() {
               />
             </div>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.classicTee}
-              </div>
+              <CardTitleShimmer>{t.classicTee}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 13,
@@ -822,10 +933,10 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
-            style={{ gap: 32 }}
+            className="app-grid-2 app-grid-2-img-left"
+            style={{ gridTemplateColumns: "1.2fr 1fr", gap: 32 }}
           >
-            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell app-grid-image-cell-highlight" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/water-bottle.png"
                 alt={t.waterBottleAlt}
@@ -839,16 +950,7 @@ export default function MerchApplications() {
               />
             </div>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.waterBottleTitle}
-              </div>
+              <CardTitleShimmer>{t.waterBottleTitle}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 14,
@@ -884,14 +986,14 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
+            className="app-grid-2 app-grid-2-img-left"
             style={{
               gridTemplateColumns: "1.2fr 1fr",
               gap: 32,
             }}
           >
             <div
-              className="app-grid-image-cell"
+              className="app-grid-image-cell app-grid-image-cell-highlight"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(2, 1fr)",
@@ -924,16 +1026,7 @@ export default function MerchApplications() {
               ))}
             </div>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.stickerPackTitle}
-              </div>
+              <CardTitleShimmer>{t.stickerPackTitle}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 14,
@@ -969,13 +1062,13 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
+            className="app-grid-2 app-grid-2-img-left"
             style={{
               gridTemplateColumns: "1.2fr 1fr",
               gap: 32,
             }}
           >
-            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell app-grid-image-cell-highlight" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/car-sticker.png"
                 alt={t.carStickerAlt}
@@ -986,21 +1079,11 @@ export default function MerchApplications() {
                   height: "auto",
                   display: "block",
                   objectFit: "cover",
-                  borderRadius: 8,
                 }}
               />
             </div>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.carStickerTitle}
-              </div>
+              <CardTitleShimmer>{t.carStickerTitle}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 13,
@@ -1028,18 +1111,9 @@ export default function MerchApplications() {
         {/* Digital Stories */}
         <div style={APP_BLOCK_STYLE}>
           <div style={SECTION_LABEL_STYLE}>{t.digitalStories}</div>
-          <div className="app-grid-2">
+          <div className="app-grid-2 app-grid-2-img-right" style={{ gridTemplateColumns: "1fr 1.2fr", gap: 32 }}>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.tribeAwakeningStories}
-              </div>
+              <CardTitleShimmer>{t.tribeAwakeningStories}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 13,
@@ -1065,49 +1139,14 @@ export default function MerchApplications() {
                 </div>
               </div>
             </div>
-            <StoriesMockup t={t} />
+            <div className="app-grid-image-cell app-grid-image-cell-highlight-mirror" style={{ minWidth: 0, display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <StoriesMockup t={t} />
+            </div>
           </div>
         </div>
 
         {/* Digital Invite Card */}
-        <div style={APP_BLOCK_STYLE}>
-          <div style={SECTION_LABEL_STYLE}>{t.digitalInviteCard}</div>
-          <div className="app-grid-2">
-            <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.inviteCardTitle}
-              </div>
-              <div
-                style={{
-                  fontSize: 13,
-                  color: "#808080",
-                  lineHeight: 1.7,
-                  marginBottom: 16,
-                }}
-              >
-                {t.inviteCardDesc}
-              </div>
-              <div style={{ fontSize: 11, color: "#808080" }}>
-                <div style={{ marginBottom: 4 }}>
-                  <strong style={{ color: "#1E1E1E" }}>{t.contextLabel}</strong>{" "}
-                  {t.inviteContext}
-                </div>
-                <div>
-                  <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong>{" "}
-                  {t.inviteFormat}
-                </div>
-              </div>
-            </div>
-            <InviteCardMockup t={t} />
-          </div>
-        </div>
+        <InviteCardBlock t={t} />
 
         {/* Flag */}
         <div style={SECTION_LABEL_STYLE}>{t.physicalFlag}</div>
@@ -1120,10 +1159,10 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
-            style={{ gap: 32 }}
+            className="app-grid-2 app-grid-2-img-left"
+            style={{ gridTemplateColumns: "1.2fr 1fr", gap: 32 }}
           >
-            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell app-grid-image-cell-highlight" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/flag-mockup.png"
                 alt={t.flagAlt}
@@ -1136,24 +1175,8 @@ export default function MerchApplications() {
                 }}
               />
             </div>
-            <div
-              className="app-grid-text-cell"
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.flagTitle}
-              </div>
+            <div className="app-grid-text-cell">
+              <CardTitleShimmer>{t.flagTitle}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 13,
@@ -1189,10 +1212,10 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
-            style={{ gap: 32 }}
+            className="app-grid-2 app-grid-2-img-left"
+            style={{ gridTemplateColumns: "1.2fr 1fr", gap: 32 }}
           >
-            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell app-grid-image-cell-highlight" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/pin-badge.png"
                 alt={t.pinBadgeAlt}
@@ -1206,16 +1229,7 @@ export default function MerchApplications() {
               />
             </div>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.pinBadgeTitle}
-              </div>
+              <CardTitleShimmer>{t.pinBadgeTitle}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 13,
@@ -1251,10 +1265,10 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
-            style={{ gap: 32 }}
+            className="app-grid-2 app-grid-2-img-left"
+            style={{ gridTemplateColumns: "1.2fr 1fr", gap: 32 }}
           >
-            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell app-grid-image-cell-highlight" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/rollup-mockup.png"
                 alt={t.rollupAlt}
@@ -1268,16 +1282,7 @@ export default function MerchApplications() {
               />
             </div>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.rollupTitle}
-              </div>
+              <CardTitleShimmer>{t.rollupTitle}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 13,
@@ -1313,10 +1318,10 @@ export default function MerchApplications() {
           }}
         >
           <div
-            className="app-grid-2"
-            style={{ gap: 32 }}
+            className="app-grid-2 app-grid-2-img-left"
+            style={{ gridTemplateColumns: "1.2fr 1fr", gap: 32 }}
           >
-            <div className="app-grid-image-cell" style={{ minWidth: 0, marginBottom: -40 }}>
+            <div className="app-grid-image-cell app-grid-image-cell-highlight" style={{ minWidth: 0, marginBottom: -40 }}>
               <Image
                 src="/chocolate.png"
                 alt={t.chocolateAlt}
@@ -1330,16 +1335,7 @@ export default function MerchApplications() {
               />
             </div>
             <div className="app-grid-text-cell">
-              <div
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "#1E1E1E",
-                  marginBottom: 12,
-                }}
-              >
-                {t.chocolateTitle}
-              </div>
+              <CardTitleShimmer>{t.chocolateTitle}</CardTitleShimmer>
               <div
                 style={{
                   fontSize: 13,

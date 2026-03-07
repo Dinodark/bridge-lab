@@ -8,7 +8,7 @@ export default function MediaHeader() {
   const t = T[lang];
 
   return (
-    <header className="border-b border-white/10 bg-[#0f0a1e]/80 backdrop-blur-md sticky top-14 z-40">
+    <header className="border-b border-white/10 bg-[#0f0a1e]/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <p
           className="text-[11px] font-semibold uppercase tracking-[0.1em] text-white/50 mb-2"

@@ -98,6 +98,65 @@ body {
   animation: marquee-reverse 90s linear infinite;
 }
 
+/* DAO Waves — точки, фаза меняется */
+@keyframes dao-wave-flow {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 1; }
+}
+@keyframes dao-wave-roll-main {
+  0% { stroke-dashoffset: 0; }
+  48% { stroke-dashoffset: -90; }
+  52% { stroke-dashoffset: -90; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes dao-wave-roll-thin {
+  0% { stroke-dashoffset: 0; }
+  48% { stroke-dashoffset: -90; }
+  52% { stroke-dashoffset: -90; }
+  100% { stroke-dashoffset: 0; }
+}
+
+/* Точки — малый dash, большой gap */
+.dao-wave-dots {
+  stroke-linecap: round;
+}
+.dao-wave-main.dao-wave-dots.dao-wave-roll {
+  stroke-width: 6;
+  stroke-dasharray: 0 32;
+  animation: dao-wave-roll-main 8s ease-in-out infinite, dao-wave-flow 5s ease-in-out infinite;
+}
+.dao-wave-dots.dao-wave-thin-1 {
+  stroke-width: 3;
+  stroke-dasharray: 0 28;
+  animation: dao-wave-roll-thin 5s ease-in-out infinite 0s, dao-wave-flow 4s ease-in-out infinite 0.5s;
+}
+.dao-wave-dots.dao-wave-thin-2 {
+  stroke-width: 2.5;
+  stroke-dasharray: 0 26;
+  animation: dao-wave-roll-thin 5s ease-in-out infinite 1.7s, dao-wave-flow 4.5s ease-in-out infinite 1s;
+}
+.dao-wave-dots.dao-wave-thin-3 {
+  stroke-width: 2.5;
+  stroke-dasharray: 0 24;
+  animation: dao-wave-roll-thin 5s ease-in-out infinite 3.3s, dao-wave-flow 3.5s ease-in-out infinite 0.2s;
+}
+
+/* DAO Old block — grayscale, pixelization, grain */
+.dao-old-bg {
+  filter: grayscale(100%) contrast(1.06);
+  image-rendering: pixelated;
+}
+.dao-old-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.dao-old-text {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.dao-old-text h2 {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
 /* Marvin Gallery — drift driven by scroll (see MarvinGallery.tsx) */
 
 @keyframes dao-pulse {
@@ -203,6 +262,42 @@ body {
   50% { opacity: 1; }
 }
 
+/* Brand Guidelines — след частиц: пульс, волна, хаотичная смена цветов */
+@keyframes dao-trail-dot-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.9); }
+  50% { opacity: 0.9; transform: scale(1.15); }
+}
+@keyframes dao-trail-wave {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes dao-trail-color-a {
+  0%, 100% { fill: #48e5ff; }
+  33% { fill: #b289f9; }
+  66% { fill: #f989b4; }
+}
+@keyframes dao-trail-color-b {
+  0%, 100% { fill: #f989b4; }
+  33% { fill: #48e5ff; }
+  66% { fill: #b289f9; }
+}
+@keyframes dao-trail-color-c {
+  0%, 100% { fill: #b289f9; }
+  33% { fill: #f989b4; }
+  66% { fill: #48e5ff; }
+}
+.dao-trail-svg {
+  animation: dao-trail-wave 4s ease-in-out infinite;
+}
+
+/* Бурст — шарики разлетаются при пульсе (пик = 50% цикла 2.8s), посущественнее */
+@keyframes dao-trail-burst {
+  0%, 46% { transform: translate(0, 0) scale(0); opacity: 0; }
+  50% { transform: translate(0, 0) scale(0.5); opacity: 1; }
+  70% { transform: translate(var(--bx), var(--by)) scale(1); opacity: 0.6; }
+  100% { transform: translate(var(--bx), var(--by)) scale(1.2); opacity: 0; }
+}
+
 /* Tribe/bridge — синхронно с шаром, цвет под шар */
 .dao-label {
   position: absolute;
@@ -215,6 +310,17 @@ body {
   animation-duration: 4s;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   animation-iteration-count: infinite;
+}
+.dao-label-letter {
+  display: inline-block;
+}
+.dao-label-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  flex-wrap: nowrap;
 }
 .dao-label-tribe {
   animation-name: dao-label-tribe;
@@ -272,10 +378,137 @@ body {
 
 .dao-matrix-letter {
   display: inline-block;
+  transition: opacity 0.35s ease;
 }
 .dao-matrix-letter:nth-child(1) { animation: dao-matrix-assemble-1 4s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
 .dao-matrix-letter:nth-child(2) { animation: dao-matrix-assemble-2 4s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.15s; }
 .dao-matrix-letter:nth-child(3) { animation: dao-matrix-assemble-3 4s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.3s; }
+
+/* Белые буквы при hover — появляются из размытия, светятся */
+.dao-matrix-white {
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+.dao-matrix-letter-white {
+  display: inline-block;
+  color: #fff;
+  text-shadow: 0 0 12px rgba(255,255,255,0.9), 0 0 24px rgba(255,255,255,0.6);
+}
+.dao-sphere-hover .dao-matrix-letter-white-1 { animation: dao-matrix-white-appear-1 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.dao-sphere-hover .dao-matrix-letter-white-2 { animation: dao-matrix-white-appear-2 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.08s forwards; }
+.dao-sphere-hover .dao-matrix-letter-white-3 { animation: dao-matrix-white-appear-3 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.16s forwards; }
+
+@keyframes dao-matrix-white-appear-1 {
+  0% { opacity: 0; transform: scale(0.2) translate(-4px, 6px); filter: blur(6px); }
+  100% { opacity: 1; transform: scale(1) translate(0, 0); filter: blur(0); }
+}
+@keyframes dao-matrix-white-appear-2 {
+  0% { opacity: 0; transform: scale(0.2) translate(5px, -5px); filter: blur(6px); }
+  100% { opacity: 1; transform: scale(1) translate(0, 0); filter: blur(0); }
+}
+@keyframes dao-matrix-white-appear-3 {
+  0% { opacity: 0; transform: scale(0.2) translate(-3px, -6px); filter: blur(6px); }
+  100% { opacity: 1; transform: scale(1) translate(0, 0); filter: blur(0); }
+}
+
+/* Hover: заморозить цвет шарика и надпись; цветные буквы затухают, белые появляются */
+.dao-sphere-hover.animate-dao-pulse,
+.dao-sphere-hover .dao-sphere-layer,
+.dao-sphere-hover .dao-label,
+.dao-sphere-hover .dao-sphere-text {
+  animation-play-state: paused;
+}
+.dao-sphere-hover .dao-matrix-letter {
+  opacity: 0;
+}
+.dao-sphere-hover .dao-matrix-white {
+  opacity: 1;
+}
+
+/* Hover: буквы Tribe/bridge загораются по очереди как неон (после DAO) */
+@keyframes dao-label-neon-on {
+  0% { text-shadow: 0 0 0 transparent; filter: brightness(0.6); }
+  100% { text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+}
+.dao-sphere-hover .dao-label-letter-tribe-1 { animation: dao-label-neon-on 0.25s ease-out 0.7s both; }
+.dao-sphere-hover .dao-label-letter-tribe-2 { animation: dao-label-neon-on 0.25s ease-out 0.78s both; }
+.dao-sphere-hover .dao-label-letter-tribe-3 { animation: dao-label-neon-on 0.25s ease-out 0.86s both; }
+.dao-sphere-hover .dao-label-letter-tribe-4 { animation: dao-label-neon-on 0.25s ease-out 0.94s both; }
+.dao-sphere-hover .dao-label-letter-tribe-5 { animation: dao-label-neon-on 0.25s ease-out 1.02s both; }
+.dao-sphere-hover .dao-label-letter-bridge-1 { animation: dao-label-neon-on 0.25s ease-out 0.7s both; }
+.dao-sphere-hover .dao-label-letter-bridge-2 { animation: dao-label-neon-on 0.25s ease-out 0.76s both; }
+.dao-sphere-hover .dao-label-letter-bridge-3 { animation: dao-label-neon-on 0.25s ease-out 0.82s both; }
+.dao-sphere-hover .dao-label-letter-bridge-4 { animation: dao-label-neon-on 0.25s ease-out 0.88s both; }
+.dao-sphere-hover .dao-label-letter-bridge-5 { animation: dao-label-neon-on 0.25s ease-out 0.94s both; }
+.dao-sphere-hover .dao-label-letter-bridge-6 { animation: dao-label-neon-on 0.25s ease-out 1s both; }
+
+/* Барахлящая буква 1: 0.75с мигает (на 25% быстрее) → 2с горит 20% → 2 раза миг → тухнет, ярко → 2с потухает (8s) */
+@keyframes dao-label-flicker-fast {
+  /* 0-0.75s: мигает на 25% быстрее, выключено = opacity 0 (прозрачно) */
+  0% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  0.75% { opacity: 0; text-shadow: none; filter: none; }
+  1.5% { opacity: 1; text-shadow: 0 0 8px currentColor; filter: brightness(1.5); }
+  2.25% { opacity: 0; text-shadow: none; filter: none; }
+  3% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  3.75% { opacity: 0; text-shadow: none; filter: none; }
+  4.5% { opacity: 1; text-shadow: 0 0 8px currentColor; filter: brightness(1.5); }
+  5.25% { opacity: 0; text-shadow: none; filter: none; }
+  6% { opacity: 1; text-shadow: 0 0 6px currentColor; filter: brightness(1.4); }
+  6.75% { opacity: 0; text-shadow: none; filter: none; }
+  7.5% { opacity: 1; text-shadow: 0 0 8px currentColor, 0 0 18px currentColor; filter: brightness(1.5); }
+  8.25% { opacity: 0; text-shadow: none; filter: none; }
+  9% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  /* 0.75-2.75s: горит на 20% — opacity 0.2 (прозрачно-тускло), не brightness */
+  10% { opacity: 0.2; text-shadow: 0 0 2px currentColor; filter: none; }
+  34% { opacity: 0.2; text-shadow: 0 0 2px currentColor; filter: none; }
+  /* 2.75-3.75s: мигает 2 раза */
+  40% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  42% { opacity: 0; text-shadow: none; filter: none; }
+  44% { opacity: 1; text-shadow: 0 0 8px currentColor; filter: brightness(1.5); }
+  46% { opacity: 0; text-shadow: none; filter: none; }
+  48% { opacity: 1; text-shadow: 0 0 8px currentColor, 0 0 18px currentColor; filter: brightness(1.5); }
+  /* тухнет, загорается ярко */
+  50% { opacity: 0; text-shadow: none; filter: none; }
+  52% { opacity: 1; text-shadow: 0 0 8px currentColor, 0 0 18px currentColor; filter: brightness(1.5); }
+  /* 4-6s: 2 секунды потухает — только opacity, без filter (не чёрный) */
+  54% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: none; }
+  62% { opacity: 0.8; text-shadow: 0 0 4px currentColor; filter: none; }
+  70% { opacity: 0.5; text-shadow: 0 0 2px currentColor; filter: none; }
+  78% { opacity: 0.25; text-shadow: none; filter: none; }
+  86% { opacity: 0.1; text-shadow: none; filter: none; }
+  94%, 100% { opacity: 0; text-shadow: none; filter: none; }
+}
+@keyframes dao-label-flicker-slow {
+  0%, 100% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  15% { opacity: 0.3; text-shadow: 0 0 2px currentColor; filter: brightness(0.5); }
+  25% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  50% { opacity: 0.2; text-shadow: none; filter: brightness(0.4); }
+  65% { opacity: 1; text-shadow: 0 0 8px currentColor, 0 0 18px currentColor; filter: brightness(1.5); }
+  85% { opacity: 0.5; text-shadow: 0 0 3px currentColor; filter: brightness(0.7); }
+}
+/* Третья буква: 2 быстрых мига + 2 вспышки света, раз в 3 секунды */
+@keyframes dao-label-flicker-single {
+  0%, 90% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  /* 2 мига */
+  92% { opacity: 0; text-shadow: none; filter: none; }
+  93% { opacity: 1; text-shadow: 0 0 8px currentColor; filter: brightness(1.5); }
+  94% { opacity: 0; text-shadow: none; filter: none; }
+  95% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  /* 2 вспышки света (яркость) */
+  96% { opacity: 1; text-shadow: 0 0 12px currentColor, 0 0 24px currentColor; filter: brightness(1.6); }
+  96.5% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+  97% { opacity: 1; text-shadow: 0 0 12px currentColor, 0 0 24px currentColor; filter: brightness(1.6); }
+  97.5%, 100% { opacity: 1; text-shadow: 0 0 6px currentColor, 0 0 14px currentColor; filter: brightness(1.4); }
+}
+.dao-sphere-hover .dao-label-flicker-1 {
+  animation: dao-label-flicker-fast 8s ease-in-out 1.2s infinite;
+}
+.dao-sphere-hover .dao-label-flicker-2 {
+  animation: dao-label-flicker-slow 3.2s ease-in-out 1.8s infinite;
+}
+.dao-sphere-hover .dao-label-flicker-3 {
+  animation: dao-label-flicker-single 3s ease-in-out 1.3s infinite;
+}
 
 .animate-fade-up {
   animation: fade-up 0.8s ease forwards;
@@ -508,6 +741,43 @@ body {
   100% { background-position: -200% 0; }
 }
 
+/* Заголовки карточек — три блика только над буквами */
+.card-title-shimmer {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+.card-title-shimmer-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    transparent 12%,
+    #F989B4 22%,
+    transparent 35%,
+    #48E5FF 50%,
+    transparent 63%,
+    #FFBC6F 78%,
+    transparent 88%,
+    #1E1E1E 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  pointer-events: none;
+}
+.card-title-shimmer.card-title-shimmer-active .card-title-shimmer-glow {
+  animation: card-title-shimmer-run 0.45s ease-out forwards;
+}
+@keyframes card-title-shimmer-run {
+  0% { background-position: -100% 0; }
+  100% { background-position: 150% 0; }
+}
+
 /* Applications grid — на узких экранах в колонку, карточки на всю ширину */
 .app-grid-2 {
   display: grid;
@@ -516,7 +786,7 @@ body {
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 0 40px 0;
+  padding: 0;
 }
 .app-grid-2 > * {
   min-width: 0;
@@ -535,6 +805,49 @@ body {
 .app-grid-2 .app-grid-text-cell {
   padding: 0 40px 0 24px !important;
 }
+
+/* Карточки с изображением — тень, скругления как у карточки */
+.app-grid-2 .app-grid-image-cell.app-grid-image-cell-highlight {
+  box-shadow: 12px 0 192px rgba(0, 0, 0, 0.12);
+  border-radius: 24px;
+  overflow: hidden;
+}
+.app-grid-2 .app-grid-image-cell.app-grid-image-cell-highlight img {
+  border-radius: 0 !important;
+}
+/* Зеркальные карточки (изображение справа) — без тени */
+.app-grid-2 .app-grid-image-cell.app-grid-image-cell-highlight-mirror {
+  border-radius: 24px;
+  overflow: hidden;
+}
+.app-grid-2 .app-grid-image-cell.app-grid-image-cell-highlight-mirror img {
+  border-radius: 0 !important;
+}
+
+/* Текст по золотому сечению (φ) — img-left и img-right */
+.app-grid-2-img-left .app-grid-text-cell,
+.app-grid-2-img-right .app-grid-text-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.app-grid-2-img-left .app-grid-text-cell::before,
+.app-grid-2-img-right .app-grid-text-cell::before {
+  content: "";
+  flex: 0.382 1 0;
+  min-height: 0;
+}
+.app-grid-2-img-left .app-grid-text-cell::after,
+.app-grid-2-img-right .app-grid-text-cell::after {
+  content: "";
+  flex: 0.618 1 0;
+  min-height: 0;
+}
+.app-grid-2-img-left .app-grid-text-cell > *,
+.app-grid-2-img-right .app-grid-text-cell > * {
+  flex: 0 0 auto;
+}
+
 @media (max-width: 768px) {
   .app-grid-2 {
     grid-template-columns: 1fr !important;
