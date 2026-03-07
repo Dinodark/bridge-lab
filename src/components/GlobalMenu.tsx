@@ -16,7 +16,8 @@ const TRIBE_LINKS = [
   { href: "/brandguidelines", label: "Brand Guidelines" },
 ];
 
-const CRYPTO_LINKS = [
+const BRIDGE_LINKS = [
+  { href: "/blockchain", label: "Bridge" },
   { href: "/crypto", label: "Mobile First" },
   { href: "/explore", label: "Starter" },
 ];
@@ -260,17 +261,17 @@ export default function GlobalMenu() {
             Roadmap
           </Link>
           <Dropdown label="Tribe" items={TRIBE_LINKS} pathname={pathname} palette={palette} />
-          <Dropdown label="Crypto" items={CRYPTO_LINKS} pathname={pathname} palette={palette} />
           <Link
-            href="/blockchain"
+            href="/strategy"
             className="rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors sm:px-3"
             style={{
-              color: pathname === "/blockchain" ? palette.cta1 : "var(--color-muted)",
-              background: pathname.startsWith("/blockchain") ? "var(--color-bg-active)" : "transparent",
+              color: pathname === "/strategy" ? palette.cta1 : "var(--color-muted)",
+              background: pathname.startsWith("/strategy") ? "var(--color-bg-active)" : "transparent",
             }}
           >
-            Bridge
+            Strategy
           </Link>
+          <Dropdown label="Bridge" items={BRIDGE_LINKS} pathname={pathname} palette={palette} />
           <LangSwitcher lang={lang} setLang={setLang} palette={palette} className="ml-2 border-l" />
         </nav>
 
@@ -342,12 +343,14 @@ export default function GlobalMenu() {
                 </div>
               </div>
 
+              <NavLink href="/strategy" label="Strategy" isActive={pathname.startsWith("/strategy")} palette={palette} onClick={() => setMobileOpen(false)} className="mt-4" />
+
               <div className="mt-3 rounded-xl border border-[var(--color-border)] bg-gray-50 overflow-hidden">
                 <div className="px-4 py-2.5 border-b border-[var(--color-border)]" style={{ color: palette.cta1 }}>
-                  <span className="text-xs font-semibold uppercase tracking-wider">Crypto</span>
+                  <span className="text-xs font-semibold uppercase tracking-wider">Bridge</span>
                 </div>
                 <div className="flex flex-col gap-2 py-2">
-                  {CRYPTO_LINKS.map((item) => {
+                  {BRIDGE_LINKS.map((item) => {
                     const itemActive = pathname === item.href || pathname.startsWith(item.href + "/");
                     return (
                       <Link
@@ -366,8 +369,6 @@ export default function GlobalMenu() {
                   })}
                 </div>
               </div>
-
-              <NavLink href="/blockchain" label="Bridge" isActive={pathname.startsWith("/blockchain")} palette={palette} onClick={() => setMobileOpen(false)} className="mt-4" />
             </nav>
           </div>,
           document.body

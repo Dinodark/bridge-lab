@@ -279,7 +279,7 @@ export default function MarvinGallery() {
                       {item.desc[lang]}
                     </p>
                   </div>
-                  <div className="absolute bottom-[6.18%] right-0 flex flex-col items-end gap-3">
+                  <div className="absolute bottom-[6.18%] right-12 flex flex-col items-end gap-3">
                     <img
                       src="/assets/t-cross-2.png"
                       alt=""

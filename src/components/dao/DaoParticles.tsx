@@ -35,6 +35,8 @@ export default function DaoParticles() {
     const SPEED = 0.8;
     const RADIUS_MIN = 1.5;
     const RADIUS_MAX = 10;
+    const RADIUS_GROW_START = 60; // расстояние от центра, с которого шарики начинают расти
+    const RADIUS_GROW_END = 160;  // расстояние, на котором достигают макс. размера
     const MAX_LIFE = 200;
 
     type P = { x: number; y: number; vx: number; vy: number; life: number };
@@ -78,8 +80,8 @@ export default function DaoParticles() {
           continue;
         }
         const dist = Math.hypot(p.x - centerX, p.y - centerY);
-        const t = Math.min(dist / 150, 1);
-        const r = RADIUS_MIN + t * (RADIUS_MAX - RADIUS_MIN);
+        const t = Math.max(0, Math.min((dist - RADIUS_GROW_START) / (RADIUS_GROW_END - RADIUS_GROW_START), 1));
+        const r = RADIUS_MAX - t * (RADIUS_MAX - RADIUS_MIN);
         const a = Math.sin((p.life / MAX_LIFE) * Math.PI) * 0.9;
         ctx.save();
         ctx.globalAlpha = a;

@@ -98,6 +98,87 @@ body {
   animation: marquee-reverse 90s linear infinite;
 }
 
+/* MediaGrid card — искры по краям при hover */
+@keyframes souly-spark {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+.souly-card-sparks span {
+  animation: souly-spark 1.5s ease-in-out infinite;
+}
+.souly-card-sparks span:nth-child(1) { animation-delay: 0s; }
+.souly-card-sparks span:nth-child(2) { animation-delay: 0.2s; }
+.souly-card-sparks span:nth-child(3) { animation-delay: 0.4s; }
+.souly-card-sparks span:nth-child(4) { animation-delay: 0.6s; }
+.souly-card-sparks span:nth-child(5) { animation-delay: 0.8s; }
+.souly-card-sparks span:nth-child(6) { animation-delay: 1s; }
+.souly-card-sparks span:nth-child(7) { animation-delay: 0.1s; }
+.souly-card-sparks span:nth-child(8) { animation-delay: 0.3s; }
+
+/* MediaGrid flip reveal — scale + backdrop-blur по кривой */
+@keyframes souly-flip-expand {
+  0% {
+    transform: scale(0);
+    opacity: 0.85;
+    backdrop-filter: blur(0px);
+  }
+  20% {
+    backdrop-filter: blur(4px);
+  }
+  50% {
+    backdrop-filter: blur(14px);
+  }
+  80% {
+    backdrop-filter: blur(22px);
+  }
+  100% {
+    transform: scale(15);
+    opacity: 1;
+    backdrop-filter: blur(24px);
+  }
+}
+@keyframes souly-flip-bounce {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.2); }
+  70% { transform: scale(0.95); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes souly-flip-bounce-rev {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0); opacity: 0; }
+}
+@keyframes souly-flip-moveup {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes souly-flip-moveup-rev {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+@keyframes souly-flip-name-in {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes souly-flip-name-out {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(8px); }
+}
+@keyframes souly-flip-icon-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.souly-flip-icon-hover {
+  animation: souly-flip-icon-spin 0.6s ease-in-out forwards;
+}
+.souly-flip-icon-wrapper {
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+.group\/card:hover .souly-flip-icon-wrapper {
+  filter: drop-shadow(0 0 24px rgba(255,255,255,0.95)) drop-shadow(0 0 48px rgba(255,255,255,0.6));
+  animation: souly-flip-icon-spin 0.6s ease-in-out forwards;
+}
+
 /* DAO Waves — точки, фаза меняется */
 @keyframes dao-wave-flow {
   0%, 100% { opacity: 0.9; }

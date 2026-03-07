@@ -5,6 +5,24 @@ import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { T } from "@/app/media/translations";
 
+function HeartIcon({ filled }: { filled: boolean }) {
+  return (
+    <svg
+      className={`w-5 h-5 transition-colors ${filled ? "text-rose-400" : "text-white/60"}`}
+      fill={filled ? "currentColor" : "none"}
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+      />
+    </svg>
+  );
+}
+
 const MARVIN_IMAGES = [
   "/marvin/out-0%20(1).webp",
   "/marvin/out-0%20(2).webp",
@@ -30,6 +48,12 @@ export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProp
   const borderStyle = isDark ? undefined : { borderColor: "var(--color-border)" };
   const [index, setIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
+  const [likes, setLikes] = useState<Record<number, boolean>>({});
+
+  const toggleLike = (i: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLikes((prev) => ({ ...prev, [i]: !prev[i] }));
+  };
 
   const goNext = useCallback(() => {
     setIndex((i) => (i + 1) % MARVIN_IMAGES.length);
@@ -88,6 +112,14 @@ export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProp
                   unoptimized
                   priority={i === 0}
                 />
+                <button
+                  type="button"
+                  onClick={(e) => toggleLike(i, e)}
+                  className="absolute bottom-3 right-3 p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm z-10"
+                  aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                >
+                  <HeartIcon filled={!!likes[i]} />
+                </button>
               </button>
             ))}
           </div>
@@ -192,6 +224,14 @@ export default function MarvinCarousel({ variant = "light" }: MarvinCarouselProp
                     unoptimized
                     onClick={(e) => e.stopPropagation()}
                   />
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); toggleLike(i, e); }}
+                    className="absolute bottom-6 right-6 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md z-10"
+                    aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                  >
+                    <HeartIcon filled={!!likes[i]} />
+                  </button>
                 </div>
               ))}
             </div>

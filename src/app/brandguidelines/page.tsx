@@ -344,7 +344,9 @@ const TRANSLATIONS = {
       "Использовать на странице DAO, в презентациях о Tribe governance, при рассказе о том, как сообщество принимает решения. Эффект передаёт: «центр — это мы», «все направления равны», «движение рождается изнутри». Мерцание вдохновляет: цвета не статичны, они живут в ритме 4 секунды.",
     daoSphereTech: "Техника",
     daoSphereTechText:
-      "Шарик: radial-gradient слои (cyan, violet, pink). Цикл 4s, cubic-bezier. Кружки: canvas, 12 направлений (360°/12), spawn каждые 30 кадров. Радиус растёт от центра (1.5px → 10px). Цвет синхронизирован с шариком через document.timeline.currentTime — все кружки в один момент одного цвета.",
+      "Шарик: radial-gradient слои (cyan, violet, pink). Цикл 4s, cubic-bezier. Кружки: canvas, 12 направлений (360°/12), spawn каждые 30 кадров. Радиус: большие у центра, уменьшаются к краям (10px → 1.5px). Цвет синхронизирован с шариком через document.timeline.currentTime.",
+    daoSphereInteractive: "Интерактивный вариант",
+    daoSphereInteractiveDesc: "При наведении на шарик появляются кружки. Использовать на странице DAO, в презентациях. Шарик w-32 h-32, кружки в контейнере 360×360.",
     patternsTitle: "Patterns & Textures",
     patternsSubtitle: "Фирменные декоративные элементы",
     glowBlobs: "Glow Blobs",
@@ -661,7 +663,9 @@ const TRANSLATIONS = {
       "Einsetzen auf der DAO-Seite, in Governance-Präsentationen, beim Erzählen, wie Tribe Entscheidungen trifft. Der Effekt vermittelt: «das Zentrum sind wir», «alle Richtungen sind gleich», «Bewegung entsteht von innen». Das Flimmern inspiriert: Farben sind nicht statisch, sie leben im 4-Sekunden-Rhythmus.",
     daoSphereTech: "Technik",
     daoSphereTechText:
-      "Kugel: radial-gradient-Schichten (cyan, violet, pink). Zyklus 4s, cubic-bezier. Kreise: Canvas, 12 Richtungen (360°/12), Spawn alle 30 Frames. Radius wächst vom Zentrum (1.5px → 10px). Farbe synchronisiert mit Kugel durch document.timeline.currentTime — alle Kreise in einem Moment gleichfarbig.",
+      "Kugel: radial-gradient-Schichten (cyan, violet, pink). Zyklus 4s, cubic-bezier. Kreise: Canvas, 12 Richtungen (360°/12), Spawn alle 30 Frames. Radius: groß im Zentrum, kleiner am Rand (10px → 1.5px). Farbe synchronisiert mit Kugel durch document.timeline.currentTime.",
+    daoSphereInteractive: "Interaktive Variante",
+    daoSphereInteractiveDesc: "Bei Hover auf die Kugel erscheinen Kreise. Auf der DAO-Seite, in Präsentationen. Kugel w-32 h-32, Kreise in 360×360 Container.",
     patternsTitle: "Patterns & Textures",
     patternsSubtitle: "Markentypische dekorative Elemente",
     glowBlobs: "Glow Blobs",
@@ -2968,6 +2972,32 @@ export default function BrandGuidelinesPage() {
                   </div>
                   <div className="w-full flex justify-center min-h-[200px] sm:min-h-[240px] pt-4">
                     <DaoParticles />
+                  </div>
+                </div>
+              </div>
+              {/* Интерактивный вариант — шарик + кружки при hover */}
+              <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-[#E6E6E6]">
+                <div
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 700,
+                    color: "#B289F9",
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    marginBottom: 8,
+                  }}
+                >
+                  {t.daoSphereInteractive}
+                </div>
+                <p style={{ fontSize: 12, color: "#444", lineHeight: 1.6, marginBottom: 16 }}>
+                  {t.daoSphereInteractiveDesc}
+                </p>
+                <div className="relative flex justify-center items-center min-h-[200px] py-16 sm:py-20">
+                  <div className="group relative z-10 w-32 h-32 flex justify-center items-center overflow-visible cursor-pointer">
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[360px] h-[360px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out">
+                      <DaoParticles />
+                    </div>
+                    <DaoSphere />
                   </div>
                 </div>
               </div>

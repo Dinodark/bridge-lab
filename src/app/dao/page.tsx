@@ -273,7 +273,7 @@ export default function DaoPage() {
           <DaoWaves overlay />
         </div>
         <div
-          className="group relative z-10 w-40 h-40 flex justify-center items-center overflow-visible cursor-pointer"
+          className="group relative z-10 w-32 h-32 flex justify-center items-center overflow-visible cursor-pointer"
           onClick={() => setPasswordModalOpen(true)}
         >
           {/* Кружки под шариком при hover — 360×360, центр совпадает */}
