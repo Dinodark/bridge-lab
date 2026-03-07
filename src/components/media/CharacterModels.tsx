@@ -1,7 +1,7 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { T } from "@/app/media/translations";
 
@@ -23,18 +23,77 @@ const MODELS: Omit<LoRAModel, "name" | "description">[] = [
   },
   {
     id: "2",
-    triggers: ["tribe spirit", "mystical", "community"],
-    image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=600&h=800&fit=crop",
+    triggers: ["marvinstbrg", "Marv"],
+    image: "/marvin/image_QvXSp9gP_1772851450906_raw.jpg",
     link: "#",
   },
 ];
 
-const MODEL_KEYS = ["modelBridgeGuardian", "modelTribeSpirit"] as const;
-const MODEL_DESC_KEYS = ["modelBridgeGuardianDesc", "modelTribeSpiritDesc"] as const;
+const MODEL_KEYS = ["modelBridgeGuardian", "modelMarv"] as const;
+const MODEL_DESC_KEYS = ["modelBridgeGuardianDesc", "modelMarvDesc"] as const;
+
+export function LikePopup({
+  open,
+  onClose,
+  onLike,
+  liked,
+  title,
+  likeLabel,
+  likedLabel,
+  closeLabel,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onLike: () => void;
+  liked: boolean;
+  title: string;
+  likeLabel: string;
+  likedLabel: string;
+  closeLabel: string;
+}) {
+  if (!open) return null;
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        className="rounded-2xl border border-white/20 bg-[#1a1330] p-8 max-w-sm mx-4 shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h3 className="text-xl font-semibold text-white mb-4 text-center">{title}</h3>
+        <button
+          type="button"
+          onClick={onLike}
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-violet-600/20 border border-violet-400/30 text-violet-300 hover:bg-violet-600/30 transition-colors"
+        >
+          <svg
+            className={`w-6 h-6 ${liked ? "text-rose-400 fill-rose-400" : "text-white/60"}`}
+            fill={liked ? "currentColor" : "none"}
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+          <span className="font-medium">{liked ? likedLabel : likeLabel}</span>
+        </button>
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-4 w-full py-2 text-white/60 hover:text-white text-sm"
+        >
+          {closeLabel}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function CharacterModels() {
   const { lang } = useLanguage();
   const t = T[lang];
+  const [popupOpen, setPopupOpen] = useState<string | null>(null);
+  const [popupLiked, setPopupLiked] = useState<Record<string, boolean>>({});
 
   const modelsWithText = MODELS.map((m, i) => ({
     ...m,
@@ -91,15 +150,16 @@ export default function CharacterModels() {
                       ))}
                     </div>
                   </div>
-                  <Link
-                    href={model.link ?? "#"}
+                  <button
+                    type="button"
+                    onClick={() => setPopupOpen(model.id)}
                     className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 text-white text-sm font-medium hover:from-violet-500 hover:to-purple-500 transition-all btn-gradient-glow"
                   >
                     <span>{t.tryIt}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>
@@ -109,6 +169,19 @@ export default function CharacterModels() {
         <p className="mt-8 text-white/50 text-sm text-center">
           {t.comingSoon}
         </p>
+
+        {popupOpen && (
+          <LikePopup
+            open={!!popupOpen}
+            onClose={() => setPopupOpen(null)}
+            onLike={() => setPopupLiked((p) => ({ ...p, [popupOpen]: !p[popupOpen] }))}
+            liked={!!popupLiked[popupOpen]}
+            title={t.likeThis}
+            likeLabel={t.like}
+            likedLabel={t.liked}
+            closeLabel={t.close}
+          />
+        )}
       </div>
     </section>
   );
