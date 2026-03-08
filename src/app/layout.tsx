@@ -4,6 +4,7 @@ import "./globals.css";
 import LayoutContent from "@/components/LayoutContent";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { AnthemPlayerProvider } from "@/contexts/AnthemPlayerContext";
 import GlobalMenu from "@/components/GlobalMenu";
 
 const geistSans = Geist({
@@ -47,8 +48,10 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <LanguageProvider>
-            <GlobalMenu />
-            <LayoutContent>{children}</LayoutContent>
+            <AnthemPlayerProvider>
+              <GlobalMenu />
+              <LayoutContent>{children}</LayoutContent>
+            </AnthemPlayerProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

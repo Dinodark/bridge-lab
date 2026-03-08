@@ -98,6 +98,49 @@ body {
   animation: marquee-reverse 90s linear infinite;
 }
 
+/* Cursor Anthem cover — лёгкая анимация */
+@keyframes anthem-cover-pulse {
+  0%, 100% { transform: scale(0.99); }
+  50% { transform: scale(1.02); }
+}
+@keyframes anthem-cover-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(178, 137, 249, 0.15)); }
+  50% { filter: drop-shadow(0 0 20px rgba(178, 137, 249, 0.3)); }
+}
+/* Скобки — сходятся и расходятся, симметрично, дальше друг от друга */
+@keyframes anthem-bracket-move {
+  0%, 100% { transform: translate(55px, 102px); }
+  50% { transform: translate(88px, 102px); }
+}
+@keyframes anthem-bracket-move-right {
+  0%, 100% { transform: translate(145px, 102px); }
+  50% { transform: translate(112px, 102px); }
+}
+/* Курсор — замысловатая орбита + вращение */
+@keyframes anthem-cursor-orbit {
+  0%, 100% { transform: translate(100px, 79px) rotate(0deg); }
+  20% { transform: translate(118px, 66px) rotate(15deg); }
+  40% { transform: translate(108px, 99px) rotate(-10deg); }
+  60% { transform: translate(78px, 82px) rotate(12deg); }
+  80% { transform: translate(92px, 62px) rotate(-8deg); }
+}
+.anthem-cover-animate {
+  animation: anthem-cover-pulse 5s ease-in-out infinite;
+}
+.anthem-cover-animate svg {
+  animation: anthem-cover-glow 4s ease-in-out infinite;
+}
+.anthem-cover-animate .anthem-bracket-left {
+  animation: anthem-bracket-move 3s ease-in-out infinite;
+}
+.anthem-cover-animate .anthem-bracket-right {
+  animation: anthem-bracket-move-right 3s ease-in-out infinite;
+}
+.anthem-cover-animate .anthem-cursor-orbit {
+  animation: anthem-cursor-orbit 8s ease-in-out infinite;
+  transform-origin: 100px 79px;
+}
+
 /* MediaGrid card — искры по краям при hover */
 @keyframes souly-spark {
   0%, 100% { opacity: 0.3; transform: scale(0.8); }

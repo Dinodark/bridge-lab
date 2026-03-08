@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-
-const TRACK_PATH = `/Music/${encodeURIComponent("PROD _ ПРОД (Push It To Prod).mp3")}`;
+import { useAnthemPlayer } from "@/contexts/AnthemPlayerContext";
 
 const ANTHEM_DESC = {
   ru: "PROD · ПРОД — Cursor, код, Deutschland × Россия. Новое время, новые технологии. Наш гимн.",
@@ -29,46 +28,14 @@ Ich sag': "Cursor, Bruder, Cursor hat es"`;
 
 export default function CursorAnthemBlock() {
   const { lang } = useLanguage();
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const { isPlaying, togglePlay, progress, duration, seek } = useAnthemPlayer();
   const [showLyrics, setShowLyrics] = useState(false);
 
-  const togglePlay = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
-
-  const handleTimeUpdate = () => {
-    const audio = audioRef.current;
-    if (audio) setProgress(audio.currentTime);
-  };
-
-  const handleLoadedMetadata = () => {
-    const audio = audioRef.current;
-    if (audio) setDuration(audio.duration);
-  };
-
-  const handleEnded = () => {
-    setIsPlaying(false);
-    setProgress(0);
-  };
-
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const audio = audioRef.current;
-    if (!audio || !duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const pct = Math.max(0, Math.min(1, x / rect.width));
-    audio.currentTime = pct * duration;
-    setProgress(audio.currentTime);
+    seek(pct);
   };
 
   const formatTime = (s: number) => {
@@ -83,7 +50,7 @@ export default function CursorAnthemBlock() {
       <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-0">
         {/* Cover illustration */}
         <div
-          className="relative aspect-square md:aspect-auto md:min-h-[280px] flex items-center justify-center p-6"
+          className="anthem-cover-animate relative aspect-square md:aspect-auto md:min-h-[280px] flex items-center justify-center p-6"
           style={{
             background: "linear-gradient(145deg, #0a0a12 0%, #1a1a2e 40%, #2d1b4e 100%)",
           }}
@@ -119,14 +86,6 @@ export default function CursorAnthemBlock() {
               {LYRICS}
             </pre>
           )}
-
-          <audio
-            ref={audioRef}
-            src={TRACK_PATH}
-            onTimeUpdate={handleTimeUpdate}
-            onLoadedMetadata={handleLoadedMetadata}
-            onEnded={handleEnded}
-          />
 
           <div className="flex items-center gap-4 mt-auto">
             <button
@@ -210,8 +169,8 @@ function CursorAnthemCover() {
       <circle cx="100" cy="100" r="70" fill="none" stroke="url(#anthem-grad1)" strokeWidth="1.5" opacity="0.35" />
       <circle cx="100" cy="100" r="50" fill="none" stroke="url(#anthem-grad1)" strokeWidth="1" opacity="0.25" />
 
-      {/* Cursor icon — arrow pointing up-left */}
-      <g transform="translate(100, 95)" filter="url(#anthem-glow)">
+      {/* Cursor icon — орбита + лёгкое вращение */}
+      <g className="anthem-cursor-orbit" transform="translate(100, 79)" filter="url(#anthem-glow)">
         <path
           d="M-10 -18 L10 2 L-2 6 L-14 -6 Z"
           fill="url(#anthem-grad1)"
@@ -219,24 +178,28 @@ function CursorAnthemCover() {
         />
       </g>
 
-      {/* Code brackets { } */}
-      <text x="52" y="118" fill="url(#anthem-grad1)" fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85">
-        {"{"}
-      </text>
-      <text x="128" y="118" fill="url(#anthem-grad1)" fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85">
-        {"}"}
-      </text>
+      {/* Code brackets { } — сходятся и расходятся, симметрично */}
+      <g className="anthem-bracket-left" transform="translate(55, 102)">
+        <text x="0" y="0" fill="url(#anthem-grad1)" fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
+          {"{"}
+        </text>
+      </g>
+      <g className="anthem-bracket-right" transform="translate(145, 102)">
+        <text x="0" y="0" fill="url(#anthem-grad1)" fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
+          {"}"}
+        </text>
+      </g>
 
-      {/* DE × RU — дружба печеньки */}
-      <g transform="translate(65, 138)">
+      {/* DE × RU — выровнены по горизонтали по центру */}
+      <g transform="translate(65, 140)">
         <rect width="14" height="5" fill="#000" opacity="0.7" rx="1" />
         <rect y="5" width="14" height="5" fill="#DD0000" opacity="0.7" rx="1" />
         <rect y="10" width="14" height="5" fill="#FFCE00" opacity="0.7" rx="1" />
       </g>
-      <text x="100" y="155" fill="url(#anthem-grad1)" fontSize="12" fontWeight="bold" textAnchor="middle" opacity="0.6">
+      <text x="100" y="147.5" fill="url(#anthem-grad1)" fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" opacity="0.6">
         ×
       </text>
-      <g transform="translate(121, 138)">
+      <g transform="translate(121, 140)">
         <rect width="14" height="5" fill="#fff" opacity="0.6" rx="1" />
         <rect y="5" width="14" height="5" fill="#0039A6" opacity="0.7" rx="1" />
         <rect y="10" width="14" height="5" fill="#D52B1E" opacity="0.7" rx="1" />
