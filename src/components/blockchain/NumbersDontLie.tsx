@@ -1,11 +1,18 @@
-const stats = [
-  { value: "$592B", label: "Annual US charity market (2020)", delay: "0s" },
-  { value: "$2.5B", label: "Digital charity donations by 2028", delay: "0.8s" },
-  { value: "73%", label: "Of global adults distrust charities", delay: "1.6s" },
-  { value: "66%", label: "Individual donors care about social impact", delay: "2.4s" },
-];
+"use client";
+
+import { useLanguage } from "@/contexts/LanguageContext";
+import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
 export default function NumbersDontLie() {
+  const { lang } = useLanguage();
+  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const stats = [
+    { value: "$592B", label: t.numbers1Label, delay: "0s" },
+    { value: "$2.5B", label: t.numbers2Label, delay: "0.8s" },
+    { value: "73%", label: t.numbers3Label, delay: "1.6s" },
+    { value: "66%", label: t.numbers4Label, delay: "2.4s" },
+  ];
+
   return (
     <section
       className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden"
@@ -16,7 +23,7 @@ export default function NumbersDontLie() {
     >
       <div className="max-w-7xl mx-auto relative z-10">
         <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-16">
-          The Numbers Don&apos;t Lie
+          {t.numbersTitle}
         </h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat) => (
@@ -30,8 +37,7 @@ export default function NumbersDontLie() {
           ))}
         </div>
         <p className="text-white/60 text-center mt-12 max-w-2xl mx-auto">
-          Bridge addresses these challenges head-on with transparency, 
-          blockchain verification, and community-driven governance.
+          {t.numbersP}
         </p>
       </div>
     </section>

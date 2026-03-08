@@ -3,27 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
-const campaigns = [
-  {
-    id: 1,
-    title: "Food For The Homeless",
-    image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&h=300&fit=crop",
-    progress: 65,
-  },
-  {
-    id: 2,
-    title: "Clean Water For Rural",
-    image: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop",
-    progress: 40,
-  },
-  {
-    id: 3,
-    title: "Help Save Lives",
-    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=300&fit=crop",
-    progress: 80,
-  },
+const CAMPAIGN_KEYS = ["campaign1", "campaign2", "campaign3"] as const;
+const campaignImages = [
+  "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&h=300&fit=crop",
+  "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&h=300&fit=crop",
+  "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=400&h=300&fit=crop",
 ];
+const campaignProgress = [65, 40, 80];
 
 const CARD_PARALLAX = [
   { base: 0, factor: 0.18 },
@@ -32,6 +21,8 @@ const CARD_PARALLAX = [
 ];
 
 export default function BlockchainHero() {
+  const { lang } = useLanguage();
+  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -40,6 +31,13 @@ export default function BlockchainHero() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const campaigns = CAMPAIGN_KEYS.map((key, i) => ({
+    id: i + 1,
+    title: t[key],
+    image: campaignImages[i],
+    progress: campaignProgress[i],
+  }));
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 overflow-hidden py-20">
@@ -52,18 +50,17 @@ export default function BlockchainHero() {
       <div className="relative w-full max-w-2xl sm:max-w-4xl lg:max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-16">
         <div className="flex-1 mb-12 lg:mb-0">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
-            The First{" "}
+            {t.heroTitle1}{" "}
             <span className="hero-title-blockchain">
-              Blockchain
+              {t.heroTitle2}
             </span>{" "}
-            Charity Platform
+            {t.heroTitle3}
           </h1>
           <p className="text-xl text-cyan-300/90 mb-6">
-            Where Good Deeds Become Digital Legacy
+            {t.heroSubtitle}
           </p>
           <p className="text-white/80 mb-8 max-w-xl">
-            Bridge combines traditional charitable giving with blockchain technology,
-            NFTs, and community governance to create transparent, traceable impact.
+            {t.heroDesc}
           </p>
           <div className="flex flex-wrap gap-4">
             <div className="relative inline-block">
@@ -72,14 +69,14 @@ export default function BlockchainHero() {
                 aria-hidden
               />
               <button className="relative px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white rounded-lg font-medium hover:from-violet-500 hover:to-purple-500 btn-gradient-glow">
-                Join The Movement
+                {t.btnJoin}
               </button>
             </div>
             <Link
               href="#how-it-works"
               className="px-6 py-3 rounded-lg font-medium btn-ghost-violet"
             >
-              Learn More
+              {t.btnLearn}
             </Link>
           </div>
         </div>
@@ -112,7 +109,7 @@ export default function BlockchainHero() {
                       />
                     </div>
                     <button className="w-full py-2 text-sm font-medium text-violet-300 hover:text-violet-200 transition-colors">
-                      Browse Now
+                      {t.btnBrowse}
                     </button>
                   </div>
                 </div>

@@ -48,6 +48,12 @@ const hexagonPoints = [0, 60, 120, 180, 240, 300]
   .map(([x, y]) => `${x},${y}`)
   .join(" ");
 
+/** Звезда Давида — два треугольника */
+const starOfDavidPath = [
+  `M ${C} ${C - R} L ${C - R * 0.866} ${C + R * 0.5} L ${C + R * 0.866} ${C + R * 0.5} Z`,
+  `M ${C} ${C + R} L ${C + R * 0.866} ${C - R * 0.5} L ${C - R * 0.866} ${C - R * 0.5} Z`,
+].join(" ");
+
 /** Круг */
 const circle = <circle cx={C} cy={C} r={R} fill="none" stroke="currentColor" strokeWidth={1.2} />;
 
@@ -68,7 +74,7 @@ export default function ThemeIcon({ theme, className = "", size = 24 }: ThemeIco
   const icons: Record<ThemeKey, React.ReactNode> = {
     fire: (
       <svg viewBox="0 0 24 24" className={className} width={size} height={size}>
-        <polygon points={trianglePoints} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
+        <path d={starD} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
       </svg>
     ),
     water: (
@@ -78,17 +84,17 @@ export default function ThemeIcon({ theme, className = "", size = 24 }: ThemeIco
     ),
     earth: (
       <svg viewBox="0 0 24 24" className={className} width={size} height={size}>
-        <polygon points={pentagonPoints} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
+        <polygon points={squarePoints} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
       </svg>
     ),
     cosmos: (
       <svg viewBox="0 0 24 24" className={className} width={size} height={size}>
-        <path d={starD} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
+        <path d={starOfDavidPath} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
       </svg>
     ),
     storm: (
       <svg viewBox="0 0 24 24" className={className} width={size} height={size}>
-        <polygon points={squarePoints} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
+        <polygon points={trianglePoints} fill="none" stroke="currentColor" strokeWidth={1.2} strokeLinejoin="round" />
       </svg>
     ),
     void: (

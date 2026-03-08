@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import HomeBanner from "@/components/HomeBanner";
 
@@ -11,22 +12,23 @@ const CONTENT = {
     tastyTitle: "Вкусняшки разделов",
     tastySubtitle: "Ключевая идея и как использовать каждый материал",
     tastyBlocks: [
-      { href: "/tribe", tag: "Tribe", keyIdea: "Living Identity System", use: "Одно ядро — бесконечные темы. Fire, Water, Earth, Cosmos." },
-      { href: "/dao", tag: "DAO", keyIdea: "Сообщество решает", use: "Прозрачность, соучастие, децентрализация. Governance в действии." },
-      { href: "/media", tag: "Media", keyIdea: "Видео, изображения, AI", use: "FLUX LoRA, галерея контента. Медиа как актив бренда." },
-      { href: "/music", tag: "Music", keyIdea: "PROD · Anthem & Lounge", use: "Cursor In The Dark, Push It To Prod. Наша музыка." },
-      { href: "/strategy", tag: "Strategy", keyIdea: "Стратегия", use: "Видение, цели, направления. Как мы движемся." },
-      { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Цвета, типографика, DAO Sphere, волны. Вдохновляющие стандарты." },
-      { href: "/roadmap", tag: "Roadmap", keyIdea: "План развития", use: "Версионность, локализация, ИИ-агенты. Куда движемся." },
+      { href: "/tribe", tag: "Tribe", keyIdea: "Living Identity System", use: "Одно ядро — бесконечные темы. Fire, Water, Earth, Cosmos.", thumbnail: "/assets/tribe-thumbnail.png" },
+      { href: "/dao", tag: "DAO", keyIdea: "Сообщество решает", use: "Прозрачность, соучастие, децентрализация. Governance в действии.", thumbnail: "/assets/dao-thumbnail.png" },
+      { href: "/media", tag: "Media", keyIdea: "Видео, изображения, AI", use: "FLUX LoRA, галерея контента. Медиа как актив бренда.", thumbnail: "/assets/media-thumbnail.png" },
+      { href: "/music", tag: "Music", keyIdea: "PROD · Anthem & Lounge", use: "Cursor In The Dark, Push It To Prod. Наша музыка.", thumbnail: "/assets/music-thumbnail.png" },
+      { href: "/strategy", tag: "Strategy", keyIdea: "Стратегия", use: "Видение, цели, направления. Как мы движемся.", thumbnail: "/assets/strategy-thumbnail.png" },
+      { href: "/vision", tag: "Vision", keyIdea: "One Tribe · Видение", use: "Сообщество, движение, новый мир. Манифест и почему Tribe.", thumbnail: "/assets/vision-thumbnail.png" },
+      { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Цвета, типографика, DAO Sphere, волны. Вдохновляющие стандарты.", thumbnail: "/assets/brand-thumbnail.png" },
+      { href: "/roadmap", tag: "Roadmap", keyIdea: "План развития", use: "Версионность, локализация, ИИ-агенты. Куда движемся.", thumbnail: "/assets/roadmap-thumbnail.png" },
     ],
     openLink: "Открыть",
     merchDesc: "Футболка с логотипом OneTribe. Белая и чёрная. Классика племени.",
     viewLink: "Смотреть",
     bridgeSubtitle: "Лендинги-презентации платформы",
     bridgeLandings: [
-      { href: "/blockchain", title: "Bridge", subtitle: "The First Blockchain Charity Platform", desc: "Where Good Deeds Become Digital Legacy. NFT-driven charity." },
-      { href: "/crypto", title: "Mobile First", subtitle: "Bridge Crypto — Криптоблаготворительность", desc: "Community driven. Transparent charity on web3." },
-      { href: "/explore", title: "Starter", subtitle: "Explore Cases — Find Projects That Matter", desc: "190 проектов. Найдите то, что важно для вас." },
+      { href: "/blockchain", title: "Bridge", subtitle: "The First Blockchain Charity Platform", desc: "Where Good Deeds Become Digital Legacy. NFT-driven charity.", headerImage: "/assets/bridge-card-bg.png" },
+      { href: "/crypto", title: "Mobile First", subtitle: "Bridge Crypto — Криптоблаготворительность", desc: "Community driven. Transparent charity on web3.", headerImage: "/assets/crypto-card-bg.png" },
+      { href: "/explore", title: "Starter", subtitle: "Explore Cases — Find Projects That Matter", desc: "190 проектов. Найдите то, что важно для вас.", headerImage: "/assets/explore-card-bg.png" },
     ],
     futureTitle: "Куда движемся",
     futureSubtitle: "Цели, способы и гипотезы. Что мы изучаем и куда идём.",
@@ -44,22 +46,23 @@ const CONTENT = {
     tastyTitle: "Highlights der Bereiche",
     tastySubtitle: "Kernidee und Nutzung jedes Materials",
     tastyBlocks: [
-      { href: "/tribe", tag: "Tribe", keyIdea: "Living Identity System", use: "Ein Kern — unendliche Themen. Fire, Water, Earth, Cosmos." },
-      { href: "/dao", tag: "DAO", keyIdea: "Die Community entscheidet", use: "Transparenz, Mitbestimmung, Dezentralisierung. Governance in Aktion." },
-      { href: "/media", tag: "Media", keyIdea: "Video, Bilder, AI", use: "FLUX LoRA, Content-Galerie. Medien als Markenasset." },
-      { href: "/music", tag: "Music", keyIdea: "PROD · Anthem & Lounge", use: "Cursor In The Dark, Push It To Prod. Unsere Musik." },
-      { href: "/strategy", tag: "Strategy", keyIdea: "Strategie", use: "Vision, Ziele, Richtungen. Wie wir uns bewegen." },
-      { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Farben, Typografie, DAO Sphere, Wellen. Inspirierende Standards." },
-      { href: "/roadmap", tag: "Roadmap", keyIdea: "Entwicklungsplan", use: "Versionierung, Lokalisierung, KI-Agenten. Wohin wir gehen." },
+      { href: "/tribe", tag: "Tribe", keyIdea: "Living Identity System", use: "Ein Kern — unendliche Themen. Fire, Water, Earth, Cosmos.", thumbnail: "/assets/tribe-thumbnail.png" },
+      { href: "/dao", tag: "DAO", keyIdea: "Die Community entscheidet", use: "Transparenz, Mitbestimmung, Dezentralisierung. Governance in Aktion.", thumbnail: "/assets/dao-thumbnail.png" },
+      { href: "/media", tag: "Media", keyIdea: "Video, Bilder, AI", use: "FLUX LoRA, Content-Galerie. Medien als Markenasset.", thumbnail: "/assets/media-thumbnail.png" },
+      { href: "/music", tag: "Music", keyIdea: "PROD · Anthem & Lounge", use: "Cursor In The Dark, Push It To Prod. Unsere Musik.", thumbnail: "/assets/music-thumbnail.png" },
+      { href: "/strategy", tag: "Strategy", keyIdea: "Strategie", use: "Vision, Ziele, Richtungen. Wie wir uns bewegen.", thumbnail: "/assets/strategy-thumbnail.png" },
+      { href: "/vision", tag: "Vision", keyIdea: "One Tribe · Vision", use: "Community, Bewegung, neue Welt. Manifest und warum Tribe.", thumbnail: "/assets/vision-thumbnail.png" },
+      { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Farben, Typografie, DAO Sphere, Wellen. Inspirierende Standards.", thumbnail: "/assets/brand-thumbnail.png" },
+      { href: "/roadmap", tag: "Roadmap", keyIdea: "Entwicklungsplan", use: "Versionierung, Lokalisierung, KI-Agenten. Wohin wir gehen.", thumbnail: "/assets/roadmap-thumbnail.png" },
     ],
     openLink: "Öffnen",
     merchDesc: "T-Shirt mit OneTribe-Logo. Weiß und Schwarz. Klassiker des Stammes.",
     viewLink: "Ansehen",
     bridgeSubtitle: "Plattform-Landingpages",
     bridgeLandings: [
-      { href: "/blockchain", title: "Bridge", subtitle: "The First Blockchain Charity Platform", desc: "Where Good Deeds Become Digital Legacy. NFT-driven charity." },
-      { href: "/crypto", title: "Mobile First", subtitle: "Bridge Crypto — Krypto-Benefiz", desc: "Community driven. Transparente Wohltätigkeit auf web3." },
-      { href: "/explore", title: "Starter", subtitle: "Explore Cases — Find Projects That Matter", desc: "190 Projekte. Finden Sie, was Ihnen wichtig ist." },
+      { href: "/blockchain", title: "Bridge", subtitle: "The First Blockchain Charity Platform", desc: "Where Good Deeds Become Digital Legacy. NFT-driven charity.", headerImage: "/assets/bridge-card-bg.png" },
+      { href: "/crypto", title: "Mobile First", subtitle: "Bridge Crypto — Krypto-Benefiz", desc: "Community driven. Transparente Wohltätigkeit auf web3.", headerImage: "/assets/crypto-card-bg.png" },
+      { href: "/explore", title: "Starter", subtitle: "Explore Cases — Find Projects That Matter", desc: "190 Projekte. Finden Sie, was Ihnen wichtig ist.", headerImage: "/assets/explore-card-bg.png" },
     ],
     futureTitle: "Wohin wir uns bewegen",
     futureSubtitle: "Ziele, Wege und Hypothesen. Was wir erforschen und wohin wir gehen.",
@@ -117,7 +120,13 @@ export default function HomeContent() {
                   className="rounded-xl border p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 h-full"
                   style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}
                 >
-                  <div className="w-10 h-10 rounded-lg mb-4" style={{ background: GRADIENTS[i] }} />
+                  {"thumbnail" in item && item.thumbnail ? (
+                    <div className="relative w-full aspect-[16/10] rounded-lg mb-4 overflow-hidden">
+                      <Image src={item.thumbnail} alt="" fill className="object-cover" sizes="(max-width: 640px) 100vw, 272px" />
+                    </div>
+                  ) : (
+                    <div className="w-10 h-10 rounded-lg mb-4" style={{ background: GRADIENTS[i % GRADIENTS.length] }} />
+                  )}
                   <span className="text-xs font-bold tracking-wider uppercase" style={{ color: "var(--color-cta1)" }}>
                     {item.tag}
                   </span>
@@ -143,12 +152,14 @@ export default function HomeContent() {
           <Link href="/merch" className="group block">
             <article
               className="relative overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-              style={{
-                borderColor: "var(--color-border)",
-                background: "linear-gradient(135deg, #1E1E1E 0%, #444 100%)",
-              }}
+              style={{ borderColor: "var(--color-border)" }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 sm:p-8 md:p-10">
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url(/assets/merch-banner-logo.png)" }}
+              />
+              <div className="absolute inset-0 bg-black/60" />
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6 p-6 sm:p-8 md:p-10">
                 <div className="flex flex-col justify-center">
                   <span className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: "rgba(255,255,255,0.9)" }}>
                     Merch
@@ -168,11 +179,6 @@ export default function HomeContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </span>
-                </div>
-                <div className="flex items-center justify-center min-h-[140px] md:min-h-[180px]">
-                  <div className="w-24 h-24 rounded-xl flex items-center justify-center text-4xl font-black" style={{ background: "rgba(255,255,255,0.9)", color: "#1E1E1E" }}>
-                    OT
-                  </div>
                 </div>
               </div>
             </article>
@@ -194,11 +200,13 @@ export default function HomeContent() {
                   style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}
                 >
                   <div
-                    className="h-32 flex items-center justify-center"
-                    style={{ background: "linear-gradient(135deg, #1a0a2e 0%, #5a1fc9 50%, #b289f9 100%)" }}
-                  >
-                    <span className="text-3xl font-black text-white/90">{item.title}</span>
-                  </div>
+                    className="h-32 flex items-center justify-center bg-cover bg-center"
+                    style={
+                      "headerImage" in item && item.headerImage
+                        ? { backgroundImage: `url(${item.headerImage})` }
+                        : { background: "linear-gradient(135deg, #1a0a2e 0%, #5a1fc9 50%, #b289f9 100%)" }
+                    }
+                  />
                   <div className="p-5 flex-1 flex flex-col">
                     <h3 className="text-lg font-bold mb-2" style={{ color: "var(--color-text)" }}>
                       {item.subtitle}

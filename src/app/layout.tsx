@@ -40,7 +40,7 @@ export default function RootLayout({
       <head>
         <script
           dangerouslySetInnerHTML={{
-            __html: `document.documentElement.setAttribute("data-theme","onetribe");(function(){try{var l=localStorage.getItem("bridge-lang");document.documentElement.lang=l==="de"?"de":"ru"}catch(e){}})();`,
+            __html: `document.documentElement.setAttribute("data-theme","onetribe");(function(){try{var l=localStorage.getItem("bridge-lang");document.documentElement.lang=(l==="de"||l==="en")?l:"ru"}catch(e){}})();`,
           }}
         />
       </head>

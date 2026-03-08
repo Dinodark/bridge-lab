@@ -1,23 +1,28 @@
+"use client";
+
+import { useLanguage } from "@/contexts/LanguageContext";
+import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
+
 export default function CharityMeetsCulture() {
+  const { lang } = useLanguage();
+  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
   const flow = [
-    { label: "NFTs", sub: "collectible proof" },
-    { label: "Impact", sub: "real change" },
-    { label: "Legacy", sub: "digital identity" },
+    { label: t.meetsNFTs, sub: t.meetsNFTsSub },
+    { label: t.meetsImpact, sub: t.meetsImpactSub },
+    { label: t.meetsLegacy, sub: t.meetsLegacySub },
   ];
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/[0.04] backdrop-blur-md">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8">
-          Bridge: Where Charity Meets Culture
+          {t.meetsTitle}
         </h2>
         <p className="text-white/80 mb-6">
-          We combine traditional giving with blockchain, NFTs, and community governance 
-          to create a unique, collectible proof of impact.
+          {t.meetsP1}
         </p>
         <p className="text-white/80 mb-12">
-          Every donation becomes a verifiable digital asset—your contribution is forever 
-          recorded on the blockchain.
+          {t.meetsP2}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8">
           {flow.map((item, i) => (

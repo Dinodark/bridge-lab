@@ -1,27 +1,22 @@
+"use client";
+
+import { useLanguage } from "@/contexts/LanguageContext";
+import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
+
 export default function CharityParadox() {
+  const { lang } = useLanguage();
+  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
   const stats = [
-    {
-      value: "$592B",
-      label: "Annual US charity market (2020)",
-      desc: "Massive market with traditional infrastructure and opacity.",
-    },
-    {
-      value: "$2.5B",
-      label: "Digital charity donations by 2028",
-      desc: "Rapid growth in digital giving, yet trust remains an issue.",
-    },
-    {
-      value: "Trust crisis",
-      label: "Declining confidence",
-      desc: "73% of global adults distrust traditional charities.",
-    },
+    { value: t.paradox1Value, label: t.paradox1Label, desc: t.paradox1Desc },
+    { value: t.paradox2Value, label: t.paradox2Label, desc: t.paradox2Desc },
+    { value: t.paradox3Value, label: t.paradox3Label, desc: t.paradox3Desc },
   ];
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-16">
-          The Charity Paradox
+          {t.paradoxTitle}
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
           {stats.map((stat) => (

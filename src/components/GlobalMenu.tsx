@@ -32,7 +32,7 @@ function LangSwitcher({
   className = "",
 }: {
   lang: string;
-  setLang: (l: "ru" | "de") => void;
+  setLang: (l: "ru" | "de" | "en") => void;
   palette: { cta1: string };
   className?: string;
 }) {

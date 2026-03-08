@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
 const testimonials = [
   {
@@ -19,6 +21,8 @@ const testimonials = [
 ];
 
 export default function BuiltByBelievers() {
+  const { lang } = useLanguage();
+  const tr = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
   const [index, setIndex] = useState(0);
   const t = testimonials[index];
 
@@ -26,10 +30,10 @@ export default function BuiltByBelievers() {
     <section id="about" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-4">
-          Built by Believers
+          {tr.believersTitle}
         </h2>
         <p className="text-white/70 text-center mb-12">
-          Our team is committed to making charity transparent and impactful
+          {tr.believersSub}
         </p>
         <div className="relative overflow-hidden rounded-2xl">
           {/* Свечение под блоком — широкое, лёгкое, насыщенное */}
@@ -67,7 +71,7 @@ export default function BuiltByBelievers() {
                   type="button"
                   onClick={() => setIndex((i) => (i === 0 ? testimonials.length - 1 : i - 1))}
                   className="group relative p-3 text-white flex items-center justify-center transition-all duration-300"
-                  aria-label="Предыдущее"
+                  aria-label={tr.believersPrev}
                 >
                   <span className="absolute inset-0 rounded-full border-2 border-transparent opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 group-hover:border-white group-hover:shadow-[0_0_24px_rgba(255,255,255,0.2)]" />
                   <svg className="relative w-10 h-10 -translate-x-1 transition-transform duration-300 group-hover:translate-x-0" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24">
@@ -83,7 +87,7 @@ export default function BuiltByBelievers() {
                       className={`h-1 rounded-full transition-all duration-700 ease-in-out ${
                         i === index ? "w-8 bg-white" : "w-1 bg-white/40 hover:bg-white/60"
                       }`}
-                      aria-label={`Перейти к ${i + 1}`}
+                      aria-label={`${tr.believersGoTo} ${i + 1}`}
                     />
                   ))}
                 </div>
@@ -91,7 +95,7 @@ export default function BuiltByBelievers() {
                   type="button"
                   onClick={() => setIndex((i) => (i === testimonials.length - 1 ? 0 : i + 1))}
                   className="group relative p-3 text-white flex items-center justify-center transition-all duration-300"
-                  aria-label="Следующее"
+                  aria-label={tr.believersNext}
                 >
                   <span className="absolute inset-0 rounded-full border-2 border-transparent opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 group-hover:border-white group-hover:shadow-[0_0_24px_rgba(255,255,255,0.2)]" />
                   <svg className="relative w-10 h-10 translate-x-1 transition-transform duration-300 group-hover:translate-x-0" fill="none" stroke="currentColor" strokeWidth={1} viewBox="0 0 24 24">
