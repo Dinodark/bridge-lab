@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import MerchApplications from "@/components/merch/MerchApplications";
+import MerchGallery from "@/components/merch/MerchGallery";
 
 export default function TribeMerchPage() {
   const [isBlack, setIsBlack] = useState(false);
@@ -19,14 +20,25 @@ export default function TribeMerchPage() {
         padding: "48px 24px 96px",
       }}
     >
-      {/* T-shirt SVG preview */}
+      {/* Gallery */}
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <MerchGallery />
+      </div>
+
+      {/* Applications section */}
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <MerchApplications />
+      </div>
+
+      {/* T-shirt SVG preview — в подвале */}
       <div
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           gap: 32,
-          marginBottom: 64,
+          marginTop: 64,
+          marginBottom: 0,
         }}
       >
         <div style={{ display: "flex", gap: 12 }}>
@@ -84,12 +96,7 @@ export default function TribeMerchPage() {
           </defs>
 
           <path
-            d="M 60 80
-             L 0 180 L 80 210 L 80 520 L 440 520 L 440 210 L 520 180 L 460 80
-             C 430 90 390 110 350 115
-             C 330 148 300 168 260 168
-             C 220 168 190 148 170 115
-             C 130 110 90 90 60 80 Z"
+            d="M 60 80 L 0 180 L 80 210 L 80 520 L 440 520 L 440 210 L 520 180 L 460 80 C 430 90 390 110 350 115 C 330 148 300 168 260 168 C 220 168 190 148 170 115 C 130 110 90 90 60 80 Z"
             fill={bg}
             stroke={isBlack ? "#333" : "#E0E0E0"}
             strokeWidth="1.5"
@@ -163,11 +170,6 @@ export default function TribeMerchPage() {
         >
           OneTribe Merch · Classic Tee · {isBlack ? "Black" : "White"}
         </div>
-      </div>
-
-      {/* Applications section */}
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <MerchApplications />
       </div>
     </div>
   );

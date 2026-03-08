@@ -14,9 +14,10 @@ function sinePath(
   const centerY = height / 2;
   const points: string[] = [];
   const steps = 120;
+  const round = (n: number) => Math.round(n * 100) / 100;
   for (let i = 0; i <= steps; i++) {
-    const x = (i / steps) * width;
-    const y = centerY + amplitude * Math.sin((x / width) * frequency * Math.PI * 2 + phase);
+    const x = round((i / steps) * width);
+    const y = round(centerY + amplitude * Math.sin((x / width) * frequency * Math.PI * 2 + phase));
     points.push(`${x},${y}`);
   }
   return `M ${points.join(" L ")}`;
@@ -27,6 +28,8 @@ type DaoWavesProps = { contained?: boolean; overlay?: boolean };
 export default function DaoWaves({ contained, overlay }: DaoWavesProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [phase, setPhase] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const w = 1920;
   const h = 80;
 
@@ -148,9 +151,9 @@ export default function DaoWaves({ contained, overlay }: DaoWavesProps) {
             </linearGradient>
           </defs>
 
-          {/* Волны точками — фаза меняется */}
+          {/* Волны точками — фаза меняется только после гидрации (избегаем mismatch) */}
           <path
-            d={sinePath(w, h, 18, 2.5, phase)}
+            d={sinePath(w, h, 18, 2.5, mounted ? phase : 0)}
             fill="none"
             stroke="url(#dao-wave-grad-1)"
             strokeLinecap="round"

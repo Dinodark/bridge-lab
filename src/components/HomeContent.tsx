@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import HomeBanner from "@/components/HomeBanner";
-import CursorAnthemBlock from "@/components/CursorAnthemBlock";
 
 const CONTENT = {
   ru: {
@@ -15,6 +14,7 @@ const CONTENT = {
       { href: "/tribe", tag: "Tribe", keyIdea: "Living Identity System", use: "Одно ядро — бесконечные темы. Fire, Water, Earth, Cosmos." },
       { href: "/dao", tag: "DAO", keyIdea: "Сообщество решает", use: "Прозрачность, соучастие, децентрализация. Governance в действии." },
       { href: "/media", tag: "Media", keyIdea: "Видео, изображения, AI", use: "FLUX LoRA, галерея контента. Медиа как актив бренда." },
+      { href: "/music", tag: "Music", keyIdea: "PROD · Anthem & Lounge", use: "Cursor In The Dark, Push It To Prod. Наша музыка." },
       { href: "/strategy", tag: "Strategy", keyIdea: "Стратегия", use: "Видение, цели, направления. Как мы движемся." },
       { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Цвета, типографика, DAO Sphere, волны. Вдохновляющие стандарты." },
       { href: "/roadmap", tag: "Roadmap", keyIdea: "План развития", use: "Версионность, локализация, ИИ-агенты. Куда движемся." },
@@ -47,6 +47,7 @@ const CONTENT = {
       { href: "/tribe", tag: "Tribe", keyIdea: "Living Identity System", use: "Ein Kern — unendliche Themen. Fire, Water, Earth, Cosmos." },
       { href: "/dao", tag: "DAO", keyIdea: "Die Community entscheidet", use: "Transparenz, Mitbestimmung, Dezentralisierung. Governance in Aktion." },
       { href: "/media", tag: "Media", keyIdea: "Video, Bilder, AI", use: "FLUX LoRA, Content-Galerie. Medien als Markenasset." },
+      { href: "/music", tag: "Music", keyIdea: "PROD · Anthem & Lounge", use: "Cursor In The Dark, Push It To Prod. Unsere Musik." },
       { href: "/strategy", tag: "Strategy", keyIdea: "Strategie", use: "Vision, Ziele, Richtungen. Wie wir uns bewegen." },
       { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Farben, Typografie, DAO Sphere, Wellen. Inspirierende Standards." },
       { href: "/roadmap", tag: "Roadmap", keyIdea: "Entwicklungsplan", use: "Versionierung, Lokalisierung, KI-Agenten. Wohin wir gehen." },
@@ -90,10 +91,6 @@ export default function HomeContent() {
       <HomeBanner />
 
       <div className="max-w-4xl mx-auto px-6 pt-16 pb-24 space-y-20">
-        <section>
-          <CursorAnthemBlock />
-        </section>
-
         <section>
           <div className="inline-block text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "var(--color-cta1)" }}>
             TRIBE

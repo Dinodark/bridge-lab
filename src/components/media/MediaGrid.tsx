@@ -47,6 +47,9 @@ const LERP_TO_TARGET = 0.07;
 const LERP_TO_BASE = 0.04;
 const EDGE_SPEED_BOOST = 12;
 
+const CARD_INNER_CLASS =
+  "relative w-full h-full overflow-hidden rounded-lg transition-all duration-300 ease-out group-hover:scale-[1.05] group-hover:shadow-[0_0_24px_rgba(178,137,249,0.4),0_0_48px_rgba(72,229,255,0.2)] group-hover:ring-2 group-hover:ring-[var(--color-cta1)] group-hover:ring-offset-2 group-hover:ring-offset-[var(--color-bg)]";
+
 function HeartIcon({ filled }: { filled: boolean }) {
   return (
     <svg
@@ -94,6 +97,7 @@ function FlipIcon({ className = "" }: { className?: string }) {
 export default function MediaGrid() {
   const { lang } = useLanguage();
   const t = T[lang];
+  const [mounted, setMounted] = useState(false);
   const items = [...SOULY_ITEMS, ...SOULY_ITEMS];
   const trackRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -105,6 +109,8 @@ export default function MediaGrid() {
   const [flipAnimating, setFlipAnimating] = useState<Record<number, "forward" | "reverse" | null>>({});
   const gradientsRequested = useRef<Set<number>>(new Set());
   const defaultGradient = "linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%)";
+
+  useEffect(() => setMounted(true), []);
 
   const handleFlip = (i: number, e?: React.MouseEvent | React.KeyboardEvent) => {
     e?.stopPropagation?.();
@@ -228,7 +234,7 @@ export default function MediaGrid() {
       container.removeEventListener("mousemove", handleMouseMove);
       container.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, []);
+  }, [mounted]);
 
   useEffect(() => {
     if (selectedIndex === null) {
@@ -245,10 +251,27 @@ export default function MediaGrid() {
     return () => window.removeEventListener("keydown", onKey);
   }, [selectedIndex]);
 
+  if (!mounted) {
+    return (
+      <section className="py-16 w-full overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+          <h2 className="text-xl font-semibold" style={{ color: "var(--color-text)" }}>{t.gallery}</h2>
+        </div>
+        <div className="relative left-1/2 -translate-x-1/2 overflow-hidden py-6" style={{ width: "calc(100vw + 80px)" }}>
+          <div className="flex gap-2 min-w-max py-6">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-48 sm:w-56 md:w-64 aspect-square rounded-lg bg-[var(--color-muted)]/20 animate-pulse" />
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
-        <h2 className="text-xl font-semibold text-white/90">{t.gallery}</h2>
+        <h2 className="text-xl font-semibold" style={{ color: "var(--color-text)" }}>{t.gallery}</h2>
       </div>
       <div
         ref={containerRef}
@@ -278,11 +301,7 @@ export default function MediaGrid() {
                 }}
                 className="group relative flex-shrink-0 w-48 sm:w-56 md:w-64 aspect-square overflow-visible rounded-lg cursor-pointer"
               >
-                <div
-                  className="relative w-full h-full overflow-hidden rounded-lg transition-all duration-300 ease-out
-                    group-hover:scale-[1.05] group-hover:shadow-[0_0_24px_rgba(178,137,249,0.4),0_0_48px_rgba(72,229,255,0.2)]
-                    group-hover:ring-2 group-hover:ring-white/60 group-hover:ring-offset-2 group-hover:ring-offset-[#0f0a1e]"
-                >
+                <div className={CARD_INNER_CLASS}>
                   <Image
                     src={item.src}
                     alt={data.title[lang]}

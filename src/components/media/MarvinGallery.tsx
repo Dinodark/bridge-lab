@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { T } from "@/app/media/translations";
 import { MARVIN_ITEMS } from "./marvinGalleryData";
@@ -96,6 +97,15 @@ export default function MarvinGallery() {
   const gradientsRequested = useRef<Set<number>>(new Set());
   const sectionRef = useRef<HTMLElement | null>(null);
   const defaultGradient = "linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%)";
+  const [quoteIndex, setQuoteIndex] = useState(0);
+  const quotes = t.firePaletteQuotes;
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setQuoteIndex((i) => (i + 1) % quotes.length);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [quotes.length]);
 
   const toggleLike = (index: number, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -161,9 +171,32 @@ export default function MarvinGallery() {
   }, [selectedIndex]);
 
   return (
-    <section ref={sectionRef} className="py-16 w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <h2 className="text-xl font-semibold text-white/90">{t.marvin} — {t.gallery}</h2>
+    <section
+      ref={sectionRef}
+      className="py-16 w-full overflow-hidden"
+      style={{
+        background: "linear-gradient(180deg, rgba(13,10,7,0.97) 0%, rgba(30,15,5,0.98) 50%, rgba(13,10,7,0.99) 100%)",
+        fontFamily: "var(--font-inter-tight), Inter, sans-serif",
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+        <p className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#FF902F]/70 mb-2">
+          {t.firePaletteTitle} · {t.marvin} {t.gallery}
+        </p>
+        <h2 className="text-[28px] sm:text-[36px] font-bold text-[#F0E8DC] tracking-[-0.02em] leading-[1.2] mb-2 max-w-2xl">
+          {t.firePaletteSubtitle}
+        </h2>
+        <p className="text-sm text-[#FF902F]/60 mb-4 max-w-xl">
+          {t.firePaletteNote}
+        </p>
+        <div className="min-h-[2.5rem]">
+          <p
+            className="text-base sm:text-[18px] text-[#FF902F]/90 font-light italic leading-[1.6] max-w-xl"
+            key={quoteIndex}
+          >
+            «{quotes[quoteIndex]}»
+          </p>
+        </div>
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
@@ -174,7 +207,7 @@ export default function MarvinGallery() {
               tabIndex={0}
               onClick={() => setSelectedIndex(i)}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSelectedIndex(i); } }}
-              className="group relative aspect-square overflow-hidden rounded-2xl text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-white/30 focus:ring-offset-2 focus:ring-offset-[#0f0a1e]"
+              className="group relative aspect-square overflow-hidden rounded-xl text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#FF902F] focus:ring-offset-2 focus:ring-offset-[#0D0A07] shadow-lg"
             >
               <div
                 className="absolute inset-0 transition-transform duration-[2472ms] ease-out"
@@ -196,8 +229,8 @@ export default function MarvinGallery() {
                 </div>
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-3">
-                <p className="text-sm font-medium text-white/95 truncate drop-shadow-lg">{item.title[lang]}</p>
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <p className="text-[12px] sm:text-[14px] font-semibold text-white/95 truncate drop-shadow-lg" style={{ letterSpacing: "0.04em" }}>{item.title[lang]}</p>
               </div>
               <button
                 type="button"
@@ -209,6 +242,48 @@ export default function MarvinGallery() {
               </button>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-[#FF902F]/20">
+        <p className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#FF902F]/60 mb-4">{t.relatedPages}</p>
+        <div className="flex flex-wrap gap-4">
+          <Link
+            href="/vision"
+            className="text-[14px] font-medium text-[#FF902F] hover:text-[#FFBC6F] transition-colors border-b border-[#FF902F]/30 hover:border-[#FFBC6F]/50 pb-0.5"
+          >
+            {t.linkVision}
+          </Link>
+          <Link
+            href="/tribe"
+            className="text-[14px] font-medium text-[#FF902F] hover:text-[#FFBC6F] transition-colors border-b border-[#FF902F]/30 hover:border-[#FFBC6F]/50 pb-0.5"
+          >
+            {t.linkTribe}
+          </Link>
+          <Link
+            href="/blockchain"
+            className="text-[14px] font-medium text-[#FF902F] hover:text-[#FFBC6F] transition-colors border-b border-[#FF902F]/30 hover:border-[#FFBC6F]/50 pb-0.5"
+          >
+            {t.linkBridge}
+          </Link>
+          <Link
+            href="/media"
+            className="text-[14px] font-medium text-[#FF902F] hover:text-[#FFBC6F] transition-colors border-b border-[#FF902F]/30 hover:border-[#FFBC6F]/50 pb-0.5"
+          >
+            {t.linkMedia}
+          </Link>
+          <Link
+            href="/brandguidelines"
+            className="text-[14px] font-medium text-[#FF902F] hover:text-[#FFBC6F] transition-colors border-b border-[#FF902F]/30 hover:border-[#FFBC6F]/50 pb-0.5"
+          >
+            {t.linkBrand}
+          </Link>
+          <Link
+            href="/dao"
+            className="text-[14px] font-medium text-[#FF902F] hover:text-[#FFBC6F] transition-colors border-b border-[#FF902F]/30 hover:border-[#FFBC6F]/50 pb-0.5"
+          >
+            {t.linkDao}
+          </Link>
         </div>
       </div>
 

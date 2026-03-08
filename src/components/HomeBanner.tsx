@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const PHRASES = {
@@ -89,6 +89,9 @@ function TribeLogoIcon({ className = "", gradientId = "home-banner-logo" }: { cl
 export default function HomeBanner() {
   const { lang } = useLanguage();
   const [phraseIndex, setPhraseIndex] = useState(0);
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const rewindRafRef = useRef<number | null>(null);
   const phrases = PHRASES[lang];
 
   useEffect(() => {
@@ -98,6 +101,41 @@ export default function HomeBanner() {
     return () => clearInterval(t);
   }, [phrases.length]);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const rewindSpeed = 1.0; // seconds of video per second of real time
+    let lastTime = performance.now();
+
+    const rewind = () => {
+      const now = performance.now();
+      const dt = (now - lastTime) / 1000;
+      lastTime = now;
+      video.currentTime = Math.max(0, video.currentTime - dt * rewindSpeed);
+      if (video.currentTime <= 0) {
+        video.currentTime = 0;
+        video.play();
+        rewindRafRef.current = null;
+        return;
+      }
+      rewindRafRef.current = requestAnimationFrame(rewind);
+    };
+
+    const handleEnded = () => {
+      lastTime = performance.now();
+      rewindRafRef.current = requestAnimationFrame(rewind);
+    };
+
+    video.addEventListener("ended", handleEnded);
+    if (video.ended) handleEnded();
+
+    return () => {
+      video.removeEventListener("ended", handleEnded);
+      if (rewindRafRef.current) cancelAnimationFrame(rewindRafRef.current);
+    };
+  }, [videoError]);
+
   return (
     <div
       className="home-banner relative overflow-hidden w-full rounded-b-xl"
@@ -106,23 +144,36 @@ export default function HomeBanner() {
         borderWidth: 1,
         borderStyle: "solid",
         borderTopWidth: 0,
-        /* Golden ratio: 1/φ ≈ 61.8% of viewport (Fibonacci 55/89) */
-        height: "61.8vh",
-        minHeight: 240,
+        /* ~31% viewport — половина от golden ratio */
+        height: "30.9vh",
+        minHeight: 120,
       }}
     >
-      {/* Blurred background */}
+      {/* Background: video (fal.ai) or fallback image */}
       <div className="absolute inset-0">
+        {!videoError && (
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover scale-110"
+            poster="/assets/home-feed-illustration.webp"
+            onError={() => setVideoError(true)}
+          >
+            <source src="/assets/home-banner-video.mp4" type="video/mp4" />
+          </video>
+        )}
         <Image
           src="/assets/home-feed-illustration.webp"
           alt=""
           fill
-          className="object-cover scale-110"
+          className={`object-cover scale-110 ${!videoError ? "opacity-0" : ""}`}
           sizes="(max-width: 672px) 100vw, 672px"
           priority
         />
         <div
-          className="absolute inset-0 backdrop-blur-[8px] sm:backdrop-blur-[12px]"
+          className="absolute inset-0 backdrop-blur-[8px] sm:backdrop-blur-[12px] pointer-events-none"
           style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.6) 100%)" }}
         />
       </div>

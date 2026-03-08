@@ -60,17 +60,19 @@ export function LikePopup({
       onClick={onClose}
     >
       <div
-        className="rounded-2xl border border-white/20 bg-[#1a1330] p-8 max-w-sm mx-4 shadow-xl"
+        className="rounded-2xl border p-8 max-w-sm mx-4 shadow-xl"
+        style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-xl font-semibold text-white mb-4 text-center">{title}</h3>
+        <h3 className="text-xl font-semibold mb-4 text-center" style={{ color: "var(--color-text)" }}>{title}</h3>
         <button
           type="button"
           onClick={onLike}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-violet-600/20 border border-violet-400/30 text-violet-300 hover:bg-violet-600/30 transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border transition-colors bg-[var(--color-cta1)]/20 border-[var(--color-cta1)]/40 hover:bg-[var(--color-cta1)]/30"
+          style={{ color: "var(--color-cta1)" }}
         >
           <svg
-            className={`w-6 h-6 ${liked ? "text-rose-400 fill-rose-400" : "text-white/60"}`}
+            className={`w-6 h-6 ${liked ? "text-rose-400 fill-rose-400" : ""}`}
             fill={liked ? "currentColor" : "none"}
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -82,7 +84,8 @@ export function LikePopup({
         <button
           type="button"
           onClick={onClose}
-          className="mt-4 w-full py-2 text-white/60 hover:text-white text-sm"
+          className="mt-4 w-full py-2 text-sm transition-colors hover:opacity-80"
+          style={{ color: "var(--color-muted)" }}
         >
           {closeLabel}
         </button>
@@ -138,13 +141,13 @@ export default function CharacterModels() {
   }));
 
   return (
-    <section ref={sectionRef} className="py-20 px-4 sm:px-6 lg:px-8 border-t border-white/10">
+    <section ref={sectionRef} className="py-20 px-4 sm:px-6 lg:px-8 border-t" style={{ borderColor: "var(--color-border)" }}>
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: "var(--color-text)" }}>
             {t.characterModels}
           </h2>
-          <p className="text-white/70 max-w-2xl">
+          <p className="max-w-2xl" style={{ color: "var(--color-muted)" }}>
             {t.characterModelsDesc}
           </p>
         </div>
@@ -153,7 +156,8 @@ export default function CharacterModels() {
           {modelsWithText.map((model, i) => (
             <div
               key={model.id}
-              className="group rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04] backdrop-blur-md transition-all duration-300 hover:border-violet-400/30 hover:shadow-[0_0_32px_rgba(139,92,246,0.2)]"
+              className="group rounded-2xl overflow-hidden border backdrop-blur-md transition-all duration-300 hover:border-[var(--color-cta1)]/40 hover:shadow-[0_0_32px_rgba(110,34,242,0.12)]"
+              style={{ borderColor: "var(--color-border)", backgroundColor: "var(--color-bg)" }}
             >
               <div className="flex flex-col sm:flex-row">
                 <div className="relative w-full sm:w-56 flex-shrink-0 aspect-[3/4] overflow-hidden">
@@ -172,7 +176,7 @@ export default function CharacterModels() {
                         sizes="(max-width: 640px) 100vw, 224px"
                       />
                   </div>
-                  <div className="absolute top-2 left-2 px-2 py-1 rounded-md bg-violet-600/80 text-white text-xs font-medium">
+                  <div className="absolute top-2 left-2 px-2 py-1 rounded-md text-white text-xs font-medium" style={{ backgroundColor: "var(--color-cta1)" }}>
                     FLUX LoRA
                   </div>
                   <a
@@ -192,17 +196,18 @@ export default function CharacterModels() {
                   </a>
                 </div>
                 <div className="flex-1 p-6 flex flex-col">
-                  <h3 className="text-xl font-bold text-white mb-2">{model.name}</h3>
-                  <p className="text-white/80 text-sm mb-4 flex-1">{model.description}</p>
+                  <h3 className="text-xl font-bold mb-2" style={{ color: "var(--color-text)" }}>{model.name}</h3>
+                  <p className="text-sm mb-4 flex-1" style={{ color: "var(--color-muted)" }}>{model.description}</p>
                   <div className="mb-4">
-                    <p className="text-white/60 text-xs font-medium uppercase tracking-wider mb-2">
+                    <p className="text-xs font-medium uppercase tracking-wider mb-2" style={{ color: "var(--color-muted)" }}>
                       {t.triggers}
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {model.triggers.map((t) => (
                         <code
                           key={t}
-                          className="px-2 py-1 rounded bg-white/10 text-violet-300 text-xs font-mono"
+                          className="px-2 py-1 rounded text-xs font-mono"
+                          style={{ backgroundColor: "color-mix(in srgb, var(--color-cta1) 15%, transparent)", color: "var(--color-cta1)" }}
                         >
                           {t}
                         </code>
@@ -212,7 +217,8 @@ export default function CharacterModels() {
                   <button
                     type="button"
                     onClick={() => setPopupOpen(model.id)}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-violet-600 to-purple-600 text-white text-sm font-medium hover:from-violet-500 hover:to-purple-500 transition-all btn-gradient-glow"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white text-sm font-medium transition-all btn-gradient-glow"
+                    style={{ background: "var(--color-gradient2)" }}
                   >
                     <span>{t.tryIt}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,7 +231,7 @@ export default function CharacterModels() {
           ))}
         </div>
 
-        <p className="mt-8 text-white/50 text-sm text-center">
+        <p className="mt-8 text-sm text-center" style={{ color: "var(--color-muted)" }}>
           {t.comingSoon}
         </p>
 

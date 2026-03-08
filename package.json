@@ -6,13 +6,19 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate-banner-video": "tsx scripts/generate-banner-video.ts",
+    "generate-merch-person-video": "tsx scripts/generate-merch-person-video.ts",
+    "generate-merch-person": "tsx scripts/generate-merch-person.ts",
+    "generate-merch-person-girl": "tsx scripts/generate-merch-person.ts --girl",
+    "generate-music-cover": "tsx scripts/generate-music-cover.ts"
   },
   "dependencies": {
     "@fal-ai/client": "^1.9.4",
     "next": "16.1.6",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,9 +26,11 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
+    "dotenv": "^16.4.5",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

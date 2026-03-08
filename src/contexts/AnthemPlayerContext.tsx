@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useRef, useState, useCallback, useEffect } from "react";
 
-const TRACK_PATH = `/Music/${encodeURIComponent("PROD _ ПРОД (Push It To Prod).mp3")}`;
+const TRACK_PATH = `/Music/${encodeURIComponent("PROD (Lounge Edition) — Cursor In The Dark.mp3")}`;
 
 type AnthemPlayerContextValue = {
   isPlaying: boolean;

@@ -13,12 +13,12 @@ export const metadata = {
 
 export default function MediaPage() {
   return (
-    <div className="min-h-screen bg-[#0f0a1e]">
+    <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "'Inter Tight', Inter, sans-serif" }}>
       <div className="relative z-10">
         <MediaHeader />
         <main>
-          <MarvinCarousel variant="dark" />
-          <TribeCarousel variant="dark" />
+          <MarvinCarousel variant="light" />
+          <TribeCarousel variant="light" />
           <MediaGrid />
           <MarvinGallery />
           <CharacterModels />

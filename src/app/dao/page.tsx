@@ -504,6 +504,21 @@ export default function DaoPage() {
         </div>
       </div>
 
+      {/* DAO Center — дубликат в конце страницы */}
+      <div className="dao-sphere-waves-block relative flex justify-center items-center min-h-[280px] py-10 mb-24 sm:mb-32 overflow-visible">
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-40 sm:h-52 min-h-[160px] z-0 pointer-events-none">
+          <DaoWaves overlay />
+        </div>
+        <div
+          className="group relative z-10 w-32 h-32 flex justify-center items-center overflow-visible cursor-pointer"
+          onClick={() => setPasswordModalOpen(true)}
+        >
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[360px] h-[360px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out">
+            <DaoParticles />
+          </div>
+          <DaoSphere />
+        </div>
+      </div>
     </div>
   );
 }

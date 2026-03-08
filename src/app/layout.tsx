@@ -5,6 +5,7 @@ import LayoutContent from "@/components/LayoutContent";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AnthemPlayerProvider } from "@/contexts/AnthemPlayerContext";
+import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
 import GlobalMenu from "@/components/GlobalMenu";
 
 const geistSans = Geist({
@@ -49,8 +50,10 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>
             <AnthemPlayerProvider>
-              <GlobalMenu />
-              <LayoutContent>{children}</LayoutContent>
+              <AnalyticsProvider>
+                <GlobalMenu />
+                <LayoutContent>{children}</LayoutContent>
+              </AnalyticsProvider>
             </AnthemPlayerProvider>
           </LanguageProvider>
         </ThemeProvider>

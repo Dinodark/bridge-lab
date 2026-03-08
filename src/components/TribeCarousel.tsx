@@ -39,6 +39,8 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
   const textClass = isDark ? "text-white/70" : "";
   const textStyle = isDark ? undefined : { color: "var(--color-muted)" };
   const borderStyle = isDark ? undefined : { borderColor: "var(--color-border)" };
+  const dotActiveClass = isDark ? "bg-white" : "bg-[var(--color-cta1)]";
+  const dotInactiveClass = isDark ? "bg-white/50 hover:bg-white/70" : "bg-[var(--color-cta1)]/50 hover:bg-[var(--color-cta1)]/70";
   const [index, setIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
   const [likes, setLikes] = useState<Record<number, boolean>>({});
@@ -93,10 +95,12 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
             style={{ transform: `translateX(-${index * 100}%)` }}
           >
             {TRIBE_IMAGES.map((src, i) => (
-              <button
+              <div
                 key={i}
-                type="button"
+                role="button"
+                tabIndex={0}
                 onClick={() => setFullscreen(true)}
+                onKeyDown={(e) => e.key === "Enter" && setFullscreen(true)}
                 className="relative flex-shrink-0 w-full h-full cursor-zoom-in focus:outline-none focus:ring-2 focus:ring-[var(--color-cta1)] focus:ring-offset-2"
                 aria-label="Открыть на весь экран"
               >
@@ -116,7 +120,7 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
                 >
                   <HeartIcon filled={!!likes[i]} />
                 </button>
-              </button>
+              </div>
             ))}
           </div>
 
@@ -150,7 +154,7 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
                     key={i}
                     type="button"
                     onClick={(e) => { e.stopPropagation(); goTo(i); }}
-                    className={`w-2 h-2 rounded-full transition-all duration-700 ease-in-out ${i === index ? "w-6 bg-white" : "bg-white/50 hover:bg-white/70"}`}
+                    className={`w-2 h-2 rounded-full transition-all duration-700 ease-in-out ${i === index ? `w-6 ${dotActiveClass}` : dotInactiveClass}`}
                     aria-label={`Перейти к фото ${i + 1}`}
                   />
                 ))}

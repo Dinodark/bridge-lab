@@ -10,7 +10,9 @@ import { createPortal } from "react-dom";
 
 const TRIBE_LINKS = [
   { href: "/media", label: "Media" },
+  { href: "/music", label: "Music" },
   { href: "/tribe", label: "Tribe" },
+  { href: "/vision", label: "Vision" },
   { href: "/tribe/merch", label: "Merch" },
   { href: "/tribe-dev", label: "Tribe Dev" },
   { href: "/dao", label: "DAO" },
@@ -35,27 +37,24 @@ function LangSwitcher({
   className?: string;
 }) {
   return (
-    <div className={`flex items-center gap-1 border-[var(--color-border)] pl-2 ${className}`}>
+    <div
+      className={`flex items-center gap-1 border-[var(--color-border)] pl-2 ${className}`}
+      style={{ ["--lang-cta" as string]: palette.cta1 }}
+    >
       <button
         onClick={() => setLang("ru")}
-        className="rounded-md px-2 py-1 text-xs font-medium transition-all hover:opacity-80"
-        style={{
-          background: lang === "ru" ? "var(--color-bg-active)" : "transparent",
-          color: lang === "ru" ? palette.cta1 : "var(--color-muted)",
-          border: "1px solid var(--color-border)",
-        }}
+        className={`rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 border cursor-pointer
+          hover:scale-105 hover:shadow-sm
+          ${lang === "ru" ? "bg-[var(--color-bg-active)] text-[var(--lang-cta)] border-[var(--color-border)]" : "bg-transparent text-[var(--color-muted)] border-[var(--color-border)] hover:bg-[var(--color-bg-active)]/40 hover:text-[var(--lang-cta)] hover:border-[var(--lang-cta)]/50"}`}
         title="Русский"
       >
         RU
       </button>
       <button
         onClick={() => setLang("de")}
-        className="rounded-md px-2 py-1 text-xs font-medium transition-all hover:opacity-80"
-        style={{
-          background: lang === "de" ? "var(--color-bg-active)" : "transparent",
-          color: lang === "de" ? palette.cta1 : "var(--color-muted)",
-          border: "1px solid var(--color-border)",
-        }}
+        className={`rounded-md px-2 py-1 text-xs font-medium transition-all duration-200 border cursor-pointer
+          hover:scale-105 hover:shadow-sm
+          ${lang === "de" ? "bg-[var(--color-bg-active)] text-[var(--lang-cta)] border-[var(--color-border)]" : "bg-transparent text-[var(--color-muted)] border-[var(--color-border)] hover:bg-[var(--color-bg-active)]/40 hover:text-[var(--lang-cta)] hover:border-[var(--lang-cta)]/50"}`}
         title="Deutsch"
       >
         DE

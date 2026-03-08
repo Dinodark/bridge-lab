@@ -12,6 +12,8 @@ const TRANSLATIONS = {
     applicationsTitle: "Applications",
     applicationsSubtitle: "Бренд в реальном мире — digital и физические носители",
     sectionLabel: "Brand Guidelines",
+    merchBerlin: "Merch — Berlin Edition",
+    berlinDesc: "Огненный дизайн OneTribe с акцентом BERLIN. Чёрный фон, градиентные формы.",
     merchTshirt: "Merch — T-Shirt",
     tshirtAlt: "OneTribe футболка — фото на модели",
     classicTee: "Classic Tee — Minimal Logo",
@@ -129,6 +131,8 @@ const TRANSLATIONS = {
     applicationsTitle: "Applications",
     applicationsSubtitle: "Die Marke in der realen Welt — digital und physische Träger",
     sectionLabel: "Brand Guidelines",
+    merchBerlin: "Merch — Berlin Edition",
+    berlinDesc: "OneTribe Feuer-Design mit BERLIN-Akzent. Schwarzer Hintergrund, Verlaufsformen.",
     merchTshirt: "Merch — T-Shirt",
     tshirtAlt: "OneTribe T-Shirt — Foto auf Model",
     classicTee: "Classic Tee — Minimal Logo",
@@ -859,6 +863,23 @@ export default function MerchApplications() {
         subtitle={t.applicationsSubtitle}
         sectionLabel={t.sectionLabel}
       >
+        {/* Berlin Edition */}
+        <div style={SECTION_LABEL_STYLE}>{t.merchBerlin}</div>
+        <div style={{ ...CARD_STYLE, marginBottom: 64, padding: 0, overflow: "hidden" }}>
+          <div style={{ aspectRatio: "738/781", maxWidth: 400, margin: "0 auto" }}>
+            <Image
+              src="/assets/OneTribe-Berlin.svg"
+              alt="OneTribe Berlin"
+              width={738}
+              height={781}
+              style={{ width: "100%", height: "auto", display: "block" }}
+            />
+          </div>
+          <div style={{ padding: 24, paddingTop: 16 }}>
+            <div style={{ fontSize: 13, color: "#808080", lineHeight: 1.6 }}>{t.berlinDesc}</div>
+          </div>
+        </div>
+
         {/* Merch T-Shirt */}
         <div style={SECTION_LABEL_STYLE}>{t.merchTshirt}</div>
         <div
