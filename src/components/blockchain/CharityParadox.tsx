@@ -5,7 +5,7 @@ import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
 export default function CharityParadox() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   const stats = [
     { value: t.paradox1Value, label: t.paradox1Label, desc: t.paradox1Desc },
     { value: t.paradox2Value, label: t.paradox2Label, desc: t.paradox2Desc },

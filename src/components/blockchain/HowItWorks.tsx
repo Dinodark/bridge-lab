@@ -17,7 +17,7 @@ const STEP_ICONS = [
 
 export default function HowItWorks() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   const steps = [
     { icon: STEP_ICONS[0], title: t.how1Title, desc: t.how1Desc },
     { icon: STEP_ICONS[1], title: t.how2Title, desc: t.how2Desc },

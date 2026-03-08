@@ -5,7 +5,7 @@ import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
 export default function CommunityGovernance() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   const revenueItems = [t.govItem1, t.govItem2, t.govItem3, t.govItem4];
 
   return (

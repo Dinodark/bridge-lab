@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useCallback, useEffect } from "react";
 
-export type Lang = "ru" | "de" | "en";
+export type Lang = "ru" | "de";
 
 const LANG_KEY = "bridge-lang";
 
@@ -19,9 +19,13 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const stored = localStorage.getItem(LANG_KEY);
-      if (stored === "de" || stored === "en") {
-        setLangState(stored);
-        document.documentElement.lang = stored;
+      if (stored === "de") {
+        setLangState("de");
+        document.documentElement.lang = "de";
+      } else if (stored === "en") {
+        setLangState("de");
+        document.documentElement.lang = "de";
+        localStorage.setItem(LANG_KEY, "de");
       }
     } catch (_) {}
   }, []);

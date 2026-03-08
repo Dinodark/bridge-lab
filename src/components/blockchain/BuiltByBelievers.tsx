@@ -22,7 +22,7 @@ const testimonials = [
 
 export default function BuiltByBelievers() {
   const { lang } = useLanguage();
-  const tr = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const tr = BLOCKCHAIN_TRANSLATIONS[lang];
   const [index, setIndex] = useState(0);
   const t = testimonials[index];
 

@@ -5,7 +5,7 @@ import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
 export default function NumbersDontLie() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   const stats = [
     { value: "$592B", label: t.numbers1Label, delay: "0s" },
     { value: "$2.5B", label: t.numbers2Label, delay: "0.8s" },

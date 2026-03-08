@@ -11,7 +11,7 @@ const milestones = [
 
 export default function RoadmapSection() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   return (
     <section id="roadmap" className="py-20 px-4 sm:px-6 lg:px-8 bg-white/[0.04] backdrop-blur-md">
       <div className="max-w-7xl mx-auto">

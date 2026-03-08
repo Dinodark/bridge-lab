@@ -5,7 +5,7 @@ import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
 export default function WhyNow() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   const reasons = [
     { title: t.why1Title, desc: t.why1Desc },
     { title: t.why2Title, desc: t.why2Desc },

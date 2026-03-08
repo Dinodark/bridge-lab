@@ -22,7 +22,7 @@ const CARD_PARALLAX = [
 
 export default function BlockchainHero() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { BLOCKCHAIN_TRANSLATIONS } from "@/app/blockchain/translations";
 
 export default function CharityMeetsCulture() {
   const { lang } = useLanguage();
-  const t = BLOCKCHAIN_TRANSLATIONS[lang === "ru" ? "ru" : lang === "de" ? "de" : "en"];
+  const t = BLOCKCHAIN_TRANSLATIONS[lang];
   const flow = [
     { label: t.meetsNFTs, sub: t.meetsNFTsSub },
     { label: t.meetsImpact, sub: t.meetsImpactSub },
