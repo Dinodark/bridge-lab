@@ -84,10 +84,10 @@ export function getTimeOnPage(): number | undefined {
   return Math.round(performance.now() - pageLoadTime);
 }
 
-export function createEvent<T extends AnalyticsEvent>(
-  type: T["type"],
-  payload: Omit<T, "id" | "timestamp" | "path" | "referrer" | "userAgent" | "language" | "screen">
-): T {
+export function createEvent(
+  type: AnalyticsEvent["type"],
+  payload?: Record<string, unknown>
+): AnalyticsEvent {
   const base = getBasePayload();
   const timeOnPage = getTimeOnPage();
   return {
@@ -95,7 +95,7 @@ export function createEvent<T extends AnalyticsEvent>(
     ...payload,
     type,
     timeOnPage,
-  } as T;
+  } as AnalyticsEvent;
 }
 
 export function track(event: AnalyticsEvent): void {
