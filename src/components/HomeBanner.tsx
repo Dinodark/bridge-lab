@@ -2,12 +2,25 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const PHRASES = [
-  "One World · One Tribe",
-  "Community · Identity · Charity",
-  "Одно ядро. Бесконечные воплощения.",
-];
+const PHRASES = {
+  ru: [
+    "One World · One Tribe",
+    "Community · Identity · Charity",
+    "Одно ядро. Бесконечные воплощения.",
+  ],
+  de: [
+    "One World · One Tribe",
+    "Community · Identity · Charity",
+    "Ein Kern. Unendliche Verkörperungen.",
+  ],
+};
+
+const BANNER_SUBTITLE = {
+  ru: "Bridge — где сообщество встречает технологию",
+  de: "Bridge — wo Community auf Technologie trifft",
+};
 
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -74,14 +87,16 @@ function TribeLogoIcon({ className = "", gradientId = "home-banner-logo" }: { cl
 }
 
 export default function HomeBanner() {
+  const { lang } = useLanguage();
   const [phraseIndex, setPhraseIndex] = useState(0);
+  const phrases = PHRASES[lang];
 
   useEffect(() => {
     const t = setInterval(() => {
-      setPhraseIndex((i) => (i + 1) % PHRASES.length);
+      setPhraseIndex((i) => (i + 1) % phrases.length);
     }, 5000);
     return () => clearInterval(t);
-  }, []);
+  }, [phrases.length]);
 
   return (
     <div
@@ -123,13 +138,13 @@ export default function HomeBanner() {
         <h2
           className="home-banner-text-glitch text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2 text-white"
         >
-          <ScrambleText text={PHRASES[phraseIndex]} />
+          <ScrambleText text={phrases[phraseIndex]} />
         </h2>
         <p
           className="text-sm sm:text-base text-white/90 max-w-md font-light"
           style={{ textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}
         >
-          Bridge — где сообщество встречает технологию
+          {BANNER_SUBTITLE[lang]}
         </p>
       </div>
     </div>
