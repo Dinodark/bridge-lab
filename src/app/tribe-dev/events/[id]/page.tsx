@@ -1,10 +1,12 @@
 "use client";
 
+import { use } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { T } from "../../translations";
 
-export default function EventDetailPage() {
+export default function EventDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  use(params); // unwrap for Next.js 15+ async params
   const { lang } = useLanguage();
   const t = T[lang];
 

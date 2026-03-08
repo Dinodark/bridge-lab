@@ -10,7 +10,6 @@ import { createPortal } from "react-dom";
 
 const TRIBE_LINKS = [
   { href: "/media", label: "Media" },
-  { href: "/music", label: "Music" },
   { href: "/tribe", label: "Tribe" },
   { href: "/vision", label: "Vision" },
   { href: "/tribe/merch", label: "Merch" },
@@ -23,6 +22,7 @@ const BRIDGE_LINKS = [
   { href: "/blockchain", label: "Bridge" },
   { href: "/crypto", label: "Mobile First" },
   { href: "/explore", label: "Starter" },
+  { href: "/music", label: "Music" },
 ];
 
 function LangSwitcher({

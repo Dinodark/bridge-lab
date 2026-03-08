@@ -7,6 +7,7 @@ import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 const TRACKS = [
   {
     src: `/Music/${encodeURIComponent("PROD (Lounge Edition) — Cursor In The Dark.mp3")}`,
+    cover: "/assets/music-cursor-in-the-dark-cover.png",
     title: "Cursor In The Dark",
     subtitle: "PROD (Lounge Edition)",
     desc: {
@@ -16,6 +17,7 @@ const TRACKS = [
   },
   {
     src: `/Music/${encodeURIComponent("PROD _ ПРОД (Push It To Prod).mp3")}`,
+    cover: "/assets/music-push-it-to-prod-cover.png",
     title: "Push It To Prod",
     subtitle: "PROD · ПРОД",
     desc: {
@@ -24,6 +26,12 @@ const TRACKS = [
     },
   },
 ];
+
+export function getCoverForTrack(src: string | null): string | null {
+  if (!src) return null;
+  const t = TRACKS.find((x) => x.src === src);
+  return t?.cover ?? null;
+}
 
 export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
   const { lang } = useLanguage();
@@ -47,30 +55,20 @@ export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
   };
 
   return (
-    <section
-      className="rounded-2xl overflow-hidden border"
-      style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}
-    >
+    <section className="rounded-2xl overflow-hidden border border-white/20">
       <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-0">
-        <div
-          className={`relative aspect-square md:aspect-auto md:min-h-[280px] flex items-center justify-center overflow-hidden ${
-            trackIndex === 0 ? "" : "anthem-cover-animate p-6"
-          }`}
-          style={{
-            background: trackIndex === 0 ? undefined : "linear-gradient(145deg, #0a0a12 0%, #1a1a2e 40%, #2d1b4e 100%)",
-          }}
-        >
+        <div className="relative aspect-square md:aspect-auto md:min-h-[280px] overflow-hidden">
           <MusicTrackCover trackIndex={trackIndex} />
         </div>
 
-        <div className="flex flex-col p-6 sm:p-8">
-          <span className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "var(--color-cta1)" }}>
+        <div className="flex flex-col p-6 sm:p-8 backdrop-blur-xl bg-white/5">
+          <span className="text-xs font-bold tracking-widest uppercase mb-1 text-[#B289F9]">
             {track.subtitle}
           </span>
-          <h3 className="text-xl sm:text-2xl font-bold mb-1" style={{ color: "var(--color-text)" }}>
+          <h3 className="text-xl sm:text-2xl font-bold mb-1 text-white">
             {track.title}
           </h3>
-          <p className="text-sm mb-4" style={{ color: "var(--color-muted)" }}>
+          <p className="text-sm mb-4 text-white/75">
             {track.desc[lang]}
           </p>
 
@@ -97,8 +95,7 @@ export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
             {isActive && (
               <div className="flex-1 min-w-0">
                 <div
-                  className="h-2 rounded-full cursor-pointer overflow-hidden"
-                  style={{ background: "var(--color-border)" }}
+                  className="h-2 rounded-full cursor-pointer overflow-hidden bg-white/20"
                   onClick={handleSeek}
                   role="progressbar"
                   aria-valuenow={duration ? (progress / duration) * 100 : 0}
@@ -113,7 +110,7 @@ export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
                     }}
                   />
                 </div>
-                <div className="flex justify-between mt-1 text-xs" style={{ color: "var(--color-muted)" }}>
+                <div className="flex justify-between mt-1 text-xs text-white/60">
                   <span>{formatTime(progress)}</span>
                   <span>{formatTime(duration)}</span>
                 </div>
@@ -127,76 +124,14 @@ export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
 }
 
 function MusicTrackCover({ trackIndex }: { trackIndex: number }) {
-  if (trackIndex === 0) {
-    return (
-      <Image
-        src="/assets/music-cursor-in-the-dark-cover.png"
-        alt="Cursor In The Dark — cover"
-        fill
-        className="object-cover"
-        sizes="(max-width: 768px) 100vw, 280px"
-      />
-    );
-  }
-  const id = `music-${trackIndex}`;
+  const cover = TRACKS[trackIndex];
   return (
-    <svg
-      viewBox="0 0 200 200"
-      className="w-full max-w-[200px] h-auto"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id={`${id}-grad1`} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#48e5ff" />
-          <stop offset="50%" stopColor="#b289f9" />
-          <stop offset="100%" stopColor="#f989b4" />
-        </linearGradient>
-        <linearGradient id={`${id}-grad2`} x1="0%" y1="100%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#6E22F2" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#C752FF" stopOpacity="0.4" />
-        </linearGradient>
-        <filter id={`${id}-glow`}>
-          <feGaussianBlur stdDeviation="2" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      <circle cx="100" cy="100" r="85" fill={`url(#${id}-grad2)`} opacity="0.12" />
-      <circle cx="100" cy="100" r="70" fill="none" stroke={`url(#${id}-grad1)`} strokeWidth="1.5" opacity="0.35" />
-      <circle cx="100" cy="100" r="50" fill="none" stroke={`url(#${id}-grad1)`} strokeWidth="1" opacity="0.25" />
-      <g className="anthem-cursor-orbit" transform="translate(100, 79)" filter={`url(#${id}-glow)`}>
-        <path d="M-10 -18 L10 2 L-2 6 L-14 -6 Z" fill={`url(#${id}-grad1)`} opacity="0.95" />
-      </g>
-      <g className="anthem-bracket-left" transform="translate(55, 102)">
-        <text x="0" y="0" fill={`url(#${id}-grad1)`} fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
-          {"{"}
-        </text>
-      </g>
-      <g className="anthem-bracket-right" transform="translate(145, 102)">
-        <text x="0" y="0" fill={`url(#${id}-grad1)`} fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
-          {"}"}
-        </text>
-      </g>
-      {/* DE × RU — флаги */}
-      <g transform="translate(65, 140)">
-        <rect width="14" height="5" fill="#000" opacity="0.7" rx="1" />
-        <rect y="5" width="14" height="5" fill="#DD0000" opacity="0.7" rx="1" />
-        <rect y="10" width="14" height="5" fill="#FFCE00" opacity="0.7" rx="1" />
-      </g>
-      <text x="100" y="147.5" fill={`url(#${id}-grad1)`} fontSize="12" fontWeight="bold" textAnchor="middle" dominantBaseline="middle" opacity="0.6">
-        ×
-      </text>
-      <g transform="translate(121, 140)">
-        <rect width="14" height="5" fill="#fff" opacity="0.6" rx="1" />
-        <rect y="5" width="14" height="5" fill="#0039A6" opacity="0.7" rx="1" />
-        <rect y="10" width="14" height="5" fill="#D52B1E" opacity="0.7" rx="1" />
-      </g>
-      <text x="100" y="185" fill={`url(#${id}-grad1)`} fontSize="16" fontWeight="800" textAnchor="middle" opacity="0.95" letterSpacing="3">
-        PROD
-      </text>
-    </svg>
+    <Image
+      src={cover.cover}
+      alt={`${cover.title} — cover`}
+      fill
+      className="object-cover"
+      sizes="(max-width: 768px) 100vw, 280px"
+    />
   );
 }
