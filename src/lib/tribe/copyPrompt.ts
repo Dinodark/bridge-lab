@@ -1,6 +1,7 @@
 /**
  * Промпт для копирования в Cursor — воспроизведение игры Tribe Fire Canvas.
  * Синхронизировать с src/components/tribe/TribeFireCanvas.tsx при изменениях.
+ * Версия: март 2025 — клик по белому → полёт к костру, оранжевые не кликабельны.
  */
 
 export function getTribeFireCopyPrompt(): string {
@@ -26,7 +27,7 @@ export function getTribeFireCopyPrompt(): string {
     "",
     "## Описание игры",
     "- 3 оранжевых шарика вращаются вокруг костра, 10 белых — снаружи",
-    "- Клик по оранжевому — выбор, затем клик по белому — притягивание белого к костру (становится оранжевым)",
+    "- Клик по белому шарику — он летит к костру (становится оранжевым). Оранжевые не кликабельны.",
     "- Клик по костру в центре — разгон шариков + искры",
     "- Когда все белые стали оранжевыми и все оранжевые собраны у костра — круг расширяется, появляется лошадь с искрами",
     "- Клик по лошади — перезапуск",
@@ -203,8 +204,8 @@ const SPARK_COUNT = 12;
 const SPARK_SPEED = 3.5;
 const SPARK_LIFE = 0.4;
 const GATHER_RANGE = 95;
-const GATHER_EXPAND_DURATION = 3;
-const GATHER_EXPAND_AMOUNT = 180;
+const GATHER_EXPAND_DURATION = 2;
+const GATHER_EXPAND_AMOUNT = 80;
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed) * 10000;
@@ -421,49 +422,25 @@ export default function TribeFireCanvas() {
         return;
       }
       if (node.color === "orange") {
-        setSelectedId(selectedId === node.id ? null : node.id);
-      } else if (node.color === "white" && selectedId) {
-        const sel = nodes.find((n) => n.id === selectedId);
-        if (sel) {
-          let centroidX = CX;
-          let centroidY = CY;
-          if (orangeNodes.length > 0) {
-            let sx = 0;
-            let sy = 0;
-            orangeNodes.forEach((on) => {
-              const p = physicsRef.current.get(on.id);
-              if (p) {
-                sx += p.x;
-                sy += p.y;
-              }
-            });
-            centroidX = sx / orangeNodes.length;
-            centroidY = sy / orangeNodes.length;
-          }
-          let toX = centroidX + (node.x - centroidX) * 0.25;
-          let toY = centroidY + (node.y - centroidY) * 0.25;
-          const toDist = Math.hypot(toX - CX, toY - CY);
-          if (toDist + NODE_R > CIRCLE_R) {
-            const scale = (CIRCLE_R - NODE_R) / toDist;
-            toX = CX + (toX - CX) * scale;
-            toY = CY + (toY - CY) * scale;
-          }
-          if (Math.hypot(toX - CX, toY - CY) < SAFE_ZONE_R + NODE_R) {
-            const angle = Math.atan2(toY - CY, toX - CX);
-            toX = CX + Math.cos(angle) * (SAFE_ZONE_R + NODE_R);
-            toY = CY + Math.sin(angle) * (SAFE_ZONE_R + NODE_R);
-          }
-          const fromPhys = whitePhysicsRef.current.get(node.id);
-          setPullingNode({
-            id: node.id,
-            fromX: fromPhys?.x ?? node.x,
-            fromY: fromPhys?.y ?? node.y,
-            toX,
-            toY,
-            progress: 0,
-          });
-          setSelectedId(null);
-        }
+        return;
+      }
+      if (node.color === "white") {
+        const fromPhys = whitePhysicsRef.current.get(node.id);
+        const fx = fromPhys?.x ?? node.x;
+        const fy = fromPhys?.y ?? node.y;
+        const dist = Math.hypot(fx - CX, fy - CY);
+        const angle = dist > 0.01 ? Math.atan2(fy - CY, fx - CX) : 0;
+        const toX = CX + Math.cos(angle) * (SAFE_ZONE_R + NODE_R);
+        const toY = CY + Math.sin(angle) * (SAFE_ZONE_R + NODE_R);
+        setPullingNode({
+          id: node.id,
+          fromX: fx,
+          fromY: fy,
+          toX,
+          toY,
+          progress: 0,
+        });
+        setSelectedId(null);
       }
     };
 
@@ -481,7 +458,7 @@ export default function TribeFireCanvas() {
       window.removeEventListener("mouseup", handleMouseUp);
       container.removeEventListener("click", handleClick);
     };
-  }, [selectedId, nodes, getNodeAt, orangeNodes]);
+  }, [nodes, getNodeAt]);
 
   useEffect(() => {
     if (!pullingNode) return;
@@ -893,7 +870,7 @@ export default function TribeFireCanvas() {
         const isHovered = hoveredId === n.id;
         const isSelected = selectedId === n.id;
         const whiteTargeted = n.color === "white" && isHovered && selectedId && nodes.some((o) => o.id === selectedId && o.color === "orange");
-        const scale = whiteTargeted ? 1.35 : isHovered || isSelected ? 1.2 : 1;
+        const scale = whiteTargeted ? 1.2 : isHovered || isSelected ? 1.1 : 1;
         const r = n.r * scale;
         const pulseR = isSelected ? r * (0.95 + 0.1 * Math.sin(time * 6)) : r;
 
@@ -928,7 +905,7 @@ export default function TribeFireCanvas() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full aspect-[5/4] max-w-4xl mx-auto rounded-2xl overflow-hidden cursor-default"
+      className="relative w-full aspect-[5/4] max-w-4xl mx-auto rounded-2xl overflow-visible cursor-default"
       style={{ background: phase === "horse" ? "transparent" : "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(255,102,0,0.12) 0%, rgba(20,10,0,0.04) 50%, transparent 70%)" }}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />

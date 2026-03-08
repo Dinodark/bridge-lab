@@ -66,7 +66,7 @@ const CONTENT = {
     rm3: "Host-панели, аналитика, геймификация — инструменты для создателей",
     rm4: "Bridge × Tribe — благотворительность как часть идентичности движения",
     footerLogo: "OneBridge · 2025",
-    tryHint: "Кликните оранжевый кружок, затем белый — новый узел притянется к костру.",
+    tryHint: "Кликните на белый шарик — он полетит к костру.",
     copyLogo: "Скопировать логотип",
     copied: "Скопировано!",
     downloadSvg: "Скачать SVG",
@@ -119,7 +119,7 @@ const CONTENT = {
     rm3: "Host-Panels, Analytics, Gamification — Tools für Creator",
     rm4: "Bridge × Tribe — Wohltätigkeit als Teil der Identität der Bewegung",
     footerLogo: "OneBridge · 2025",
-    tryHint: "Klicken Sie auf einen orangefarbenen Kreis, dann auf einen weißen — der neue Knoten wird zum Feuer gezogen.",
+    tryHint: "Klicken Sie auf einen weißen Kreis — er fliegt zum Feuer.",
     copyLogo: "Logo kopieren",
     copied: "Kopiert!",
     downloadSvg: "SVG herunterladen",
@@ -187,7 +187,7 @@ export default function VisionPage() {
       </div>
 
       {/* Hero — pt accounts for header (h-14) + ticker */}
-      <section className="relative min-h-[calc(100vh-3.5rem)] pt-20 grid grid-cols-1 lg:grid-cols-[1fr_minmax(320px,560px)_1fr] overflow-hidden bg-[#0D0A07]">
+      <section className="relative min-h-[calc(100vh-3.5rem)] pt-20 grid grid-cols-1 lg:grid-cols-[1fr_minmax(320px,560px)_1fr] overflow-visible bg-[#0D0A07]">
         <div
           className="absolute inset-0 opacity-[0.03] pointer-events-none z-[1]"
           style={{
@@ -241,7 +241,7 @@ export default function VisionPage() {
 
         {/* Center — Tribe Fire Canvas */}
         <div className="relative z-[5] flex flex-col items-center justify-center px-6 py-8 lg:py-12">
-          <div className="w-full max-w-[600px] rounded-2xl overflow-hidden">
+          <div className="w-full max-w-[600px] rounded-2xl overflow-visible p-4">
             <TribeFireCanvas />
           </div>
           <p className="mt-4 text-center text-[12px] font-medium text-[#3D3020] tracking-[0.04em] max-w-md">
