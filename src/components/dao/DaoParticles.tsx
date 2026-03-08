@@ -7,7 +7,7 @@ const SPHERE_COLORS = ["#48e5ff", "#b289f9", "#f989b4", "#b289f9"] as const;
 function getSphereColor(): string {
   const cycleMs = 4000;
   const timelineMs = (typeof document !== "undefined" && document.timeline?.currentTime != null)
-    ? document.timeline.currentTime * 1000
+    ? Number(document.timeline.currentTime) * 1000
     : performance.now();
   const t = (timelineMs % cycleMs) / cycleMs;
   const idx = Math.floor(t * 4) % 4;

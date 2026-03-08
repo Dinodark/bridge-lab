@@ -26,6 +26,7 @@ export default function DaoPasswordModal({
   title?: string;
   hint?: string;
   placeholder?: string;
+  errorEmpty?: string;
   errorWrong?: string;
   submitLabel?: string;
   cancelLabel?: string;

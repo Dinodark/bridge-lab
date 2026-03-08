@@ -17,7 +17,7 @@ export default function StrategyPage() {
         <div className="mb-12">
           <span
             className="text-xs font-bold tracking-widest uppercase"
-            style={{ color: palette?.accent || "var(--color-cta1)" }}
+            style={{ color: palette?.accent1 || "var(--color-cta1)" }}
           >
             Strategy
           </span>

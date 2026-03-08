@@ -2940,9 +2940,9 @@ export default function BrandGuidelinesPage() {
                                     animation: `dao-trail-burst 2.8s ease-out infinite, ${colorAnim} ${colorDuration}s ease-in-out infinite`,
                                     animationDelay: `${burstDelay}s, ${colorDelay}s`,
                                     transformOrigin: "0 0",
-                                    ["--bx"]: `${bx}px`,
-                                    ["--by"]: `${by}px`,
-                                  }}
+                                    ["--bx" as string]: `${bx}px`,
+                                    ["--by" as string]: `${by}px`,
+                                  } as React.CSSProperties}
                                 />
                               );
                             })}
