@@ -58,9 +58,9 @@ async function main() {
   }
   if (!ok) {
     console.log("Trying curl fallback...");
-    child_process.execSync(`curl -L -o "${OUTPUT_PATH.replace(/"/g, '\\"')}" "${videoUrl}"`, {
+    child_process.execSync(`curl -L -o "${OUTPUT_PATH.replace(/\\/g, "/")}" "${videoUrl}"`, {
       stdio: "inherit",
-      shell: true,
+      shell: process.platform === "win32" ? "cmd.exe" : "/bin/sh",
     });
   }
   console.log("Saved:", OUTPUT_PATH);

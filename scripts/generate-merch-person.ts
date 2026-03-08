@@ -42,7 +42,7 @@ async function download(url: string, outPath: string) {
     console.log("Trying curl fallback...");
     child_process.execSync(`curl -L -o "${outPath.replace(/\\/g, "/")}" "${url}"`, {
       stdio: "inherit",
-      shell: true,
+      shell: process.platform === "win32" ? "cmd.exe" : "/bin/sh",
     });
   }
 }
