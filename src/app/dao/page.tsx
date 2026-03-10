@@ -170,7 +170,7 @@ export default function DaoPage() {
   return (
     <div
       className={`${interTight.variable} min-h-screen bg-[#FCFCFC] text-[#1E1E1E] font-[family-name:var(--font-inter-tight)] overflow-x-hidden`}
-      style={{ fontFamily: "'Inter Tight', sans-serif" }}
+      style={{ fontFamily: "var(--font-body)" }}
     >
       {/* Grain overlay */}
       <div
@@ -180,7 +180,7 @@ export default function DaoPage() {
         }}
       />
 
-      <div className="relative max-w-[900px] mx-auto px-6 py-16 sm:py-24">
+      <div className="content-container relative">
         {/* Header */}
         <header className="text-center mb-16 sm:mb-20 animate-fade-up">
           <div
@@ -297,7 +297,7 @@ export default function DaoPage() {
         cancelLabel={t.passwordModalCancel}
       />
 
-      <div className="relative max-w-[900px] mx-auto px-6 pb-16 sm:pb-24">
+      <div className="content-container relative">
         {/* 3 Pillars */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16">
           {[
@@ -440,7 +440,7 @@ export default function DaoPage() {
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
             style={{
-              fontFamily: "'Inter Tight', sans-serif",
+              fontFamily: "var(--font-body)",
               fontSize: "200px",
               fontWeight: 800,
               color: "rgba(178,137,249,0.08)",

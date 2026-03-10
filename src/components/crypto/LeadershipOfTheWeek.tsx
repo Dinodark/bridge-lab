@@ -7,7 +7,7 @@ const leaders = [
 export default function LeadershipOfTheWeek() {
   return (
     <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 bg-zinc-50">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-content mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-1">Leadership of the Week</h2>
         <p className="text-zinc-600 mb-8">Top Donators</p>
         <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 overflow-hidden">

@@ -7,7 +7,7 @@ const news = [
 export default function PlatformNews() {
   return (
     <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-content mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-8">Platform News</h2>
         <ul className="space-y-4">
           {news.map((item) => (

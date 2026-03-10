@@ -14,7 +14,7 @@ export default function CharityMeetsCulture() {
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/[0.04] backdrop-blur-md">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className="max-w-content mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-8">
           {t.meetsTitle}
         </h2>

@@ -135,7 +135,7 @@ export default function CustomDatePicker({
               left: pos.left,
               width: Math.max(pos.width, 280),
               minWidth: 280,
-              fontFamily: "'Inter Tight', Inter, sans-serif",
+              fontFamily: "var(--font-body)",
             }}
           >
             <div className="flex items-center justify-between px-3 py-2 mb-2">

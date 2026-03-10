@@ -10,7 +10,7 @@ export default function CommunityGovernance() {
 
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white/[0.04] backdrop-blur-md">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-content mx-auto">
         <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-16">
           {t.govTitle}
         </h2>

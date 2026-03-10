@@ -4,6 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import HomeBanner from "@/components/HomeBanner";
+import DesignLoopSection from "@/components/DesignLoopSection";
+import CursorAnthemBlock from "@/components/CursorAnthemBlock";
+import SiteFooter from "@/components/SiteFooter";
+import UsefulButton from "@/components/UsefulButton";
 
 const CONTENT = {
   ru: {
@@ -39,6 +43,12 @@ const CONTENT = {
       "Интеграция с Bridge — благотворительность как часть идентичности",
     ],
     futureHook: "Мы изучаем, экспериментируем и строим. Хотите увидеть, что будет дальше?",
+    resultsTitle: "Результаты · Продукты",
+    resultsSubtitle: "Что уже сделано и что в планах.",
+    resultSite: "Этот сайт — продукт творчества и хаб проекта.",
+    resultMerch: "Дизайн мерча — футболки OneTribe.",
+    resultAudio: "Аудио — гимн PROD. Cursor, код, Deutschland × Россия.",
+    resultPlans: "В планах — видео, анимация.",
   },
   de: {
     tribeInsights: `Nach der Durchsicht der Tribe-Materialien sieht der Partner ein ganzheitliches Identitätssystem: wie ein einziges Markenkern in verschiedenen Kontexten umgesetzt wird — von DAO bis Merch. Das inspiriert zum Verständnis der Skalierbarkeit des Ansatzes und des Potenzials von Community-driven Produkten.`,
@@ -73,6 +83,12 @@ const CONTENT = {
       "Integration mit Bridge — Wohltätigkeit als Teil der Identität",
     ],
     futureHook: "Wir erforschen, experimentieren und bauen. Möchten Sie sehen, was als Nächstes kommt?",
+    resultsTitle: "Ergebnisse · Produkte",
+    resultsSubtitle: "Was bereits gemacht ist und was geplant ist.",
+    resultSite: "Diese Website — Kreativprodukt und Projekt-Hub.",
+    resultMerch: "Merch-Design — OneTribe T-Shirts.",
+    resultAudio: "Audio — PROD Hymne. Cursor, Code, Deutschland × Russland.",
+    resultPlans: "Geplant — Video, Animation.",
   },
 } as const;
 
@@ -90,10 +106,10 @@ export default function HomeContent() {
   const t = CONTENT[lang];
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+    <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "var(--font-body)" }}>
       <HomeBanner />
 
-      <div className="max-w-4xl mx-auto px-6 pt-16 pb-24 space-y-20">
+      <div className="content-container space-y-20">
         <section>
           <div className="inline-block text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "var(--color-cta1)" }}>
             TRIBE
@@ -105,6 +121,8 @@ export default function HomeContent() {
             {t.tribeInsights}
           </p>
         </section>
+
+        <DesignLoopSection />
 
         <section>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
@@ -232,6 +250,37 @@ export default function HomeContent() {
 
         <section>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
+            {t.resultsTitle}
+          </h2>
+          <p className="text-base mb-8" style={{ color: "var(--color-muted)" }}>
+            {t.resultsSubtitle}
+          </p>
+          <ul className="space-y-3 mb-8" style={{ color: "var(--color-text)" }}>
+            <li className="flex gap-2">
+              <span className="text-[var(--color-cta1)]">·</span>
+              {t.resultSite}
+            </li>
+            <li className="flex gap-2">
+              <span className="text-[var(--color-cta1)]">·</span>
+              {t.resultMerch}
+            </li>
+            <li className="flex gap-2">
+              <span className="text-[var(--color-cta1)]">·</span>
+              {t.resultAudio}
+            </li>
+            <li className="flex gap-2" style={{ color: "var(--color-muted)" }}>
+              <span className="text-[var(--color-cta1)]">·</span>
+              {t.resultPlans}
+            </li>
+          </ul>
+          <CursorAnthemBlock />
+          <div className="mt-6">
+            <UsefulButton targetId="results-products" targetType="section" />
+          </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
             {t.futureTitle}
           </h2>
           <p className="text-base mb-8" style={{ color: "var(--color-muted)" }}>
@@ -268,6 +317,8 @@ export default function HomeContent() {
             </Link>
           </div>
         </section>
+
+        <SiteFooter />
       </div>
     </div>
   );

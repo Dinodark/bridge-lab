@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useRef, useState, useCallback, useEffect } from "react";
 
-const TRACK_PATH = `/Music/${encodeURIComponent("PROD (Lounge Edition) — Cursor In The Dark.mp3")}`;
+export const ANTHEM_TRACK_PATH = `/Music/${encodeURIComponent("PROD (Lounge Edition) — Cursor In The Dark.mp3")}`;
 
 type AnthemPlayerContextValue = {
   isPlaying: boolean;
@@ -40,7 +40,7 @@ export function AnthemPlayerProvider({ children }: { children: React.ReactNode }
   }, [duration]);
 
   useEffect(() => {
-    const audio = new Audio(TRACK_PATH);
+    const audio = new Audio(ANTHEM_TRACK_PATH);
     audioRef.current = audio;
 
     const onTimeUpdate = () => setProgress(audio.currentTime);

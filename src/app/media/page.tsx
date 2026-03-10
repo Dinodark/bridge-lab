@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function MediaPage() {
   return (
-    <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+    <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "var(--font-body)" }}>
       <div className="relative z-10">
         <MediaHeader />
         <main>

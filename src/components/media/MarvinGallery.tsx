@@ -4,8 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { T } from "@/app/media/translations";
 import { MARVIN_ITEMS } from "./marvinGalleryData";
+import FlameIcon from "@/components/icons/FlameIcon";
 
 type DriftDir = "left" | "down" | "up";
 const DRIFT_DIRS: DriftDir[] = ["left", "down", "up"];
@@ -68,26 +70,9 @@ function extractGradientFromImage(src: string): Promise<string> {
   });
 }
 
-function HeartIcon({ filled }: { filled: boolean }) {
-  return (
-    <svg
-      className={`w-5 h-5 transition-colors ${filled ? "text-rose-400" : "text-white/60"}`}
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-      />
-    </svg>
-  );
-}
-
 export default function MarvinGallery() {
   const { lang } = useLanguage();
+  const { trackLike } = useAnalytics();
   const t = T[lang];
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [likes, setLikes] = useState<Record<number, boolean>>({});
@@ -109,6 +94,7 @@ export default function MarvinGallery() {
 
   const toggleLike = (index: number, e: React.MouseEvent) => {
     e.stopPropagation();
+    if (!likes[index]) trackLike(`marvin-gallery-${index}`, "media");
     setLikes((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
@@ -176,10 +162,10 @@ export default function MarvinGallery() {
       className="py-16 w-full overflow-hidden"
       style={{
         background: "linear-gradient(180deg, rgba(13,10,7,0.97) 0%, rgba(30,15,5,0.98) 50%, rgba(13,10,7,0.99) 100%)",
-        fontFamily: "var(--font-inter-tight), Inter, sans-serif",
+        fontFamily: "var(--font-body)",
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <p className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#FF902F]/70 mb-2">
           {t.firePaletteTitle} · {t.marvin} {t.gallery}
         </p>
@@ -198,7 +184,7 @@ export default function MarvinGallery() {
           </p>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
           {MARVIN_ITEMS.map((item, i) => (
             <div
@@ -235,17 +221,17 @@ export default function MarvinGallery() {
               <button
                 type="button"
                 onClick={(e) => toggleLike(i, e)}
-                className="absolute top-2 right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm"
+                className={`absolute top-2 right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm ${!likes[i] ? "text-white/60" : ""}`}
                 aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
               >
-                <HeartIcon filled={!!likes[i]} />
+                <FlameIcon filled={!!likes[i]} size={20} />
               </button>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-[#FF902F]/20">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-[#FF902F]/20">
         <p className="text-[11px] font-semibold tracking-[0.1em] uppercase text-[#FF902F]/60 mb-4">{t.relatedPages}</p>
         <div className="flex flex-wrap gap-4">
           <Link
@@ -363,10 +349,10 @@ export default function MarvinGallery() {
                     <button
                       type="button"
                       onClick={(e) => toggleLike(i, e)}
-                      className="p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md shrink-0"
+                      className={`p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md shrink-0 ${!likes[i] ? "text-white/60" : ""}`}
                       aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
                     >
-                      <HeartIcon filled={!!likes[i]} />
+                      <FlameIcon filled={!!likes[i]} size={20} />
                     </button>
                   </div>
                 </div>

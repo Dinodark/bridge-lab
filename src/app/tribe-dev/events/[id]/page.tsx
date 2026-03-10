@@ -11,7 +11,7 @@ export default function EventDetailPage({ params }: { params: Promise<{ id: stri
   const t = T[lang];
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-6">
+    <div className="content-container">
       <Link
         href="/tribe-dev/events"
         className="inline-flex items-center gap-1.5 text-sm text-[#6E22F2] hover:text-[#7C3AED] transition-colors mb-6"

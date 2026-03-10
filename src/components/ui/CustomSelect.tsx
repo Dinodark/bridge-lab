@@ -96,7 +96,7 @@ export default function CustomSelect({
               left: pos.left,
               width: pos.width,
               minWidth: pos.width,
-              fontFamily: "'Inter Tight', Inter, sans-serif",
+              fontFamily: "var(--font-body)",
             }}
           >
             {options.map((opt) => (

@@ -9,7 +9,7 @@ export default function BlockchainHeader() {
   const t = BLOCKCHAIN_TRANSLATIONS[lang];
   return (
     <header className="w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <Link href="/blockchain" className="text-xl font-bold text-white tracking-widest">
           BRIDGE
         </Link>

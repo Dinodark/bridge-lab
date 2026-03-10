@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function PlatformIntro() {
   return (
     <section className="py-12 sm:py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-content mx-auto">
         <p className="text-sm text-zinc-500 uppercase tracking-wider mb-4">
           Achieving the world&apos;s charities offers together.
         </p>

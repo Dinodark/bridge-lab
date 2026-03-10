@@ -33,6 +33,8 @@ const AnalyticsContext = createContext<{
   trackShare: (shareTarget?: string, method?: string) => void;
   trackSearch: (query?: string, resultsCount?: number) => void;
   trackInput: (field?: string, length?: number) => void;
+  trackDownload: (targetId?: string, targetType?: string, href?: string) => void;
+  trackCopy: (targetId?: string, targetType?: string, what?: string) => void;
   trackCustom: (type: string, payload?: TrackOptions) => void;
 } | null>(null);
 
@@ -88,6 +90,26 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
       createEvent("input", {
         field,
         length,
+      })
+    );
+  }, []);
+
+  const trackDownload = useCallback((targetId?: string, targetType?: string, href?: string) => {
+    track(
+      createEvent("download", {
+        targetId,
+        targetType,
+        href,
+      })
+    );
+  }, []);
+
+  const trackCopy = useCallback((targetId?: string, targetType?: string, what?: string) => {
+    track(
+      createEvent("copy", {
+        targetId,
+        targetType,
+        what,
       })
     );
   }, []);
@@ -148,6 +170,8 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
         trackShare,
         trackSearch,
         trackInput,
+        trackDownload,
+        trackCopy,
         trackCustom,
       }}
     >
@@ -166,6 +190,8 @@ export function useAnalytics() {
       trackShare: () => {},
       trackSearch: () => {},
       trackInput: () => {},
+      trackDownload: () => {},
+      trackCopy: () => {},
       trackCustom: () => {},
     };
   }

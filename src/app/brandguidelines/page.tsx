@@ -7,6 +7,7 @@ import CustomSelect from "@/components/ui/CustomSelect";
 import DaoWaves from "@/components/dao/DaoWaves";
 import DaoSphere from "@/components/dao/DaoSphere";
 import DaoParticles from "@/components/dao/DaoParticles";
+import FlameIcon from "@/components/icons/FlameIcon";
 
 // ============================================================
 // BRAND DATA — меняй под любой проект
@@ -258,6 +259,10 @@ const TRANSLATIONS = {
     iconographyTitle: "Iconography",
     iconographySubtitle: "Стиль иконок — outline, 2px stroke, скруглённые концы",
     appIcon: "App Icon",
+    flameIconTitle: "Flame Icon",
+    flameIconFilled: "Заполненный",
+    flameIconOutline: "Контур",
+    flameIconColors: "Цвета",
     iconStyle: "Стиль:",
     iconStroke: "Stroke:",
     iconGrid: "Grid:",
@@ -577,6 +582,10 @@ const TRANSLATIONS = {
     iconographyTitle: "Iconography",
     iconographySubtitle: "Icon-Stil — Outline, 2px Strich, abgerundete Enden",
     appIcon: "App Icon",
+    flameIconTitle: "Flame Icon",
+    flameIconFilled: "Gefüllt",
+    flameIconOutline: "Kontur",
+    flameIconColors: "Farben",
     iconStyle: "Stil:",
     iconStroke: "Stroke:",
     iconGrid: "Grid:",
@@ -858,7 +867,7 @@ function CopyBadge({
         padding: "3px 8px",
         fontSize: 11,
         fontWeight: 600,
-        fontFamily: "monospace",
+        fontFamily: "var(--font-mono), ui-monospace, monospace",
         transition: "all 0.2s",
       }}
     >
@@ -961,7 +970,7 @@ function GradientSwatch({
             borderRadius: 6,
             padding: "3px 8px",
             fontSize: 10,
-            fontFamily: "monospace",
+            fontFamily: "var(--font-mono), ui-monospace, monospace",
             transition: "all 0.2s",
           }}
         >
@@ -1140,7 +1149,7 @@ function InviteCardMockup({
         style={{
           fontSize: 11,
           fontWeight: 600,
-          fontFamily: "monospace",
+          fontFamily: "var(--font-mono), ui-monospace, monospace",
           letterSpacing: "0.15em",
           color: "#808080",
         }}
@@ -1272,7 +1281,7 @@ function StoriesMockup({
               color: "#fff",
               fontSize: 9,
               fontWeight: 600,
-              fontFamily: "Inter,sans-serif",
+              fontFamily: "var(--font-body)",
             }}
           >
             onetribe
@@ -1286,7 +1295,7 @@ function StoriesMockup({
               fontWeight: 600,
               letterSpacing: 2,
               marginBottom: 6,
-              fontFamily: "Inter,sans-serif",
+              fontFamily: "var(--font-body)",
             }}
           >
             TRIBE AWAKENING
@@ -1297,7 +1306,7 @@ function StoriesMockup({
               color: "#fff",
               fontWeight: 700,
               lineHeight: 1.3,
-              fontFamily: "Inter,sans-serif",
+              fontFamily: "var(--font-body)",
               marginBottom: 8,
             }}
           >
@@ -1308,7 +1317,7 @@ function StoriesMockup({
               fontSize: 8,
               color: "rgba(255,255,255,0.6)",
               lineHeight: 1.5,
-              fontFamily: "Inter,sans-serif",
+              fontFamily: "var(--font-body)",
             }}
           >
             {t.storiesTagline}
@@ -1329,7 +1338,7 @@ function StoriesMockup({
                 color: "#fff",
                 fontSize: 8,
                 fontWeight: 700,
-                fontFamily: "Inter,sans-serif",
+                fontFamily: "var(--font-body)",
                 lineHeight: 1,
               }}
             >
@@ -1483,7 +1492,7 @@ export default function BrandGuidelinesPage() {
       style={{
         display: "flex",
         minHeight: "100vh",
-        fontFamily: "'Inter Tight', Inter, sans-serif",
+        fontFamily: "var(--font-body)",
         background: "#FAFAFC",
       }}
     >
@@ -1517,21 +1526,33 @@ export default function BrandGuidelinesPage() {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              marginBottom: 10,
+              marginBottom: 4,
               gap: 8,
             }}
           >
-            <OneTribeIcon size={32} gradientId="sidebar-icon-grad" />
+            <OneTribeIcon size={40} gradientId="sidebar-icon-grad" />
           </div>
           <div
             style={{
-              fontSize: 13,
+              fontSize: 18,
               fontWeight: 800,
-              color: "#1E1E1E",
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.03em",
+              display: "flex",
+              alignItems: "baseline",
+              gap: 1,
             }}
           >
-            OneTribe
+            <span className="italic" style={{ color: "#1E1E1E" }}>one</span>
+            <span
+              style={{
+                backgroundImage: "linear-gradient(135deg, #48E5FF, #B289F9, #F989B4, #FFBC6F)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              tribe
+            </span>
           </div>
           <div style={{ fontSize: 10, color: "#808080", marginTop: 2 }}>
             {t.brandGuidelinesV1}
@@ -1648,12 +1669,24 @@ export default function BrandGuidelinesPage() {
               style={{
                 fontSize: 52,
                 fontWeight: 800,
-                color: "#1E1E1E",
                 margin: "0 0 8px",
                 letterSpacing: "-0.03em",
+                display: "flex",
+                alignItems: "baseline",
+                gap: 4,
               }}
             >
-              OneTribe
+              <span style={{ fontStyle: "italic", color: "#1E1E1E" }}>one</span>
+              <span
+                style={{
+                  backgroundImage: "linear-gradient(135deg, #48E5FF, #B289F9, #F989B4, #FFBC6F)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                tribe
+              </span>
             </h1>
             <p
               style={{
@@ -2464,6 +2497,112 @@ export default function BrandGuidelinesPage() {
                 </div>
               </div>
             </div>
+
+            <div
+              style={{
+                ...CARD_STYLE,
+                marginTop: 24,
+              }}
+            >
+              <div
+                style={{
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  color: "#B289F9",
+                  textTransform: "uppercase",
+                  marginBottom: 16,
+                }}
+              >
+                {t.flameIconTitle}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  flexWrap: "wrap",
+                  alignItems: "flex-end",
+                }}
+              >
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: "#FCFCFC",
+                      border: "1px solid #E6E6E6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <FlameIcon filled size={28} />
+                  </div>
+                  <span style={{ fontSize: 10, color: "#808080", fontWeight: 500 }}>{t.flameIconFilled}</span>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                  <div
+                    style={{
+                      width: 48,
+                      height: 48,
+                      borderRadius: 12,
+                      background: "#FCFCFC",
+                      border: "1px solid #E6E6E6",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#1E1E1E",
+                    }}
+                  >
+                    <FlameIcon filled={false} size={28} />
+                  </div>
+                  <span style={{ fontSize: 10, color: "#808080", fontWeight: 500 }}>{t.flameIconOutline}</span>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 10,
+                  }}
+                >
+                  <span style={{ fontSize: 10, fontWeight: 600, color: "#808080", letterSpacing: "0.05em" }}>{t.flameIconColors}</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 12,
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {[
+                      { hex: "#FD6E70", label: "#FD6E70", textColor: "#fff" },
+                      { hex: "#FFA381", label: "#FFA381", textColor: "#fff" },
+                      { hex: "#FFD0A4", label: "#FFD0A4", textColor: "#1E1E1E" },
+                    ].map((c) => (
+                      <div
+                        key={c.hex}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          padding: "8px 12px",
+                          borderRadius: 8,
+                          background: c.hex,
+                          fontFamily: "var(--font-mono), ui-monospace, monospace",
+                          fontSize: 11,
+                          fontWeight: 600,
+                          color: c.textColor,
+                          textShadow: c.textColor === "#fff" ? "0 1px 2px rgba(0,0,0,0.2)" : "none",
+                        }}
+                      >
+                        {c.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </Section>
         </div>
 
@@ -2727,7 +2866,7 @@ export default function BrandGuidelinesPage() {
                       fontWeight: 800,
                       color: "#1E1E1E",
                       marginBottom: 4,
-                      fontFamily: "monospace",
+                      fontFamily: "var(--font-mono), ui-monospace, monospace",
                     }}
                   >
                     {item.value}
@@ -2845,7 +2984,7 @@ export default function BrandGuidelinesPage() {
                       fontSize: 11,
                       color: "#444",
                       lineHeight: 1.6,
-                      fontFamily: "monospace",
+                      fontFamily: "var(--font-mono), ui-monospace, monospace",
                     }}
                   >
                     {t.daoWavesMathText}
@@ -3019,7 +3158,7 @@ export default function BrandGuidelinesPage() {
                     fontSize: 11,
                     color: "#444",
                     lineHeight: 1.6,
-                    fontFamily: "monospace",
+                    fontFamily: "var(--font-mono), ui-monospace, monospace",
                   }}
                 >
                   {t.daoSphereTechText}
@@ -3291,7 +3430,7 @@ export default function BrandGuidelinesPage() {
                     />
                     <span
                       style={{
-                        fontFamily: "monospace",
+                        fontFamily: "var(--font-mono), ui-monospace, monospace",
                         fontSize: 12,
                         color: "#1E1E1E",
                       }}
@@ -3351,7 +3490,7 @@ export default function BrandGuidelinesPage() {
                     />
                     <span
                       style={{
-                        fontFamily: "monospace",
+                        fontFamily: "var(--font-mono), ui-monospace, monospace",
                         fontSize: 12,
                         color: "#1E1E1E",
                       }}

@@ -47,7 +47,7 @@ export default function BlockchainHero() {
       <div className="absolute inset-0 hero-cross-pattern hero-cross-pattern-flicker" />
       <div className="absolute inset-0 hero-darken" />
 
-      <div className="relative w-full max-w-2xl sm:max-w-4xl lg:max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-16">
+      <div className="relative w-full max-w-2xl sm:max-w-4xl lg:max-w-content mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-16">
         <div className="flex-1 mb-12 lg:mb-0">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4">
             {t.heroTitle1}{" "}

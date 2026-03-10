@@ -21,7 +21,7 @@ export default function NumbersDontLie() {
           "radial-gradient(ellipse 80% 70% at 50% 50%, rgba(139, 92, 246, 0.12), rgba(34, 211, 238, 0.06) 40%, transparent 70%)",
       }}
     >
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-content mx-auto relative z-10">
         <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-16">
           {t.numbersTitle}
         </h2>

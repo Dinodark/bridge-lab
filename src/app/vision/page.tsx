@@ -4,9 +4,11 @@ import { useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
 import TribeFireCanvas from "@/components/tribe/TribeFireCanvas";
 import SparksCanvas from "@/components/tribe/SparksCanvas";
 import { getTribeFireCopyPrompt } from "@/lib/tribe/copyPrompt";
+import UsefulButton from "@/components/UsefulButton";
 
 const TICKER_ITEMS = [
   "One World",
@@ -71,6 +73,10 @@ const CONTENT = {
     copied: "Скопировано!",
     downloadSvg: "Скачать SVG",
     copyGameCode: "Скопировать код игры",
+    authorSectionTitle: "От автора",
+    authorProject: "Tribe — растущее DACH-сообщество в Web3.",
+    authorRole: "Моя задача как арт-директора — создать аудиовизуальный язык, который объединит нас (несмотря на языковой барьер) и будет понятно транслировать ценности Tribe вовне и внутрь.",
+    authorIdea: "Дизайн здесь — не просто красота, а инструмент роста community-driven продукта.",
   },
   de: {
     eyebrow: "Community · Bewegung · Neue Welt",
@@ -124,11 +130,16 @@ const CONTENT = {
     copied: "Kopiert!",
     downloadSvg: "SVG herunterladen",
     copyGameCode: "Spielcode kopieren",
+    authorSectionTitle: "Vom Autor",
+    authorProject: "Tribe — eine wachsende DACH-Community in Web3.",
+    authorRole: "Meine Aufgabe als Art Director ist es, eine audiovisuelle Sprache zu schaffen, die uns verbindet (trotz Sprachbarrieren) und die Werte von Tribe nach innen und außen verständlich vermittelt.",
+    authorIdea: "Design ist hier nicht nur Ästhetik, sondern ein Instrument für das Wachstum eines community-driven Produkts.",
   },
 } as const;
 
 export default function VisionPage() {
   const { lang } = useLanguage();
+  const { trackCopy, trackDownload } = useAnalytics();
   const t = CONTENT[lang];
   const [copyFeedback, setCopyFeedback] = useState(false);
   const [logoCopyFeedback, setLogoCopyFeedback] = useState(false);
@@ -136,24 +147,26 @@ export default function VisionPage() {
   const handleCopyCode = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(getTribeFireCopyPrompt());
+      trackCopy("tribe-fire-game", "code", "game");
       setCopyFeedback(true);
       setTimeout(() => setCopyFeedback(false), 2000);
     } catch {
       setCopyFeedback(false);
     }
-  }, []);
+  }, [trackCopy]);
 
   const handleCopyLogo = useCallback(async () => {
     try {
       const res = await fetch("/tribe/OneTribeLogo.svg");
       const svg = await res.text();
       await navigator.clipboard.writeText(svg);
+      trackCopy("one-tribe-logo", "svg", "logo");
       setLogoCopyFeedback(true);
       setTimeout(() => setLogoCopyFeedback(false), 2000);
     } catch {
       setLogoCopyFeedback(false);
     }
-  }, []);
+  }, [trackCopy]);
 
   const handleDownloadLogo = useCallback(async () => {
     try {
@@ -165,15 +178,16 @@ export default function VisionPage() {
       a.download = "OneTribeLogo.svg";
       a.click();
       URL.revokeObjectURL(url);
+      trackDownload("one-tribe-logo", "svg", "/tribe/OneTribeLogo.svg");
     } catch {
       // ignore
     }
-  }, []);
+  }, [trackDownload]);
 
   return (
     <div
       className="min-h-screen bg-[#FCFCFC] text-[#1E1E1E] overflow-x-hidden"
-      style={{ fontFamily: "var(--font-inter-tight), Inter, sans-serif" }}
+      style={{ fontFamily: "var(--font-body)" }}
     >
       {/* Ticker — below header (h-14 = 56px) */}
       <div className="fixed top-14 left-0 right-0 z-[200] overflow-hidden bg-[#FF902F] py-1.5">
@@ -287,7 +301,7 @@ export default function VisionPage() {
       <section className="relative py-24 bg-[#0D0A07] border-t border-[#FF902F]/[0.08] text-center">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[18vw] font-light text-[#FF902F]/[0.025] tracking-[-0.05em] pointer-events-none whitespace-nowrap"
-          style={{ fontFamily: "var(--font-inter-tight), Inter, sans-serif" }}
+          style={{ fontFamily: "var(--font-body)" }}
         >
           {t.manifestoBg}
         </div>
@@ -300,8 +314,29 @@ export default function VisionPage() {
         </p>
       </section>
 
+      {/* Author Manifest */}
+      <section className="relative py-20 bg-[#141008] border-t border-[#FF902F]/[0.08]">
+        <div className="max-w-[780px] mx-auto px-6 sm:px-8">
+          <span className="font-mono text-[11px] font-semibold tracking-[0.1em] text-[#FF902F] uppercase block mb-8">
+            {t.authorSectionTitle}
+          </span>
+          <p className="text-[18px] sm:text-[20px] text-[#F0E8DC] leading-[1.6] mb-6">
+            {t.authorProject}
+          </p>
+          <p className="text-[16px] sm:text-[18px] text-[#7A6B58] leading-[1.6] mb-6">
+            {t.authorRole}
+          </p>
+          <p className="text-[18px] sm:text-[20px] font-medium text-[#FF902F] leading-[1.5]">
+            {t.authorIdea}
+          </p>
+          <div className="mt-8">
+            <UsefulButton targetId="manifest-author" targetType="section" />
+          </div>
+        </div>
+      </section>
+
       {/* Features */}
-      <section className="max-w-[1200px] mx-auto px-6 sm:px-8 py-16 bg-[#FCFCFC]">
+      <section className="max-w-content mx-auto px-6 sm:px-8 py-16 bg-[#FCFCFC]">
         <div className="flex items-center gap-6 mb-12">
           <span className="font-mono text-[11px] font-semibold tracking-[0.1em] text-[#FF902F] uppercase">{t.sectionWhy}</span>
           <div className="flex-1 h-px bg-gradient-to-r from-[#FF902F]/30 to-transparent" />
@@ -335,7 +370,7 @@ export default function VisionPage() {
 
       {/* Bridge section */}
       <section className="bg-white border-t border-[#E6E6E6] border-b border-[#E6E6E6] py-16">
-        <div className="max-w-[1200px] mx-auto px-6 sm:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="max-w-content mx-auto px-6 sm:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div>
             <h2 className="text-[28px] sm:text-[36px] font-bold text-[#1E1E1E] leading-[1.2] tracking-[-0.01em] mb-6">
               {t.bridgeSectionTitle}
@@ -366,7 +401,7 @@ export default function VisionPage() {
 
       {/* Roadmap */}
       <section className="w-full bg-[#1E1710] border-t border-[#FF902F]/10 border-b border-[#FF902F]/10 py-16 overflow-visible">
-        <div className="max-w-[1200px] mx-auto px-6 sm:px-8">
+        <div className="max-w-content mx-auto px-6 sm:px-8">
           <div className="flex items-center gap-6 mb-12">
             <span className="font-mono text-[11px] font-semibold tracking-[0.1em] text-[#FF902F] uppercase">{t.roadmapLabel}</span>
             <div className="flex-1 h-px bg-gradient-to-r from-[#FF902F]/30 to-transparent" />

@@ -15,6 +15,8 @@ export type AnalyticsEventType =
   | "blur"
   | "form_submit"
   | "link_click"
+  | "download"
+  | "copy"
   | "custom";
 
 export type BaseEvent = {

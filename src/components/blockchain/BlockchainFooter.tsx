@@ -9,7 +9,7 @@ export default function BlockchainFooter() {
   const t = BLOCKCHAIN_TRANSLATIONS[lang];
   return (
     <footer className="py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-content mx-auto">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12">
           <div>
             <div className="text-xl font-bold text-white tracking-widest mb-2">BRIDGE</div>

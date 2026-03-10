@@ -27,11 +27,14 @@
   --color-gradient2: linear-gradient(135deg, #0d9488, #38bdf8);
 }
 
-/* Shared neutrals */
+/* Shared neutrals + content width + typography (Brand Guidelines) */
 :root {
   --background: #ffffff;
   --foreground: #1e1e1e;
   --color-bg: #fcfcfc;
+  --font-body: var(--font-inter-tight), "Inter Tight", Inter, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --max-width-content: 1116px;
   --color-bg-header: #ffffff;
   --color-bg-active: rgba(178, 137, 249, 0.12);
   --color-border: #e6e6e6;
@@ -60,7 +63,31 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Inter Tight", Inter, sans-serif;
+  font-family: var(--font-body);
+}
+
+.max-w-content {
+  max-width: var(--max-width-content);
+}
+
+/* Unified content container: width, padding, centering */
+.content-container {
+  max-width: var(--max-width-content);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 4rem;
+  padding-bottom: 6rem;
+}
+
+@media (min-width: 640px) {
+  .content-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
 }
 
 .scrollbar-hide {

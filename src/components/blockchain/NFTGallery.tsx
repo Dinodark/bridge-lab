@@ -19,7 +19,7 @@ export default function NFTGallery() {
   const indices = Array.from({ length: 18 }, (_, i) => i);
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-content mx-auto">
         <div className="overflow-hidden">
           <div className="flex gap-3 w-max animate-marquee">
             {indices.map((i) => (

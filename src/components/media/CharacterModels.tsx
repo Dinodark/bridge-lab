@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { T } from "@/app/media/translations";
+import FlameIcon from "@/components/icons/FlameIcon";
 
 const DYNAMIC_FACTORS = [0.9, 0.7];
 
@@ -71,14 +73,7 @@ export function LikePopup({
           className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border transition-colors bg-[var(--color-cta1)]/20 border-[var(--color-cta1)]/40 hover:bg-[var(--color-cta1)]/30"
           style={{ color: "var(--color-cta1)" }}
         >
-          <svg
-            className={`w-6 h-6 ${liked ? "text-rose-400 fill-rose-400" : ""}`}
-            fill={liked ? "currentColor" : "none"}
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-          </svg>
+          <FlameIcon filled={liked} size={24} />
           <span className="font-medium">{liked ? likedLabel : likeLabel}</span>
         </button>
         <button
@@ -96,6 +91,7 @@ export function LikePopup({
 
 export default function CharacterModels() {
   const { lang } = useLanguage();
+  const { trackLike } = useAnalytics();
   const t = T[lang];
   const [popupOpen, setPopupOpen] = useState<string | null>(null);
   const [popupLiked, setPopupLiked] = useState<Record<string, boolean>>({});
@@ -142,7 +138,7 @@ export default function CharacterModels() {
 
   return (
     <section ref={sectionRef} className="py-20 px-4 sm:px-6 lg:px-8 border-t" style={{ borderColor: "var(--color-border)" }}>
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-content mx-auto">
         <div className="mb-12">
           <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: "var(--color-text)" }}>
             {t.characterModels}
@@ -239,7 +235,10 @@ export default function CharacterModels() {
           <LikePopup
             open={!!popupOpen}
             onClose={() => setPopupOpen(null)}
-            onLike={() => setPopupLiked((p) => ({ ...p, [popupOpen]: !p[popupOpen] }))}
+            onLike={() => {
+              if (!popupLiked[popupOpen]) trackLike(popupOpen, "media");
+              setPopupLiked((p) => ({ ...p, [popupOpen]: !p[popupOpen] }));
+            }}
             liked={!!popupLiked[popupOpen]}
             title={t.likeThis}
             likeLabel={t.like}

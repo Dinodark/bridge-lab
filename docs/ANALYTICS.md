@@ -49,8 +49,13 @@ function MyComponent() {
 
 События пишутся в `localStorage` (ключ `bridge-analytics-queue`), батчами отправляются на `/api/analytics`. При уходе со страницы — `sendBeacon` для надёжной доставки.
 
-## Когда появится БД
+## Supabase (реализовано)
 
-1. Добавить модель в Prisma/Drizzle
-2. В `src/app/api/analytics/route.ts` раскомментировать/добавить `db.analyticsEvents.createMany(...)`
-3. Опционально: добавить IP lookup (MaxMind, ipapi) для country/city
+1. Выполни SQL из `docs/supabase-analytics-events.sql` в Supabase SQL Editor
+2. Добавь `SUPABASE_SERVICE_ROLE_KEY` в `.env.local`
+3. API `/api/analytics` сохраняет события в `analytics_events` с IP, страной, городом
+4. IP geolocation через ip-api.com, парсинг поискового запроса из referrer
+
+## Дашборд
+
+`/dashboard` — личный дашборд с метриками. Защищён паролем (`DASHBOARD_PASSWORDS` в `.env.local`).

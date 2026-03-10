@@ -3,8 +3,10 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { T } from "@/app/media/translations";
 import { SOULY_ITEMS } from "./soulyGalleryData";
+import FlameIcon from "@/components/icons/FlameIcon";
 
 function extractGradientFromImage(src: string): Promise<string> {
   return new Promise((resolve) => {
@@ -50,24 +52,6 @@ const EDGE_SPEED_BOOST = 12;
 const CARD_INNER_CLASS =
   "relative w-full h-full overflow-hidden rounded-lg transition-all duration-300 ease-out group-hover:scale-[1.05] group-hover:shadow-[0_0_24px_rgba(178,137,249,0.4),0_0_48px_rgba(72,229,255,0.2)] group-hover:ring-2 group-hover:ring-[var(--color-cta1)] group-hover:ring-offset-2 group-hover:ring-offset-[var(--color-bg)]";
 
-function HeartIcon({ filled }: { filled: boolean }) {
-  return (
-    <svg
-      className={`w-5 h-5 transition-colors ${filled ? "text-rose-400" : "text-white/60"}`}
-      fill={filled ? "currentColor" : "none"}
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-      />
-    </svg>
-  );
-}
-
 function Spark({ className = "" }: { className?: string }) {
   return (
     <span
@@ -96,6 +80,7 @@ function FlipIcon({ className = "" }: { className?: string }) {
 
 export default function MediaGrid() {
   const { lang } = useLanguage();
+  const { trackLike } = useAnalytics();
   const t = T[lang];
   const [mounted, setMounted] = useState(false);
   const items = [...SOULY_ITEMS, ...SOULY_ITEMS];
@@ -134,6 +119,8 @@ export default function MediaGrid() {
 
   const toggleLike = (i: number, e: React.MouseEvent) => {
     e.stopPropagation();
+    const isAdding = !likes[i];
+    if (isAdding) trackLike(`souly-${i % SOULY_ITEMS.length}`, "media");
     setLikes((prev) => ({ ...prev, [i]: !prev[i] }));
   };
 
@@ -254,7 +241,7 @@ export default function MediaGrid() {
   if (!mounted) {
     return (
       <section className="py-16 w-full overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+        <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 mb-6">
           <h2 className="text-xl font-semibold" style={{ color: "var(--color-text)" }}>{t.gallery}</h2>
         </div>
         <div className="relative left-1/2 -translate-x-1/2 overflow-hidden py-6" style={{ width: "calc(100vw + 80px)" }}>
@@ -270,7 +257,7 @@ export default function MediaGrid() {
 
   return (
     <section className="py-16 w-full overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 mb-6">
         <h2 className="text-xl font-semibold" style={{ color: "var(--color-text)" }}>{t.gallery}</h2>
       </div>
       <div
@@ -323,10 +310,10 @@ export default function MediaGrid() {
                   <button
                     type="button"
                     onClick={(e) => toggleLike(likeKey, e)}
-                    className="absolute bottom-2 right-2 p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm z-10"
+                    className={`absolute bottom-2 right-2 p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm z-10 ${!likes[likeKey] ? "text-white/60" : ""}`}
                     aria-label={likes[likeKey] ? "Убрать лайк" : "Лайк"}
                   >
-                    <HeartIcon filled={!!likes[likeKey]} />
+                    <FlameIcon filled={!!likes[likeKey]} size={20} />
                   </button>
                 </div>
               </div>
@@ -511,10 +498,10 @@ export default function MediaGrid() {
                     <button
                       type="button"
                       onClick={(e) => toggleLike(i, e)}
-                      className="p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md shrink-0"
+                      className={`p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md shrink-0 ${!likes[i] ? "text-white/60" : ""}`}
                       aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
                     >
-                      <HeartIcon filled={!!likes[i]} />
+                      <FlameIcon filled={!!likes[i]} size={20} />
                     </button>
                   </div>
                 </div>

@@ -43,7 +43,7 @@ function MusicPageContent() {
         ))}
       </div>
 
-      <div className="max-w-4xl mx-auto px-6 pt-24 pb-24 relative">
+      <div className="content-container relative">
         <div className="inline-block text-xs font-bold tracking-widest uppercase mb-4 text-[#B289F9]">
           Music
         </div>
@@ -67,7 +67,7 @@ export default function MusicPage() {
   return (
     <div
       className="min-h-screen relative"
-      style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
+      style={{ fontFamily: "var(--font-body)" }}
     >
       <MusicPlayerProvider>
         <MusicPageContent />

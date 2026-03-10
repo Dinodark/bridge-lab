@@ -9,22 +9,38 @@ const T = {
     title: "Стратегия",
     subtitle: "Видение, цели и направления. Как мы движемся.",
     visionTitle: "Видение",
-    visionDesc: "Материал в разработке. Здесь будет описание видения Tribe и Bridge.",
-    goalsTitle: "Цели",
-    goalsDesc: "Ключевые цели и метрики. В процессе наполнения.",
-    directionsTitle: "Направления",
-    directionsDesc: "Основные направления развития. Детализация — в Roadmap.",
+    visionDesc:
+      "Tribe — растущее DACH-сообщество в Web3. Bridge — инфраструктура благотворительности. Дизайн — не декор, а инструмент роста community-driven продукта. Аудиовизуальный язык объединяет нас и транслирует ценности вовне.",
+    goalsTitle: "Цели и задачи",
+    goalMain: "Увеличить вовлечённость и LTV сообщества через сильный бренд.",
+    task1: "Айдентика — лого, цвета, типографика.",
+    task2: "Мерч и физические артефакты.",
+    task3: "Аудиовизуальный контент — гимн, видео, мемы.",
+    task4: "Инструмент обратной связи — лайки, скачивания, аналитика.",
+    directionsTitle: "Каналы коммуникации",
+    ch1: "Этот сайт — хаб и портфолио-манифест.",
+    ch2: "Внутренний чат — мемы, анонсы, поддержание вайба.",
+    ch3: "Закрытые встречи — эксклюзивные презентации.",
+    ch4: "Партнёрские материалы — лендинги, презентации.",
   },
   de: {
     tag: "Strategie",
     title: "Strategie",
     subtitle: "Vision, Ziele und Richtungen. Wie wir uns bewegen.",
     visionTitle: "Vision",
-    visionDesc: "Material in Entwicklung. Hier wird die Vision von Tribe und Bridge beschrieben.",
-    goalsTitle: "Ziele",
-    goalsDesc: "Kernziele und Metriken. In Bearbeitung.",
-    directionsTitle: "Richtungen",
-    directionsDesc: "Hauptentwicklungsrichtungen. Details im Roadmap.",
+    visionDesc:
+      "Tribe — eine wachsende DACH-Community in Web3. Bridge — Infrastruktur für Wohltätigkeit. Design ist kein Dekor, sondern ein Instrument für das Wachstum eines community-driven Produkts. Die audiovisuelle Sprache verbindet uns und vermittelt Werte nach außen.",
+    goalsTitle: "Ziele und Aufgaben",
+    goalMain: "Engagement und LTV der Community durch eine starke Marke steigern.",
+    task1: "Identität — Logo, Farben, Typografie.",
+    task2: "Merch und physische Artefakte.",
+    task3: "Audiovisueller Content — Hymne, Video, Memes.",
+    task4: "Feedback-Instrument — Likes, Downloads, Analytics.",
+    directionsTitle: "Kommunikationskanäle",
+    ch1: "Diese Website — Hub und Portfolio-Manifest.",
+    ch2: "Interner Chat — Memes, Ankündigungen, Vibe.",
+    ch3: "Geschlossene Treffen — exklusive Präsentationen.",
+    ch4: "Partner-Materialien — Landings, Präsentationen.",
   },
 } as const;
 
@@ -38,10 +54,10 @@ export default function StrategyPage() {
       className="min-h-screen"
       style={{
         background: "var(--color-bg)",
-        fontFamily: "'Inter Tight', Inter, sans-serif",
+        fontFamily: "var(--font-body)",
       }}
     >
-      <div className="max-w-3xl mx-auto px-6 py-16 sm:py-24">
+      <div className="content-container">
         <div className="mb-12">
           <span
             className="text-xs font-bold tracking-widest uppercase"
@@ -60,7 +76,7 @@ export default function StrategyPage() {
           </p>
         </div>
 
-        <div className="space-y-8">
+        <div className="space-y-10">
           <section>
             <h2 className="text-xl font-bold mb-4" style={{ color: "var(--color-text)" }}>
               {t.visionTitle}
@@ -74,18 +90,27 @@ export default function StrategyPage() {
             <h2 className="text-xl font-bold mb-4" style={{ color: "var(--color-text)" }}>
               {t.goalsTitle}
             </h2>
-            <p className="leading-relaxed" style={{ color: "var(--color-muted)" }}>
-              {t.goalsDesc}
+            <p className="leading-relaxed mb-4" style={{ color: "var(--color-text)" }}>
+              {t.goalMain}
             </p>
+            <ul className="space-y-2 list-disc list-inside" style={{ color: "var(--color-muted)" }}>
+              <li>{t.task1}</li>
+              <li>{t.task2}</li>
+              <li>{t.task3}</li>
+              <li>{t.task4}</li>
+            </ul>
           </section>
 
           <section>
             <h2 className="text-xl font-bold mb-4" style={{ color: "var(--color-text)" }}>
               {t.directionsTitle}
             </h2>
-            <p className="leading-relaxed" style={{ color: "var(--color-muted)" }}>
-              {t.directionsDesc}
-            </p>
+            <ul className="space-y-2 list-disc list-inside" style={{ color: "var(--color-muted)" }}>
+              <li>{t.ch1}</li>
+              <li>{t.ch2}</li>
+              <li>{t.ch3}</li>
+              <li>{t.ch4}</li>
+            </ul>
           </section>
         </div>
       </div>

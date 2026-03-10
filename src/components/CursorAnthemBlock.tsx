@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useAnthemPlayer } from "@/contexts/AnthemPlayerContext";
+import { useAnthemPlayer, ANTHEM_TRACK_PATH } from "@/contexts/AnthemPlayerContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
 
 const ANTHEM_DESC = {
   ru: "PROD · ПРОД — Cursor, код, Deutschland × Россия. Новое время, новые технологии. Наш гимн.",
@@ -10,6 +11,7 @@ const ANTHEM_DESC = {
 };
 
 const LYRIC_BTN = { ru: { show: "Показать текст песни", hide: "Скрыть текст" }, de: { show: "Liedtext anzeigen", hide: "Text ausblenden" } };
+const DOWNLOAD_BTN = { ru: "Скачать трек", de: "Track herunterladen" };
 
 const LYRICS = `сижу и пилю, mein Freund, Cursor — meine Maschine
 Er schreibt mir den Scheiss, я только тыкаю пальцем в картину
@@ -28,6 +30,7 @@ Ich sag': "Cursor, Bruder, Cursor hat es"`;
 
 export default function CursorAnthemBlock() {
   const { lang } = useLanguage();
+  const { trackDownload } = useAnalytics();
   const { isPlaying, togglePlay, progress, duration, seek } = useAnthemPlayer();
   const [showLyrics, setShowLyrics] = useState(false);
 
@@ -70,14 +73,25 @@ export default function CursorAnthemBlock() {
             {ANTHEM_DESC[lang]}
           </p>
 
-          <button
-            type="button"
-            onClick={() => setShowLyrics(!showLyrics)}
-            className="text-xs font-medium mb-4 self-start"
-            style={{ color: "var(--color-cta1)" }}
-          >
-            {showLyrics ? LYRIC_BTN[lang].hide : LYRIC_BTN[lang].show}
-          </button>
+          <div className="flex flex-wrap items-center gap-3 mb-4">
+            <button
+              type="button"
+              onClick={() => setShowLyrics(!showLyrics)}
+              className="text-xs font-medium"
+              style={{ color: "var(--color-cta1)" }}
+            >
+              {showLyrics ? LYRIC_BTN[lang].hide : LYRIC_BTN[lang].show}
+            </button>
+            <a
+              href={ANTHEM_TRACK_PATH}
+              download
+              onClick={() => trackDownload("anthem-track", "audio", ANTHEM_TRACK_PATH)}
+              className="text-xs font-medium px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
+              style={{ background: "var(--color-cta1)", color: "#fff" }}
+            >
+              {DOWNLOAD_BTN[lang]}
+            </a>
+          </div>
           {showLyrics && (
             <pre
               className="text-xs leading-relaxed mb-4 p-4 rounded-lg overflow-auto max-h-40"
@@ -180,12 +194,12 @@ function CursorAnthemCover() {
 
       {/* Code brackets { } — сходятся и расходятся, симметрично */}
       <g className="anthem-bracket-left" transform="translate(55, 102)">
-        <text x="0" y="0" fill="url(#anthem-grad1)" fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
+        <text x="0" y="0" fill="url(#anthem-grad1)" fontSize="32" fontFamily="var(--font-mono), ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
           {"{"}
         </text>
       </g>
       <g className="anthem-bracket-right" transform="translate(145, 102)">
-        <text x="0" y="0" fill="url(#anthem-grad1)" fontSize="32" fontFamily="ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
+        <text x="0" y="0" fill="url(#anthem-grad1)" fontSize="32" fontFamily="var(--font-mono), ui-monospace, monospace" fontWeight="bold" opacity="0.85" textAnchor="middle" dominantBaseline="middle">
           {"}"}
         </text>
       </g>

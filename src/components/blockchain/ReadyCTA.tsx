@@ -8,7 +8,7 @@ export default function ReadyCTA() {
   const t = BLOCKCHAIN_TRANSLATIONS[lang];
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto text-center">
+      <div className="max-w-content mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
           {t.readyTitle}
         </h2>

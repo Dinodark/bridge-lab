@@ -16,7 +16,7 @@ export default function TribeMerchPage() {
       style={{
         minHeight: "100vh",
         background: "#FAFAFC",
-        fontFamily: "'Inter Tight', 'Inter', sans-serif",
+        fontFamily: "var(--font-body)",
         padding: "48px 24px 96px",
       }}
     >
@@ -139,7 +139,7 @@ export default function TribeMerchPage() {
               fill={printColor}
               fontSize="15"
               fontWeight="700"
-              fontFamily="'Inter Tight', 'Inter', sans-serif"
+              fontFamily="var(--font-body)"
               letterSpacing="4"
               style={{ transition: "fill 0.4s ease" }}
             >
@@ -152,7 +152,7 @@ export default function TribeMerchPage() {
               fill={isBlack ? "#808080" : "#B0B0B0"}
               fontSize="8"
               fontWeight="400"
-              fontFamily="'Inter Tight', 'Inter', sans-serif"
+              fontFamily="var(--font-body)"
               letterSpacing="3"
             >
               ONE WORLD · ONE TRIBE

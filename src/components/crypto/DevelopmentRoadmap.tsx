@@ -7,7 +7,7 @@ const milestones = [
 export default function DevelopmentRoadmap() {
   return (
     <section id="roadmap" className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-content mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-8">Development Roadmap</h2>
         <div className="space-y-6">
           {milestones.map((milestone) => (

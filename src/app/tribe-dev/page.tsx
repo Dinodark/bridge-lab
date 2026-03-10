@@ -9,7 +9,7 @@ export default function TribeDevPage() {
   const t = T[lang];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <div className="content-container">
       <div className="mb-12">
         <h1 className="text-2xl font-bold text-[#1E1E1E] mb-2">{t.pageTitle}</h1>
         <p className="text-[#808080]">{t.pageDesc}</p>

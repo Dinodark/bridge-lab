@@ -8,7 +8,7 @@ export default function CryptoHeader() {
 
   return (
     <header className="fixed top-10 left-0 right-0 z-50 bg-white border-b border-zinc-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
         <Link href="/crypto" className="flex flex-col">
           <span className="text-xl font-bold text-zinc-900 tracking-tight">BRIDGE</span>
           <span className="text-[10px] sm:text-xs text-zinc-500 font-medium tracking-widest uppercase">

@@ -9,7 +9,7 @@ export default function TribeDevLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#FCFCFC]" style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}>
+    <div className="min-h-screen bg-[#FCFCFC]" style={{ fontFamily: "var(--font-body)" }}>
       {children}
     </div>
   );

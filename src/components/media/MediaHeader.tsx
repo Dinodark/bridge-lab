@@ -9,7 +9,7 @@ export default function MediaHeader() {
 
   return (
     <header className="border-b bg-[var(--color-bg-header)]" style={{ borderColor: "var(--color-border)" }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <p
           className="text-[11px] font-semibold uppercase tracking-[0.1em] mb-2"
           style={{ color: "var(--color-cta1)", lineHeight: 1.4 }}

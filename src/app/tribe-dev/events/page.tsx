@@ -21,7 +21,7 @@ export default function EventsPage() {
   const [category, setCategory] = useState("");
 
   return (
-    <div className="max-w-[1116px] mx-auto px-4 sm:px-6 py-8">
+    <div className="content-container">
       <Link href="/tribe-dev" className="inline-flex items-center gap-2 text-sm text-[#0866FF] hover:underline mb-8">
         {t.backToTribeDev}
       </Link>

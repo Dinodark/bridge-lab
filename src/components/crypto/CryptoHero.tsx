@@ -15,7 +15,7 @@ export default function CryptoHero() {
         />
         <div className="absolute inset-0 bg-zinc-900/60" />
       </div>
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 lg:pt-28">
+      <div className="relative z-10 max-w-content mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 lg:pt-28">
         <div className="max-w-2xl">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6">
             Eine junge Mutter ging viel zu früh...

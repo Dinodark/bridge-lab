@@ -14,7 +14,7 @@ export default async function CampaignPage({ params }: { params: Promise<{ id: s
   const { id } = await params;
   return (
     <div className="min-h-screen bg-[#FAFAFC] pt-4 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="content-container">
         <ExploreHeader />
         <CampaignDetail campaignId={id} />
         <ExploreFooter />

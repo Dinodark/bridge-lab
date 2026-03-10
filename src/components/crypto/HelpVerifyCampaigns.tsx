@@ -37,7 +37,7 @@ export default function HelpVerifyCampaigns() {
 
   return (
     <section className="py-12 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-content mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-zinc-900 mb-1">Help Verify Campaigns</h2>
         <p className="text-zinc-600 mb-6 sm:mb-8">They need your help.</p>
 

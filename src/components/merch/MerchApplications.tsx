@@ -506,7 +506,7 @@ function InviteCardMockup({ t }: { t: T }) {
         style={{
           fontSize: 11,
           fontWeight: 600,
-          fontFamily: "monospace",
+          fontFamily: "var(--font-mono), ui-monospace, monospace",
           letterSpacing: "0.15em",
           color: "#808080",
         }}
@@ -754,7 +754,7 @@ function StoriesMockup({ t }: { t: T }) {
                     color: "#fff",
                     fontSize: 9,
                     fontWeight: 600,
-                    fontFamily: "Inter,sans-serif",
+                    fontFamily: "var(--font-body)",
                   }}
                 >
                   onetribe
@@ -768,7 +768,7 @@ function StoriesMockup({ t }: { t: T }) {
                     fontWeight: 600,
                     letterSpacing: 2,
                     marginBottom: 6,
-                    fontFamily: "Inter,sans-serif",
+                    fontFamily: "var(--font-body)",
                   }}
                 >
                   TRIBE AWAKENING
@@ -779,7 +779,7 @@ function StoriesMockup({ t }: { t: T }) {
                     color: "#fff",
                     fontWeight: 700,
                     lineHeight: 1.3,
-                    fontFamily: "Inter,sans-serif",
+                    fontFamily: "var(--font-body)",
                     marginBottom: 8,
                   }}
                 >
@@ -790,7 +790,7 @@ function StoriesMockup({ t }: { t: T }) {
                     fontSize: 8,
                     color: "rgba(255,255,255,0.6)",
                     lineHeight: 1.5,
-                    fontFamily: "Inter,sans-serif",
+                    fontFamily: "var(--font-body)",
                   }}
                 >
                   {t.storiesTagline}
@@ -811,7 +811,7 @@ function StoriesMockup({ t }: { t: T }) {
                       color: "#fff",
                       fontSize: 8,
                       fontWeight: 700,
-                      fontFamily: "Inter,sans-serif",
+                      fontFamily: "var(--font-body)",
                       lineHeight: 1,
                     }}
                   >
@@ -1420,7 +1420,7 @@ export default function MerchApplications() {
               <div
                 style={{
                   fontSize: 10,
-                  fontFamily: "monospace",
+                  fontFamily: "var(--font-mono), ui-monospace, monospace",
                   color: "#B289F9",
                   marginBottom: 6,
                 }}

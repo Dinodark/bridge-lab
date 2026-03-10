@@ -18,6 +18,9 @@ const TRIBE_LINKS = [
   { href: "/brandguidelines", label: "Brand Guidelines" },
 ];
 
+/** Author name for header tagline. Set to empty to hide "by [name]". */
+const AUTHOR_NAME = "derbushev";
+
 const BRIDGE_LINKS = [
   { href: "/blockchain", label: "Bridge" },
   { href: "/crypto", label: "Mobile First" },
@@ -146,7 +149,7 @@ function Dropdown({
             style={{
               top: pos.top,
               left: pos.left,
-              fontFamily: "'Inter Tight', Inter, sans-serif",
+              fontFamily: "var(--font-body)",
             }}
           >
             {items.map((item) => {
@@ -220,12 +223,15 @@ export default function GlobalMenu() {
   return (
     <header
       className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-header)]/95 backdrop-blur-sm"
-      style={{ fontFamily: "'Inter Tight', Inter, sans-serif" }}
+      style={{ fontFamily: "var(--font-body)" }}
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="text-xl font-bold sm:text-2xl">
-            <span className="italic" style={{ color: "#1E1E1E", marginRight: 2 }}>one</span>
+        <Link href="/" className="flex shrink-0 flex-col items-start gap-0">
+          <span
+            className="text-xl leading-tight sm:text-2xl"
+            style={{ fontWeight: 800, letterSpacing: "-0.03em", display: "flex", alignItems: "baseline", gap: 1 }}
+          >
+            <span className="italic" style={{ color: "#1E1E1E" }}>one</span>
             <span
               style={{
                 backgroundImage: palette.gradient1,
@@ -236,6 +242,9 @@ export default function GlobalMenu() {
             >
               bridge
             </span>
+          </span>
+          <span className="text-[10px] sm:text-[11px] font-medium tracking-wider uppercase" style={{ color: "var(--color-muted)" }}>
+            Creative Direction for Tribe{AUTHOR_NAME ? ` by ${AUTHOR_NAME}` : ""}
           </span>
         </Link>
 
