@@ -4,6 +4,12 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 const COOKIE_NAME = "dashboard_session";
 
+const EXCLUDED_IPS = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1", "localhost", "0.0.0.0", "93.115.175.63"]);
+
+function isExcludedIp(ip: string | null): boolean {
+  return ip != null && EXCLUDED_IPS.has(ip);
+}
+
 function getSecret(): string {
   const s = process.env.DASHBOARD_JWT_SECRET ?? process.env.SUPABASE_SERVICE_ROLE_KEY ?? "fallback-dev-secret";
   return s;
@@ -34,7 +40,7 @@ export async function GET(request: NextRequest) {
     const [allRes, visitorsRes, eventsRes] = await Promise.all([
       supabase
         .from("analytics_events")
-        .select("path, target_id, type")
+        .select("path, target_id, type, ip")
         .limit(10000),
       supabase
         .from("analytics_events")
@@ -48,9 +54,13 @@ export async function GET(request: NextRequest) {
         .limit(limit),
     ]);
 
-    const topContent = allRes.data ?? [];
-    const visitors = visitorsRes.data ?? [];
-    const events = eventsRes.data ?? [];
+    const topContentRaw = allRes.data ?? [];
+    const visitorsRaw = visitorsRes.data ?? [];
+    const eventsRaw = eventsRes.data ?? [];
+
+    const topContent = topContentRaw.filter((r) => !isExcludedIp(r.ip));
+    const visitors = visitorsRaw.filter((r) => !isExcludedIp(r.ip));
+    const events = eventsRaw.filter((r) => !isExcludedIp(r.ip));
 
     const typeCounts: Record<string, number> = {};
     for (const row of topContent) {
