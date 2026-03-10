@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnthemPlayer, ANTHEM_TRACK_PATH } from "@/contexts/AnthemPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 const ANTHEM_DESC = {
   ru: "PROD · ПРОД — Cursor, код, Deutschland × Россия. Новое время, новые технологии. Наш гимн.",
@@ -82,15 +83,18 @@ export default function CursorAnthemBlock() {
             >
               {showLyrics ? LYRIC_BTN[lang].hide : LYRIC_BTN[lang].show}
             </button>
-            <a
-              href={ANTHEM_TRACK_PATH}
-              download
-              onClick={() => trackDownload("anthem-track", "audio", ANTHEM_TRACK_PATH)}
-              className="text-xs font-medium px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
-              style={{ background: "var(--color-cta1)", color: "#fff" }}
-            >
-              {DOWNLOAD_BTN[lang]}
-            </a>
+            <span className="inline-flex items-center gap-2">
+              <a
+                href={ANTHEM_TRACK_PATH}
+                download
+                onClick={() => trackDownload("anthem-track", "audio", ANTHEM_TRACK_PATH)}
+                className="text-xs font-medium px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
+                style={{ background: "var(--color-cta1)", color: "#fff" }}
+              >
+                {DOWNLOAD_BTN[lang]}
+              </a>
+              <AnalyticsCountBadge targetId="anthem-track" type="download" />
+            </span>
           </div>
           {showLyrics && (
             <pre

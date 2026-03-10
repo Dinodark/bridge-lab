@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnthemPlayer } from "@/contexts/AnthemPlayerContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 
@@ -207,8 +209,14 @@ export default function GlobalMenu() {
   const { palette } = useTheme();
   const { lang, setLang } = useLanguage();
   const { isPlaying, togglePlay } = useAnthemPlayer();
+  const { trackPlay } = useAnalytics();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  const handlePlayClick = () => {
+    if (!isPlaying) trackPlay("anthem-track", "audio");
+    togglePlay();
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -282,25 +290,28 @@ export default function GlobalMenu() {
             Strategy
           </Link>
           <Dropdown label="Bridge" items={BRIDGE_LINKS} pathname={pathname} palette={palette} />
-          <button
-            type="button"
-            onClick={togglePlay}
-            aria-label={isPlaying ? "Pause" : "Play"}
-            title={isPlaying ? "Pause Anthem" : "Play Anthem"}
-            className="ml-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border)] transition-colors hover:bg-[var(--color-bg-active)]"
-            style={{ color: palette.cta1 }}
-          >
-            {isPlaying ? (
-              <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                <rect x="6" y="4" width="4" height="16" rx="1" />
-                <rect x="14" y="4" width="4" height="16" rx="1" />
-              </svg>
-            ) : (
-              <svg className="h-4 w-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            )}
-          </button>
+          <div className="ml-2 flex items-center gap-1.5">
+            <AnalyticsCountBadge targetId="anthem-track" type="play" className="text-[10px]" />
+            <button
+              type="button"
+              onClick={handlePlayClick}
+              aria-label={isPlaying ? "Pause" : "Play"}
+              title={isPlaying ? "Pause Anthem" : "Play Anthem"}
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border)] transition-colors hover:bg-[var(--color-bg-active)]"
+              style={{ color: palette.cta1 }}
+            >
+              {isPlaying ? (
+                <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                  <rect x="6" y="4" width="4" height="16" rx="1" />
+                  <rect x="14" y="4" width="4" height="16" rx="1" />
+                </svg>
+              ) : (
+                <svg className="h-4 w-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              )}
+            </button>
+          </div>
           <LangSwitcher lang={lang} setLang={setLang} palette={palette} className="ml-2 border-l" />
         </nav>
 
@@ -308,7 +319,7 @@ export default function GlobalMenu() {
         <div className="flex items-center gap-2 md:hidden">
           <button
             type="button"
-            onClick={togglePlay}
+            onClick={handlePlayClick}
             aria-label={isPlaying ? "Pause" : "Play"}
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border)] transition-colors hover:bg-[var(--color-bg-active)]"
             style={{ color: palette.cta1 }}

@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 const TRACKS = [
   {
@@ -33,12 +35,25 @@ export function getCoverForTrack(src: string | null): string | null {
   return t?.cover ?? null;
 }
 
+const DOWNLOAD_BTN = { ru: "Скачать трек", de: "Track herunterladen" };
+
 export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
   const { lang } = useLanguage();
   const { currentTrack, isPlaying, progress, duration, playTrack, seek } = useMusicPlayer();
+  const { trackPlay, trackDownload } = useAnalytics();
   const track = TRACKS[trackIndex];
   const isActive = currentTrack === track.src;
   const playing = isActive && isPlaying;
+  const targetId = `music-track-${trackIndex}`;
+
+  const handlePlay = () => {
+    if (!playing) trackPlay(targetId, "audio", track.src);
+    playTrack(track.src);
+  };
+
+  const handleDownload = () => {
+    trackDownload(targetId, "audio", track.src);
+  };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -72,10 +87,27 @@ export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
             {track.desc[lang]}
           </p>
 
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <span className="inline-flex items-center gap-1.5 text-xs text-white/60">
+              <AnalyticsCountBadge targetId={targetId} type="play" className="text-white/60" />
+              <span>plays</span>
+            </span>
+            <a
+              href={track.src}
+              download
+              onClick={handleDownload}
+              className="text-xs font-medium px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
+              style={{ background: "var(--color-cta1)", color: "#fff" }}
+            >
+              {DOWNLOAD_BTN[lang]}
+            </a>
+            <AnalyticsCountBadge targetId={targetId} type="download" className="text-white/60" />
+          </div>
+
           <div className="flex items-center gap-4 mt-auto">
             <button
               type="button"
-              onClick={() => playTrack(track.src)}
+              onClick={handlePlay}
               className="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95"
               style={{ background: "var(--color-cta1)", color: "#fff" }}
               aria-label={playing ? "Pause" : "Play"}

@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Inter_Tight } from "next/font/google";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 import DaoWaves from "@/components/dao/DaoWaves";
 import DaoSphere from "@/components/dao/DaoSphere";
 import DaoParticles from "@/components/dao/DaoParticles";
@@ -166,6 +168,7 @@ export default function DaoPage() {
   const { lang } = useLanguage();
   const t = TRANSLATIONS[lang];
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+  const { trackLike } = useAnalytics();
 
   return (
     <div
@@ -273,14 +276,18 @@ export default function DaoPage() {
           <DaoWaves overlay />
         </div>
         <div
-          className="group relative z-10 w-32 h-32 flex justify-center items-center overflow-visible cursor-pointer"
-          onClick={() => setPasswordModalOpen(true)}
+          className="group relative z-10 w-32 h-32 flex flex-col justify-center items-center overflow-visible cursor-pointer gap-2"
+          onClick={() => {
+            trackLike("dao-sphere", "dao");
+            setPasswordModalOpen(true);
+          }}
         >
           {/* Кружки под шариком при hover — 360×360, центр совпадает */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[360px] h-[360px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out">
             <DaoParticles />
           </div>
           <DaoSphere />
+          <AnalyticsCountBadge targetId="dao-sphere" type="like" className="text-[10px] text-[#6E22F2]/80" />
         </div>
       </div>
 
@@ -510,13 +517,17 @@ export default function DaoPage() {
           <DaoWaves overlay />
         </div>
         <div
-          className="group relative z-10 w-32 h-32 flex justify-center items-center overflow-visible cursor-pointer"
-          onClick={() => setPasswordModalOpen(true)}
+          className="group relative z-10 w-32 h-32 flex flex-col justify-center items-center overflow-visible cursor-pointer gap-2"
+          onClick={() => {
+            trackLike("dao-sphere", "dao");
+            setPasswordModalOpen(true);
+          }}
         >
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-0 w-[360px] h-[360px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out">
             <DaoParticles />
           </div>
           <DaoSphere />
+          <AnalyticsCountBadge targetId="dao-sphere" type="like" className="text-[10px] text-[#6E22F2]/80" />
         </div>
       </div>
     </div>

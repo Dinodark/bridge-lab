@@ -4,8 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import { T } from "@/app/media/translations";
 import FlameIcon from "@/components/icons/FlameIcon";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 const DYNAMIC_FACTORS = [0.9, 0.7];
 
@@ -41,6 +43,7 @@ export function LikePopup({
   onClose,
   onLike,
   liked,
+  targetId,
   title,
   likeLabel,
   likedLabel,
@@ -50,6 +53,7 @@ export function LikePopup({
   onClose: () => void;
   onLike: () => void;
   liked: boolean;
+  targetId?: string;
   title: string;
   likeLabel: string;
   likedLabel: string;
@@ -67,6 +71,9 @@ export function LikePopup({
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="text-xl font-semibold mb-4 text-center" style={{ color: "var(--color-text)" }}>{title}</h3>
+        <div className="flex items-center justify-center gap-2 mb-2">
+          {targetId && <AnalyticsCountBadge targetId={targetId} type="like" />}
+        </div>
         <button
           type="button"
           onClick={onLike}
@@ -94,7 +101,13 @@ export default function CharacterModels() {
   const { trackLike } = useAnalytics();
   const t = T[lang];
   const [popupOpen, setPopupOpen] = useState<string | null>(null);
-  const [popupLiked, setPopupLiked] = useState<Record<string, boolean>>({});
+  const [popupLiked, setPopupLiked] = useState<Record<string, boolean>>(() => {
+    const r: Record<string, boolean> = {};
+    MODELS.forEach((m) => {
+      r[m.id] = isLiked(m.id);
+    });
+    return r;
+  });
   const [scrollScales, setScrollScales] = useState<number[]>(() => MODELS.map(() => 1));
   const [parallaxOffsets, setParallaxOffsets] = useState<number[]>(() => MODELS.map(() => 0));
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -236,10 +249,14 @@ export default function CharacterModels() {
             open={!!popupOpen}
             onClose={() => setPopupOpen(null)}
             onLike={() => {
-              if (!popupLiked[popupOpen]) trackLike(popupOpen, "media");
-              setPopupLiked((p) => ({ ...p, [popupOpen]: !p[popupOpen] }));
+              const id = popupOpen;
+              const next = !popupLiked[id];
+              if (next) trackLike(id, "media");
+              setLiked(id, next);
+              setPopupLiked((p) => ({ ...p, [id]: next }));
             }}
             liked={!!popupLiked[popupOpen]}
+            targetId={popupOpen}
             title={t.likeThis}
             likeLabel={t.like}
             likedLabel={t.liked}

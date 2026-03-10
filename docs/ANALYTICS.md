@@ -5,6 +5,9 @@
 - **page_view** — просмотры страниц (авто при смене роута)
 - **click** — клики (авто глобально + вручную через `useAnalytics().trackClick()`)
 - **like** — лайки
+- **download** — скачивания
+- **copy** — копирования
+- **play** — проигрывания (треки, видео)
 - **share** — шаринг
 - **search** — поиск
 - **input** — ввод (длина без текста)
@@ -59,3 +62,49 @@ function MyComponent() {
 ## Дашборд
 
 `/dashboard` — личный дашборд с метриками. Защищён паролем (`DASHBOARD_PASSWORDS` в `.env.local`).
+
+## API счётчиков
+
+`GET /api/analytics/counts?ids=id1,id2,id3` — возвращает агрегированные счётчики по `target_id`:
+
+```json
+{
+  "counts": {
+    "anthem-track": { "like": 0, "download": 0, "copy": 0, "play": 0 },
+    "music-track-0": { "like": 0, "download": 0, "copy": 0, "play": 0 }
+  }
+}
+```
+
+Локальные IP (127.0.0.1, ::1, localhost) исключаются из подсчёта.
+
+## Добавление счётчика к новому элементу
+
+1. Задай уникальный `targetId` (например, `merch-new-item`).
+2. Вызови `trackLike(targetId, "category")` или `trackDownload`/`trackCopy`/`trackPlay` при действии.
+3. Добавь `<AnalyticsCountBadge targetId={targetId} type="like" />` рядом с кнопкой.
+
+Пример:
+
+```tsx
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
+
+function MyComponent() {
+  const { trackLike } = useAnalytics();
+  const targetId = "my-item";
+
+  return (
+    <div className="flex items-center gap-2">
+      <AnalyticsCountBadge targetId={targetId} type="like" />
+      <button onClick={() => trackLike(targetId, "media")}>
+        Like
+      </button>
+    </div>
+  );
+}
+```
+
+## Персистентные лайки
+
+Лайки сохраняются в `localStorage` (ключ `bridge-liked`). Если пользователь лайкнул элемент, иконка огня остаётся «горящей» после обновления страницы. Используй `isLiked` и `setLiked` из `@/lib/analytics/likedStorage`.

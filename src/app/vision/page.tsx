@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 import TribeFireCanvas from "@/components/tribe/TribeFireCanvas";
 import SparksCanvas from "@/components/tribe/SparksCanvas";
 import { getTribeFireCopyPrompt } from "@/lib/tribe/copyPrompt";
@@ -236,20 +237,26 @@ export default function VisionPage() {
             {t.desc}
           </p>
           <div className="flex flex-col gap-4 opacity-0" style={{ animation: "visionFadeIn 1s ease 1.1s forwards" }}>
-            <button
-              type="button"
-              onClick={handleCopyLogo}
-              className="inline-flex font-mono text-[0.65rem] tracking-[0.25em] uppercase text-[#0D0A07] bg-[#FF902F] py-3.5 px-8 w-fit transition-transform hover:-translate-y-0.5 rounded-lg"
-            >
-              {logoCopyFeedback ? t.copied : t.copyLogo}
-            </button>
-            <button
-              type="button"
-              onClick={handleDownloadLogo}
-              className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-[#7A6B58] border-b border-[#7A6B58]/30 pb-0.5 w-fit transition-colors hover:text-[#F0E8DC] hover:border-[#F0E8DC] text-left cursor-pointer"
-            >
-              {t.downloadSvg}
-            </button>
+            <span className="inline-flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleCopyLogo}
+                className="inline-flex font-mono text-[0.65rem] tracking-[0.25em] uppercase text-[#0D0A07] bg-[#FF902F] py-3.5 px-8 w-fit transition-transform hover:-translate-y-0.5 rounded-lg"
+              >
+                {logoCopyFeedback ? t.copied : t.copyLogo}
+              </button>
+              <AnalyticsCountBadge targetId="one-tribe-logo" type="copy" className="text-[#7A6B58]" />
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleDownloadLogo}
+                className="font-mono text-[0.6rem] tracking-[0.2em] uppercase text-[#7A6B58] border-b border-[#7A6B58]/30 pb-0.5 w-fit transition-colors hover:text-[#F0E8DC] hover:border-[#F0E8DC] text-left cursor-pointer"
+              >
+                {t.downloadSvg}
+              </button>
+              <AnalyticsCountBadge targetId="one-tribe-logo" type="download" className="text-[#7A6B58]" />
+            </span>
           </div>
         </div>
 
@@ -286,14 +293,16 @@ export default function VisionPage() {
               <div className="font-mono text-[12px] font-medium text-[#7A6B58] tracking-[0.04em] mt-1">{t.statMembers}</div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={handleCopyCode}
-            className="font-mono text-[0.65rem] tracking-[0.25em] uppercase text-[#FF902F] border border-[#FF902F]/50 py-3.5 px-8 w-fit transition-colors hover:bg-[#FF902F]/10 hover:border-[#FF902F] rounded-lg opacity-0"
-            style={{ animation: "visionFadeIn 1s ease 1.3s forwards" }}
-          >
-            {copyFeedback ? t.copied : t.copyGameCode}
-          </button>
+          <span className="inline-flex items-center gap-2 opacity-0" style={{ animation: "visionFadeIn 1s ease 1.3s forwards" }}>
+            <button
+              type="button"
+              onClick={handleCopyCode}
+              className="font-mono text-[0.65rem] tracking-[0.25em] uppercase text-[#FF902F] border border-[#FF902F]/50 py-3.5 px-8 w-fit transition-colors hover:bg-[#FF902F]/10 hover:border-[#FF902F] rounded-lg"
+            >
+              {copyFeedback ? t.copied : t.copyGameCode}
+            </button>
+            <AnalyticsCountBadge targetId="tribe-fire-game" type="copy" className="text-[#7A6B58]" />
+          </span>
         </div>
       </section>
 

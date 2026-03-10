@@ -4,8 +4,10 @@ import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import { T } from "@/app/media/translations";
 import FlameIcon from "@/components/icons/FlameIcon";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 const TRIBE_IMAGES = [
   "/tribe/tribe.jpg",
@@ -28,12 +30,21 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
   const dotInactiveClass = isDark ? "bg-white/50 hover:bg-white/70" : "bg-[var(--color-cta1)]/50 hover:bg-[var(--color-cta1)]/70";
   const [index, setIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
-  const [likes, setLikes] = useState<Record<number, boolean>>({});
+  const [likes, setLikes] = useState<Record<number, boolean>>(() => {
+    const r: Record<number, boolean> = {};
+    TRIBE_IMAGES.forEach((_, i) => {
+      r[i] = isLiked(`tribe-${i}`);
+    });
+    return r;
+  });
 
   const toggleLike = (i: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!likes[i]) trackLike(`tribe-${i}`, "media");
-    setLikes((prev) => ({ ...prev, [i]: !prev[i] }));
+    const targetId = `tribe-${i}`;
+    const next = !likes[i];
+    if (next) trackLike(targetId, "media");
+    setLiked(targetId, next);
+    setLikes((prev) => ({ ...prev, [i]: next }));
   };
 
   const goNext = useCallback(() => {
@@ -98,14 +109,17 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
                   sizes="(max-width: 768px) 100vw, 1024px"
                   priority={i === 0}
                 />
-                <button
-                  type="button"
-                  onClick={(e) => toggleLike(i, e)}
-                  className={`absolute bottom-3 right-3 p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm z-10 ${!likes[i] ? "text-white/60" : ""}`}
-                  aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
-                >
-                  <FlameIcon filled={!!likes[i]} size={20} />
-                </button>
+                <div className="absolute bottom-3 right-3 flex items-center gap-1.5 z-10">
+                  <AnalyticsCountBadge targetId={`tribe-${i}`} type="like" className="text-white/70" />
+                  <button
+                    type="button"
+                    onClick={(e) => toggleLike(i, e)}
+                    className={`p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm ${!likes[i] ? "text-white/60" : ""}`}
+                    aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                  >
+                    <FlameIcon filled={!!likes[i]} size={20} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -177,14 +191,17 @@ export default function TribeCarousel({ variant = "light" }: TribeCarouselProps)
               {TRIBE_IMAGES.map((src, i) => (
                 <div key={i} className="flex-shrink-0 w-full h-full min-h-0 relative">
                   <Image src={src} alt={`Tribe ${i + 1}`} fill className="object-contain" sizes="100vw" onClick={(e) => e.stopPropagation()} />
-                  <button
-                    type="button"
-                    onClick={(e) => { e.stopPropagation(); toggleLike(i, e); }}
-                    className={`absolute bottom-6 right-6 p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md z-10 ${!likes[i] ? "text-white/60" : ""}`}
-                    aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
-                  >
-                    <FlameIcon filled={!!likes[i]} size={24} />
-                  </button>
+                  <div className="absolute bottom-6 right-6 flex items-center gap-2 z-10">
+                    <AnalyticsCountBadge targetId={`tribe-${i}`} type="like" className="text-white/70" />
+                    <button
+                      type="button"
+                      onClick={(e) => { e.stopPropagation(); toggleLike(i, e); }}
+                      className={`p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md ${!likes[i] ? "text-white/60" : ""}`}
+                      aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                    >
+                      <FlameIcon filled={!!likes[i]} size={24} />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

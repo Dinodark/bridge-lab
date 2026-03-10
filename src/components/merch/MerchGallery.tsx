@@ -2,6 +2,10 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
+import FlameIcon from "@/components/icons/FlameIcon";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 function VideoPlayIcon({ className = "" }: { className?: string }) {
   return (
@@ -49,8 +53,27 @@ const GALLERY_ITEMS = [
   },
 ];
 
+const TARGET_IDS = ["merch-gallery-0", "merch-gallery-1", "merch-gallery-2"];
+
 export default function MerchGallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const { trackLike } = useAnalytics();
+  const [likes, setLikes] = useState<Record<number, boolean>>(() => {
+    const r: Record<number, boolean> = {};
+    GALLERY_ITEMS.forEach((_, i) => {
+      r[i] = isLiked(TARGET_IDS[i]);
+    });
+    return r;
+  });
+
+  const toggleLike = (i: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const targetId = TARGET_IDS[i];
+    const next = !likes[i];
+    if (next) trackLike(targetId, "merch");
+    setLiked(targetId, next);
+    setLikes((prev) => ({ ...prev, [i]: next }));
+  };
 
   return (
     <div className="mb-16">
@@ -97,6 +120,17 @@ export default function MerchGallery() {
                 />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute bottom-2 right-2 flex items-center gap-1.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                <AnalyticsCountBadge targetId={TARGET_IDS[i]} type="like" className="text-white/80" />
+                <button
+                  type="button"
+                  onClick={(e) => toggleLike(i, e)}
+                  className={`p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm ${!likes[i] ? "text-white/60" : ""}`}
+                  aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                >
+                  <FlameIcon filled={!!likes[i]} size={20} />
+                </button>
+              </div>
             </div>
             <div className="p-4">
               <div className="font-semibold text-[#1E1E1E] text-sm">{item.title}</div>

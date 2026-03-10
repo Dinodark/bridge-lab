@@ -4,9 +4,11 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import { T } from "@/app/media/translations";
 import { SOULY_ITEMS } from "./soulyGalleryData";
 import FlameIcon from "@/components/icons/FlameIcon";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 function extractGradientFromImage(src: string): Promise<string> {
   return new Promise((resolve) => {
@@ -87,7 +89,13 @@ export default function MediaGrid() {
   const trackRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const mouseXRef = useRef<number | null>(null);
-  const [likes, setLikes] = useState<Record<number, boolean>>({});
+  const [likes, setLikes] = useState<Record<number, boolean>>(() => {
+    const r: Record<number, boolean> = {};
+    SOULY_ITEMS.forEach((_, i) => {
+      r[i] = isLiked(`souly-${i}`);
+    });
+    return r;
+  });
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [gradients, setGradients] = useState<Record<number, string>>({});
   const [flipped, setFlipped] = useState<Record<number, boolean>>({});
@@ -119,9 +127,12 @@ export default function MediaGrid() {
 
   const toggleLike = (i: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    const isAdding = !likes[i];
-    if (isAdding) trackLike(`souly-${i % SOULY_ITEMS.length}`, "media");
-    setLikes((prev) => ({ ...prev, [i]: !prev[i] }));
+    const idx = i % SOULY_ITEMS.length;
+    const targetId = `souly-${idx}`;
+    const next = !likes[idx];
+    if (next) trackLike(targetId, "media");
+    setLiked(targetId, next);
+    setLikes((prev) => ({ ...prev, [idx]: next }));
   };
 
   const popupIndex = selectedIndex !== null ? selectedIndex % SOULY_ITEMS.length : 0;
@@ -307,14 +318,17 @@ export default function MediaGrid() {
                     <Spark className="top-[25%] left-1/2" />
                     <Spark className="top-[75%] left-1/2" />
                   </div>
-                  <button
-                    type="button"
-                    onClick={(e) => toggleLike(likeKey, e)}
-                    className={`absolute bottom-2 right-2 p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm z-10 ${!likes[likeKey] ? "text-white/60" : ""}`}
-                    aria-label={likes[likeKey] ? "Убрать лайк" : "Лайк"}
-                  >
-                    <FlameIcon filled={!!likes[likeKey]} size={20} />
-                  </button>
+                  <div className="absolute bottom-2 right-2 flex items-center gap-1.5 z-10">
+                    <AnalyticsCountBadge targetId={`souly-${likeKey}`} type="like" className="text-white/70" />
+                    <button
+                      type="button"
+                      onClick={(e) => toggleLike(i, e)}
+                      className={`p-2 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm ${!likes[likeKey] ? "text-white/60" : ""}`}
+                      aria-label={likes[likeKey] ? "Убрать лайк" : "Лайк"}
+                    >
+                      <FlameIcon filled={!!likes[likeKey]} size={20} />
+                    </button>
+                  </div>
                 </div>
               </div>
             );
@@ -495,14 +509,17 @@ export default function MediaGrid() {
                       alt=""
                       className="opacity-90 translate-x-[50px] translate-y-[250px] mix-blend-overlay w-[min(52vw,364px)] h-auto"
                     />
-                    <button
-                      type="button"
-                      onClick={(e) => toggleLike(i, e)}
-                      className={`p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md shrink-0 ${!likes[i] ? "text-white/60" : ""}`}
-                      aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
-                    >
-                      <FlameIcon filled={!!likes[i]} size={20} />
-                    </button>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <AnalyticsCountBadge targetId={`souly-${i}`} type="like" className="text-white/70" />
+                      <button
+                        type="button"
+                        onClick={(e) => toggleLike(i, e)}
+                        className={`p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md ${!likes[i] ? "text-white/60" : ""}`}
+                        aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                      >
+                        <FlameIcon filled={!!likes[i]} size={20} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -3,6 +3,10 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
+import FlameIcon from "@/components/icons/FlameIcon";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 // ============================================================
 // TRANSLATIONS — RU / DE (Applications keys only)
@@ -631,6 +635,7 @@ function InviteCardBlock({ t }: { t: T }) {
               <strong style={{ color: "#1E1E1E" }}>{t.formatLabel}</strong> {t.inviteFormat}
             </div>
           </div>
+          <MerchLikeButton targetId="merch-invite-card" />
         </div>
         <div
           className="app-grid-image-cell app-grid-image-cell-highlight-mirror"
@@ -852,6 +857,57 @@ const SECTION_LABEL_STYLE = {
   marginBottom: 24,
 };
 
+const MERCH_TARGET_IDS = [
+  "merch-berlin",
+  "merch-tshirt",
+  "merch-water-bottle",
+  "merch-stickers",
+  "merch-car-sticker",
+  "merch-stories",
+  "merch-invite-card",
+  "merch-flag",
+  "merch-pin-badge",
+  "merch-rollup",
+  "merch-chocolate",
+] as const;
+
+function MerchLikeButton({ targetId }: { targetId: (typeof MERCH_TARGET_IDS)[number] }) {
+  const { trackLike } = useAnalytics();
+  const [liked, setLikedState] = useState(false);
+
+  useEffect(() => {
+    setLikedState(isLiked(targetId));
+  }, [targetId]);
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (liked) return;
+    trackLike(targetId, "merch");
+    setLiked(targetId, true);
+    setLikedState(true);
+  };
+
+  return (
+    <div className="flex items-center gap-2" style={{ marginTop: 12 }}>
+      <AnalyticsCountBadge targetId={targetId} type="like" />
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={liked}
+        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${liked ? "opacity-70 cursor-default" : "hover:opacity-90"}`}
+        style={{
+          background: liked ? "rgba(178,137,249,0.2)" : "var(--color-bg-active)",
+          color: "#B289F9",
+          border: "1px solid rgba(178,137,249,0.4)",
+        }}
+      >
+        <FlameIcon filled={liked} size={18} />
+        <span>{liked ? "✓" : "Like"}</span>
+      </button>
+    </div>
+  );
+}
+
 export default function MerchApplications() {
   const { lang } = useLanguage();
   const t = TRANSLATIONS[lang];
@@ -877,6 +933,7 @@ export default function MerchApplications() {
           </div>
           <div style={{ padding: 24, paddingTop: 16 }}>
             <div style={{ fontSize: 13, color: "#808080", lineHeight: 1.6 }}>{t.berlinDesc}</div>
+            <MerchLikeButton targetId="merch-berlin" />
           </div>
         </div>
 
@@ -939,6 +996,7 @@ export default function MerchApplications() {
               <div style={{ marginTop: 8, fontSize: 11, color: "#808080" }}>
                 {t.availableColors}
               </div>
+              <MerchLikeButton targetId="merch-tshirt" />
             </div>
           </div>
         </div>
@@ -992,6 +1050,7 @@ export default function MerchApplications() {
                   {t.waterBottleStyle}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-water-bottle" />
             </div>
           </div>
         </div>
@@ -1068,6 +1127,7 @@ export default function MerchApplications() {
                   {t.stickerStyle}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-stickers" />
             </div>
           </div>
         </div>
@@ -1125,6 +1185,7 @@ export default function MerchApplications() {
                   {t.carStickerStyle}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-car-sticker" />
             </div>
           </div>
         </div>
@@ -1159,6 +1220,7 @@ export default function MerchApplications() {
                   {t.storiesBg}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-stories" />
             </div>
             <div className="app-grid-image-cell app-grid-image-cell-highlight-mirror" style={{ minWidth: 0, display: "flex", justifyContent: "center", alignItems: "center" }}>
               <StoriesMockup t={t} />
@@ -1218,6 +1280,7 @@ export default function MerchApplications() {
                   {t.flagBg}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-flag" />
             </div>
           </div>
         </div>
@@ -1271,6 +1334,7 @@ export default function MerchApplications() {
                   {t.pinStyle}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-pin-badge" />
             </div>
           </div>
         </div>
@@ -1324,6 +1388,7 @@ export default function MerchApplications() {
                   {t.rollupVariants}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-rollup" />
             </div>
           </div>
         </div>
@@ -1377,6 +1442,7 @@ export default function MerchApplications() {
                   {t.chocolateStyle}
                 </div>
               </div>
+              <MerchLikeButton targetId="merch-chocolate" />
             </div>
           </div>
         </div>

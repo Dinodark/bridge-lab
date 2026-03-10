@@ -35,6 +35,7 @@ const AnalyticsContext = createContext<{
   trackInput: (field?: string, length?: number) => void;
   trackDownload: (targetId?: string, targetType?: string, href?: string) => void;
   trackCopy: (targetId?: string, targetType?: string, what?: string) => void;
+  trackPlay: (targetId?: string, targetType?: string, href?: string) => void;
   trackCustom: (type: string, payload?: TrackOptions) => void;
 } | null>(null);
 
@@ -114,6 +115,16 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const trackPlay = useCallback((targetId?: string, targetType?: string, href?: string) => {
+    track(
+      createEvent("play", {
+        targetId,
+        targetType,
+        href,
+      })
+    );
+  }, []);
+
   const trackCustom = useCallback(
     (type: string, payload?: TrackOptions) => {
       track(
@@ -172,6 +183,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
         trackInput,
         trackDownload,
         trackCopy,
+        trackPlay,
         trackCustom,
       }}
     >
@@ -192,6 +204,7 @@ export function useAnalytics() {
       trackInput: () => {},
       trackDownload: () => {},
       trackCopy: () => {},
+      trackPlay: () => {},
       trackCustom: () => {},
     };
   }

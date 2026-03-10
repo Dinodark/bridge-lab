@@ -17,6 +17,7 @@ export type AnalyticsEventType =
   | "link_click"
   | "download"
   | "copy"
+  | "play"
   | "custom";
 
 export type BaseEvent = {

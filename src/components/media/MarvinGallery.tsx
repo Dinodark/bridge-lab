@@ -5,9 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import { T } from "@/app/media/translations";
 import { MARVIN_ITEMS } from "./marvinGalleryData";
 import FlameIcon from "@/components/icons/FlameIcon";
+import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 type DriftDir = "left" | "down" | "up";
 const DRIFT_DIRS: DriftDir[] = ["left", "down", "up"];
@@ -75,7 +77,13 @@ export default function MarvinGallery() {
   const { trackLike } = useAnalytics();
   const t = T[lang];
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [likes, setLikes] = useState<Record<number, boolean>>({});
+  const [likes, setLikes] = useState<Record<number, boolean>>(() => {
+    const r: Record<number, boolean> = {};
+    MARVIN_ITEMS.forEach((_, i) => {
+      r[i] = isLiked(`marvin-gallery-${i}`);
+    });
+    return r;
+  });
   const [gradients, setGradients] = useState<Record<number, string>>({});
   const [parallaxOffsets, setParallaxOffsets] = useState<number[]>([]);
   const [scrollPhases, setScrollPhases] = useState<number[]>(() => MARVIN_ITEMS.map(() => 0));
@@ -94,8 +102,11 @@ export default function MarvinGallery() {
 
   const toggleLike = (index: number, e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!likes[index]) trackLike(`marvin-gallery-${index}`, "media");
-    setLikes((prev) => ({ ...prev, [index]: !prev[index] }));
+    const targetId = `marvin-gallery-${index}`;
+    const next = !likes[index];
+    if (next) trackLike(targetId, "media");
+    setLiked(targetId, next);
+    setLikes((prev) => ({ ...prev, [index]: next }));
   };
 
   const goPrev = () => {
@@ -218,14 +229,17 @@ export default function MarvinGallery() {
               <div className="absolute bottom-0 left-0 right-0 p-4">
                 <p className="text-[12px] sm:text-[14px] font-semibold text-white/95 truncate drop-shadow-lg" style={{ letterSpacing: "0.04em" }}>{item.title[lang]}</p>
               </div>
-              <button
-                type="button"
-                onClick={(e) => toggleLike(i, e)}
-                className={`absolute top-2 right-2 p-1.5 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm ${!likes[i] ? "text-white/60" : ""}`}
-                aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
-              >
-                <FlameIcon filled={!!likes[i]} size={20} />
-              </button>
+              <div className="absolute top-2 right-2 flex items-center gap-1.5">
+                <AnalyticsCountBadge targetId={`marvin-gallery-${i}`} type="like" className="text-white/70" />
+                <button
+                  type="button"
+                  onClick={(e) => toggleLike(i, e)}
+                  className={`p-1.5 rounded-full bg-black/40 hover:bg-black/60 transition-colors backdrop-blur-sm ${!likes[i] ? "text-white/60" : ""}`}
+                  aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                >
+                  <FlameIcon filled={!!likes[i]} size={20} />
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -346,14 +360,17 @@ export default function MarvinGallery() {
                       alt=""
                       className="opacity-90 translate-x-[50px] translate-y-[250px] mix-blend-overlay w-[min(52vw,364px)] h-auto"
                     />
-                    <button
-                      type="button"
-                      onClick={(e) => toggleLike(i, e)}
-                      className={`p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md shrink-0 ${!likes[i] ? "text-white/60" : ""}`}
-                      aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
-                    >
-                      <FlameIcon filled={!!likes[i]} size={20} />
-                    </button>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <AnalyticsCountBadge targetId={`marvin-gallery-${i}`} type="like" className="text-white/70" />
+                      <button
+                        type="button"
+                        onClick={(e) => toggleLike(i, e)}
+                        className={`p-3 rounded-full bg-black/50 hover:bg-black/70 transition-colors backdrop-blur-md ${!likes[i] ? "text-white/60" : ""}`}
+                        aria-label={likes[i] ? "Убрать лайк" : "Лайк"}
+                      >
+                        <FlameIcon filled={!!likes[i]} size={20} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
