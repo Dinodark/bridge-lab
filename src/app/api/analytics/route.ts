@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-real-ip") ||
       "unknown";
 
-    const excludedIps = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1", "localhost", "0.0.0.0", "93.115.175.63"]);
+    const excludedIps = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1", "localhost", "0.0.0.0"]);
     if (excludedIps.has(ip)) {
       return NextResponse.json({ ok: true, received: events.length });
     }

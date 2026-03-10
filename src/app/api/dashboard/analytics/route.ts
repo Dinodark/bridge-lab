@@ -4,7 +4,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 const COOKIE_NAME = "dashboard_session";
 
-const EXCLUDED_IPS = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1", "localhost", "0.0.0.0", "93.115.175.63"]);
+const EXCLUDED_IPS = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1", "localhost", "0.0.0.0"]);
 
 function isExcludedIp(ip: string | null): boolean {
   return ip != null && EXCLUDED_IPS.has(ip);
