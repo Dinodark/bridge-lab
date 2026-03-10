@@ -91,3 +91,10 @@ export function incrementLocalCount(targetId: string, type: keyof Counts) {
   cache.set(targetId, c);
   notify(targetId);
 }
+
+export function decrementLocalCount(targetId: string, type: keyof Counts) {
+  const c = cache.get(targetId) ?? { like: 0, download: 0, copy: 0, play: 0 };
+  if (c[type] > 0) c[type]--;
+  cache.set(targetId, c);
+  notify(targetId);
+}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import FlameIcon from "@/components/icons/FlameIcon";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
@@ -32,6 +33,7 @@ export default function UsefulButton({ targetId, targetType = "section", classNa
   const handleClick = () => {
     if (liked) return;
     trackLike(targetId, targetType);
+    incrementLocalCount(targetId, "like");
     setLiked(targetId, true);
     setLikedState(true);
   };

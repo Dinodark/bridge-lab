@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount, decrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import FlameIcon from "@/components/icons/FlameIcon";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
@@ -70,7 +71,12 @@ export default function MerchGallery() {
     e.stopPropagation();
     const targetId = TARGET_IDS[i];
     const next = !likes[i];
-    if (next) trackLike(targetId, "merch");
+    if (next) {
+      trackLike(targetId, "merch");
+      incrementLocalCount(targetId, "like");
+    } else {
+      decrementLocalCount(targetId, "like");
+    }
     setLiked(targetId, next);
     setLikes((prev) => ({ ...prev, [i]: next }));
   };

@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount, decrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import { T } from "@/app/media/translations";
 import FlameIcon from "@/components/icons/FlameIcon";
@@ -251,7 +252,12 @@ export default function CharacterModels() {
             onLike={() => {
               const id = popupOpen;
               const next = !popupLiked[id];
-              if (next) trackLike(id, "media");
+              if (next) {
+                trackLike(id, "media");
+                incrementLocalCount(id, "like");
+              } else {
+                decrementLocalCount(id, "like");
+              }
               setLiked(id, next);
               setPopupLiked((p) => ({ ...p, [id]: next }));
             }}

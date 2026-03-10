@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount, decrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import { T } from "@/app/media/translations";
 import { SOULY_ITEMS } from "./soulyGalleryData";
@@ -130,7 +131,12 @@ export default function MediaGrid() {
     const idx = i % SOULY_ITEMS.length;
     const targetId = `souly-${idx}`;
     const next = !likes[idx];
-    if (next) trackLike(targetId, "media");
+    if (next) {
+      trackLike(targetId, "media");
+      incrementLocalCount(targetId, "like");
+    } else {
+      decrementLocalCount(targetId, "like");
+    }
     setLiked(targetId, next);
     setLikes((prev) => ({ ...prev, [idx]: next }));
   };

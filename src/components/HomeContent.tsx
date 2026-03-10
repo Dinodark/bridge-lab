@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import HomeBanner from "@/components/HomeBanner";
+import HomeJingles from "@/components/home/HomeJingles";
+import HomeVideoSplashes from "@/components/home/HomeVideoSplashes";
+import HomeVisuals from "@/components/home/HomeVisuals";
+import { ImagePlaceholder } from "@/components/home/ImagePlaceholder";
 import DesignLoopSection from "@/components/DesignLoopSection";
 import CursorAnthemBlock from "@/components/CursorAnthemBlock";
 import SiteFooter from "@/components/SiteFooter";
@@ -92,15 +95,6 @@ const CONTENT = {
   },
 } as const;
 
-const GRADIENTS = [
-  "linear-gradient(135deg, #48e5ff 0%, #f989b4 100%)",
-  "linear-gradient(135deg, #5a1fc9 0%, #b289f9 50%, #f989b4 100%)",
-  "linear-gradient(135deg, #b289f9 0%, #f989b4 100%)",
-  "linear-gradient(135deg, #48e5ff 0%, #b289f9 100%)",
-  "linear-gradient(135deg, #F8F5FF 0%, #FFF5FC 100%)",
-  "linear-gradient(135deg, #6E22F2 0%, #C752FF 100%)",
-];
-
 export default function HomeContent() {
   const { lang } = useLanguage();
   const t = CONTENT[lang];
@@ -109,17 +103,24 @@ export default function HomeContent() {
     <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "var(--font-body)" }}>
       <HomeBanner />
 
-      <div className="content-container space-y-20">
-        <section>
-          <div className="inline-block text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "var(--color-cta1)" }}>
-            TRIBE
+      <div className="content-container space-y-24 py-20">
+        <HomeJingles />
+        <HomeVideoSplashes />
+        <HomeVisuals />
+
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <ImagePlaceholder aspect="4/3" label="[Изображение]" className="rounded-2xl w-full max-w-lg" />
+          <div>
+            <div className="inline-block text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "var(--color-cta1)" }}>
+              TRIBE
+            </div>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-6" style={{ color: "var(--color-text)" }}>
+              {t.tribeSectionTitle}
+            </h2>
+            <p className="text-lg leading-relaxed" style={{ color: "var(--color-muted)" }}>
+              {t.tribeInsights}
+            </p>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-6" style={{ color: "var(--color-text)" }}>
-            {t.tribeSectionTitle}
-          </h2>
-          <p className="text-lg leading-relaxed max-w-2xl" style={{ color: "var(--color-muted)" }}>
-            {t.tribeInsights}
-          </p>
         </section>
 
         <DesignLoopSection />
@@ -132,19 +133,13 @@ export default function HomeContent() {
             {t.tastySubtitle}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {t.tastyBlocks.map((item, i) => (
+            {t.tastyBlocks.map((item) => (
               <Link key={item.href} href={item.href} className="group block">
                 <article
                   className="rounded-xl border p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 h-full"
                   style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}
                 >
-                  {"thumbnail" in item && item.thumbnail ? (
-                    <div className="relative w-full aspect-[16/10] rounded-lg mb-4 overflow-hidden">
-                      <Image src={item.thumbnail} alt="" fill className="object-cover" sizes="(max-width: 640px) 100vw, 272px" />
-                    </div>
-                  ) : (
-                    <div className="w-10 h-10 rounded-lg mb-4" style={{ background: GRADIENTS[i % GRADIENTS.length] }} />
-                  )}
+                  <ImagePlaceholder aspect="square" label="[Изображение]" className="w-full mb-4" />
                   <span className="text-xs font-bold tracking-wider uppercase" style={{ color: "var(--color-cta1)" }}>
                     {item.tag}
                   </span>
@@ -217,14 +212,9 @@ export default function HomeContent() {
                   className="relative overflow-hidden rounded-2xl border transition-all duration-300 hover:shadow-xl hover:-translate-y-1 h-full flex flex-col"
                   style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}
                 >
-                  <div
-                    className="h-32 flex items-center justify-center bg-cover bg-center"
-                    style={
-                      "headerImage" in item && item.headerImage
-                        ? { backgroundImage: `url(${item.headerImage})` }
-                        : { background: "linear-gradient(135deg, #1a0a2e 0%, #5a1fc9 50%, #b289f9 100%)" }
-                    }
-                  />
+                  <div className="w-full overflow-hidden rounded-t-2xl">
+                    <ImagePlaceholder aspect="video" label="[Изображение]" className="w-full rounded-none" />
+                  </div>
                   <div className="p-5 flex-1 flex flex-col">
                     <h3 className="text-lg font-bold mb-2" style={{ color: "var(--color-text)" }}>
                       {item.subtitle}

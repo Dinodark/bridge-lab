@@ -1,20 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { ImagePlaceholder } from "@/components/home/ImagePlaceholder";
 
-const PHRASES = {
-  ru: [
-    "One World · One Tribe",
-    "Community · Identity · Charity",
-    "Одно ядро. Бесконечные воплощения.",
-  ],
-  de: [
-    "One World · One Tribe",
-    "Community · Identity · Charity",
-    "Ein Kern. Unendliche Verkörperungen.",
-  ],
+const BANNER_TITLE = {
+  ru: "Одно ядро. Бесконечные воплощения.",
+  de: "Ein Kern. Unendliche Verkörperungen.",
 };
 
 const BANNER_SUBTITLE = {
@@ -22,43 +16,8 @@ const BANNER_SUBTITLE = {
   de: "Bridge — wo Community auf Technologie trifft",
 };
 
-const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-function ScrambleText({ text, className = "" }: { text: string; className?: string }) {
-  const [display, setDisplay] = useState(text);
-
-  useEffect(() => {
-    setDisplay(
-      text
-        .split("")
-        .map((c) => (c === " " || c === "·" ? c : CHARS[Math.floor(Math.random() * CHARS.length)]))
-        .join("")
-    );
-    let frame = 0;
-    const duration = 50;
-    const scramble = () => {
-      if (frame < duration) {
-        setDisplay(
-          text
-            .split("")
-            .map((c, i) => {
-              if (c === " " || c === "·") return c;
-              if (i < (frame / duration) * text.length) return c;
-              return CHARS[Math.floor(Math.random() * CHARS.length)];
-            })
-            .join("")
-        );
-        frame++;
-        requestAnimationFrame(scramble);
-      } else {
-        setDisplay(text);
-      }
-    };
-    requestAnimationFrame(scramble);
-  }, [text]);
-
-  return <span className={className}>{display}</span>;
-}
+const CTA_TRIBE = { ru: "В Tribe", de: "In Tribe" };
+const CTA_VISION = { ru: "Смотреть Vision", de: "Vision ansehen" };
 
 function TribeLogoIcon({ className = "", gradientId = "home-banner-logo" }: { className?: string; gradientId?: string }) {
   return (
@@ -88,18 +47,9 @@ function TribeLogoIcon({ className = "", gradientId = "home-banner-logo" }: { cl
 
 export default function HomeBanner() {
   const { lang } = useLanguage();
-  const [phraseIndex, setPhraseIndex] = useState(0);
   const [videoError, setVideoError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const rewindRafRef = useRef<number | null>(null);
-  const phrases = PHRASES[lang];
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setPhraseIndex((i) => (i + 1) % phrases.length);
-    }, 5000);
-    return () => clearInterval(t);
-  }, [phrases.length]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -144,8 +94,6 @@ export default function HomeBanner() {
         borderWidth: 1,
         borderStyle: "solid",
         borderTopWidth: 0,
-        /* ~31% viewport — половина от golden ratio */
-        height: "30.9vh",
         minHeight: 120,
       }}
     >
@@ -182,21 +130,48 @@ export default function HomeBanner() {
       <div className="home-banner-glitch absolute inset-0 pointer-events-none opacity-60" aria-hidden />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 py-8 text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center min-h-[65vh] px-6 py-12 text-center">
         <div className="home-banner-logo-pulse mb-4">
           <TribeLogoIcon />
         </div>
         <h2
-          className="home-banner-text-glitch text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2 text-white"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 text-white"
+          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}
         >
-          <ScrambleText text={phrases[phraseIndex]} />
+          {BANNER_TITLE[lang]}
         </h2>
         <p
-          className="text-sm sm:text-base text-white/90 max-w-md font-light"
+          className="text-base sm:text-lg text-white/90 max-w-lg font-light mb-8"
           style={{ textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}
         >
           {BANNER_SUBTITLE[lang]}
         </p>
+        <div className="flex flex-wrap gap-4 justify-center mb-10">
+          <Link
+            href="/tribe"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all hover:gap-3"
+            style={{ background: "var(--color-cta1)", color: "#fff" }}
+          >
+            {CTA_TRIBE[lang]}
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </Link>
+          <Link
+            href="/vision"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm border-2 transition-all hover:gap-3"
+            style={{ borderColor: "rgba(255,255,255,0.8)", color: "#fff" }}
+          >
+            {CTA_VISION[lang]}
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </Link>
+        </div>
+        <div className="w-full max-w-2xl mx-auto">
+          <ImagePlaceholder aspect="video" label="[Изображение]" className="rounded-2xl w-full" />
+        </div>
       </div>
     </div>
   );

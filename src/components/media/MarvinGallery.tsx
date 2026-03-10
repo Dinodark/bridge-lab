@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount, decrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import { T } from "@/app/media/translations";
 import { MARVIN_ITEMS } from "./marvinGalleryData";
@@ -104,7 +105,12 @@ export default function MarvinGallery() {
     e.stopPropagation();
     const targetId = `marvin-gallery-${index}`;
     const next = !likes[index];
-    if (next) trackLike(targetId, "media");
+    if (next) {
+      trackLike(targetId, "media");
+      incrementLocalCount(targetId, "like");
+    } else {
+      decrementLocalCount(targetId, "like");
+    }
     setLiked(targetId, next);
     setLikes((prev) => ({ ...prev, [index]: next }));
   };

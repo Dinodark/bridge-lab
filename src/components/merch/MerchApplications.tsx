@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { isLiked, setLiked } from "@/lib/analytics/likedStorage";
 import FlameIcon from "@/components/icons/FlameIcon";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
@@ -883,6 +884,7 @@ function MerchLikeButton({ targetId }: { targetId: (typeof MERCH_TARGET_IDS)[num
     e.stopPropagation();
     if (liked) return;
     trackLike(targetId, "merch");
+    incrementLocalCount(targetId, "like");
     setLiked(targetId, true);
     setLikedState(true);
   };

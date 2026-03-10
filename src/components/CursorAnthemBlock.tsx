@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnthemPlayer, ANTHEM_TRACK_PATH } from "@/contexts/AnthemPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 const ANTHEM_DESC = {
@@ -31,7 +32,7 @@ Ich sag': "Cursor, Bruder, Cursor hat es"`;
 
 export default function CursorAnthemBlock() {
   const { lang } = useLanguage();
-  const { trackDownload } = useAnalytics();
+  const { trackDownload, trackPlay } = useAnalytics();
   const { isPlaying, togglePlay, progress, duration, seek } = useAnthemPlayer();
   const [showLyrics, setShowLyrics] = useState(false);
 
@@ -84,10 +85,13 @@ export default function CursorAnthemBlock() {
               {showLyrics ? LYRIC_BTN[lang].hide : LYRIC_BTN[lang].show}
             </button>
             <span className="inline-flex items-center gap-2">
-              <a
-                href={ANTHEM_TRACK_PATH}
-                download
-                onClick={() => trackDownload("anthem-track", "audio", ANTHEM_TRACK_PATH)}
+            <a
+              href={ANTHEM_TRACK_PATH}
+              download
+              onClick={() => {
+                trackDownload("anthem-track", "audio", ANTHEM_TRACK_PATH);
+                incrementLocalCount("anthem-track", "download");
+              }}
                 className="text-xs font-medium px-3 py-1.5 rounded-md transition-opacity hover:opacity-80"
                 style={{ background: "var(--color-cta1)", color: "#fff" }}
               >
@@ -108,7 +112,13 @@ export default function CursorAnthemBlock() {
           <div className="flex items-center gap-4 mt-auto">
             <button
               type="button"
-              onClick={togglePlay}
+              onClick={() => {
+                if (!isPlaying) {
+                  trackPlay("anthem-track", "audio");
+                  incrementLocalCount("anthem-track", "play");
+                }
+                togglePlay();
+              }}
               className="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95"
               style={{ background: "var(--color-cta1)", color: "#fff" }}
               aria-label={isPlaying ? "Pause" : "Play"}

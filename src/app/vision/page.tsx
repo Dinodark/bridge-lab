@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 import TribeFireCanvas from "@/components/tribe/TribeFireCanvas";
 import SparksCanvas from "@/components/tribe/SparksCanvas";
@@ -149,6 +150,7 @@ export default function VisionPage() {
     try {
       await navigator.clipboard.writeText(getTribeFireCopyPrompt());
       trackCopy("tribe-fire-game", "code", "game");
+      incrementLocalCount("tribe-fire-game", "copy");
       setCopyFeedback(true);
       setTimeout(() => setCopyFeedback(false), 2000);
     } catch {
@@ -162,6 +164,7 @@ export default function VisionPage() {
       const svg = await res.text();
       await navigator.clipboard.writeText(svg);
       trackCopy("one-tribe-logo", "svg", "logo");
+      incrementLocalCount("one-tribe-logo", "copy");
       setLogoCopyFeedback(true);
       setTimeout(() => setLogoCopyFeedback(false), 2000);
     } catch {
@@ -180,6 +183,7 @@ export default function VisionPage() {
       a.click();
       URL.revokeObjectURL(url);
       trackDownload("one-tribe-logo", "svg", "/tribe/OneTribeLogo.svg");
+      incrementLocalCount("one-tribe-logo", "download");
     } catch {
       // ignore
     }

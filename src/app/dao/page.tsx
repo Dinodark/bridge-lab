@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Inter_Tight } from "next/font/google";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 import DaoWaves from "@/components/dao/DaoWaves";
 import DaoSphere from "@/components/dao/DaoSphere";
@@ -279,6 +280,7 @@ export default function DaoPage() {
           className="group relative z-10 w-32 h-32 flex flex-col justify-center items-center overflow-visible cursor-pointer gap-2"
           onClick={() => {
             trackLike("dao-sphere", "dao");
+            incrementLocalCount("dao-sphere", "like");
             setPasswordModalOpen(true);
           }}
         >
@@ -520,6 +522,7 @@ export default function DaoPage() {
           className="group relative z-10 w-32 h-32 flex flex-col justify-center items-center overflow-visible cursor-pointer gap-2"
           onClick={() => {
             trackLike("dao-sphere", "dao");
+            incrementLocalCount("dao-sphere", "like");
             setPasswordModalOpen(true);
           }}
         >

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 
 const TRACKS = [
@@ -47,12 +48,16 @@ export default function MusicTrackCard({ trackIndex }: { trackIndex: number }) {
   const targetId = `music-track-${trackIndex}`;
 
   const handlePlay = () => {
-    if (!playing) trackPlay(targetId, "audio", track.src);
+    if (!playing) {
+      trackPlay(targetId, "audio", track.src);
+      incrementLocalCount(targetId, "play");
+    }
     playTrack(track.src);
   };
 
   const handleDownload = () => {
     trackDownload(targetId, "audio", track.src);
+    incrementLocalCount(targetId, "download");
   };
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {

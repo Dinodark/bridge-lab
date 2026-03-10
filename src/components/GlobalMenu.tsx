@@ -6,6 +6,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAnthemPlayer } from "@/contexts/AnthemPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -154,20 +155,27 @@ function Dropdown({
               fontFamily: "var(--font-body)",
             }}
           >
-            {items.map((item) => {
-              const itemActive = pathname === item.href || pathname.startsWith(item.href + "/");
+            {(() => {
+              const bestMatch = items
+                .filter((i) => pathname === i.href || pathname.startsWith(i.href + "/"))
+                .sort((a, b) => b.href.length - a.href.length)[0];
+              return items.map((item) => {
+                const itemActive =
+                  (pathname === item.href || pathname.startsWith(item.href + "/")) &&
+                  bestMatch?.href === item.href;
               return (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--color-bg-active)]"
+                  className={`block px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-[var(--color-bg-active)] ${itemActive ? "bg-[var(--color-bg-active)]" : ""}`}
                   style={{ color: itemActive ? palette.cta1 : "var(--color-muted)" }}
                 >
                   {item.label}
                 </Link>
               );
-            })}
+            });
+            })()}
           </div>,
           document.body
         )}
@@ -214,7 +222,10 @@ export default function GlobalMenu() {
   const [mounted, setMounted] = useState(false);
 
   const handlePlayClick = () => {
-    if (!isPlaying) trackPlay("anthem-track", "audio");
+    if (!isPlaying) {
+      trackPlay("anthem-track", "audio");
+      incrementLocalCount("anthem-track", "play");
+    }
     togglePlay();
   };
 
@@ -382,7 +393,12 @@ export default function GlobalMenu() {
                 </div>
                 <div className="flex flex-col gap-2 py-2">
                   {TRIBE_LINKS.map((item) => {
-                    const itemActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                    const bestMatch = TRIBE_LINKS.filter(
+                      (i) => pathname === i.href || pathname.startsWith(i.href + "/")
+                    ).sort((a, b) => b.href.length - a.href.length)[0];
+                    const itemActive =
+                      (pathname === item.href || pathname.startsWith(item.href + "/")) &&
+                      bestMatch?.href === item.href;
                     return (
                       <Link
                         key={item.href}
@@ -409,7 +425,12 @@ export default function GlobalMenu() {
                 </div>
                 <div className="flex flex-col gap-2 py-2">
                   {BRIDGE_LINKS.map((item) => {
-                    const itemActive = pathname === item.href || pathname.startsWith(item.href + "/");
+                    const bestMatch = BRIDGE_LINKS.filter(
+                      (i) => pathname === i.href || pathname.startsWith(i.href + "/")
+                    ).sort((a, b) => b.href.length - a.href.length)[0];
+                    const itemActive =
+                      (pathname === item.href || pathname.startsWith(item.href + "/")) &&
+                      bestMatch?.href === item.href;
                     return (
                       <Link
                         key={item.href}
