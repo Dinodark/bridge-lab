@@ -79,7 +79,8 @@ export async function POST(request: NextRequest) {
       "unknown";
 
     const excludedIps = new Set(["127.0.0.1", "::1", "::ffff:127.0.0.1", "localhost", "0.0.0.0"]);
-    if (excludedIps.has(ip)) {
+    const includeLocal = process.env.ANALYTICS_INCLUDE_LOCAL === "true";
+    if (!includeLocal && excludedIps.has(ip)) {
       return NextResponse.json({ ok: true, received: events.length });
     }
 
