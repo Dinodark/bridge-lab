@@ -4,7 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useAnthemPlayer } from "@/contexts/AnthemPlayerContext";
+import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
+import { ANTHEM_TRACK_PATH } from "@/contexts/MusicPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
@@ -19,6 +20,7 @@ const TRIBE_LINKS = [
   { href: "/tribe-dev", label: "Tribe Dev" },
   { href: "/dao", label: "DAO" },
   { href: "/brandguidelines", label: "Brand Guidelines" },
+  { href: "/marketing", label: "Marketing" },
 ];
 
 /** Author name for header tagline. Set to empty to hide "by [name]". */
@@ -216,17 +218,18 @@ export default function GlobalMenu() {
   const pathname = usePathname();
   const { palette } = useTheme();
   const { lang, setLang } = useLanguage();
-  const { isPlaying, togglePlay } = useAnthemPlayer();
+  const { currentTrack, isPlaying, playTrack } = useMusicPlayer();
   const { trackPlay } = useAnalytics();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const anthemPlaying = currentTrack === ANTHEM_TRACK_PATH && isPlaying;
 
   const handlePlayClick = () => {
-    if (!isPlaying) {
+    if (!anthemPlaying) {
       trackPlay("anthem-track", "audio");
       incrementLocalCount("anthem-track", "play");
     }
-    togglePlay();
+    playTrack(ANTHEM_TRACK_PATH);
   };
 
   useEffect(() => {
@@ -306,12 +309,12 @@ export default function GlobalMenu() {
             <button
               type="button"
               onClick={handlePlayClick}
-              aria-label={isPlaying ? "Pause" : "Play"}
-              title={isPlaying ? "Pause Anthem" : "Play Anthem"}
+              aria-label={anthemPlaying ? "Pause" : "Play"}
+              title={anthemPlaying ? "Pause Anthem" : "Play Anthem"}
               className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border)] transition-colors hover:bg-[var(--color-bg-active)]"
               style={{ color: palette.cta1 }}
             >
-              {isPlaying ? (
+              {anthemPlaying ? (
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   <rect x="6" y="4" width="4" height="16" rx="1" />
                   <rect x="14" y="4" width="4" height="16" rx="1" />
@@ -331,11 +334,11 @@ export default function GlobalMenu() {
           <button
             type="button"
             onClick={handlePlayClick}
-            aria-label={isPlaying ? "Pause" : "Play"}
+            aria-label={anthemPlaying ? "Pause" : "Play"}
             className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--color-border)] transition-colors hover:bg-[var(--color-bg-active)]"
             style={{ color: palette.cta1 }}
           >
-            {isPlaying ? (
+            {anthemPlaying ? (
               <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                 <rect x="6" y="4" width="4" height="16" rx="1" />
                 <rect x="14" y="4" width="4" height="16" rx="1" />

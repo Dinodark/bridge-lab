@@ -1,9 +1,11 @@
 "use client";
 
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import HomeBanner from "@/components/HomeBanner";
 import HomeJingles from "@/components/home/HomeJingles";
+import HomeConcepts from "@/components/home/HomeConcepts";
 import HomeVideoSplashes from "@/components/home/HomeVideoSplashes";
 import HomeVisuals from "@/components/home/HomeVisuals";
 import { ImagePlaceholder } from "@/components/home/ImagePlaceholder";
@@ -15,6 +17,8 @@ import UsefulButton from "@/components/UsefulButton";
 const CONTENT = {
   ru: {
     tribeInsights: `Просмотрев материалы Tribe, партнёр увидит целостную систему идентичности: как одно ядро бренда воплощается в разных контекстах — от DAO до мерча. Это вдохновляет на понимание масштабируемости подхода и потенциала community-driven продукта.`,
+    coreExplainer: "Одно ядро. Бесконечные воплощения. Целостная система идентичности Tribe и Bridge — от дизайна до DAO, от музыки до мерча — представлена здесь в едином пространстве. Ваша реакция помогает понять, что находит отклик.",
+    coreTag: "Ядро",
     tribeSectionTitle: "Что увидит партнёр",
     tastyTitle: "Вкусняшки разделов",
     tastySubtitle: "Ключевая идея и как использовать каждый материал",
@@ -27,6 +31,7 @@ const CONTENT = {
       { href: "/vision", tag: "Vision", keyIdea: "One Tribe · Видение", use: "Сообщество, движение, новый мир. Манифест и почему Tribe.", thumbnail: "/assets/vision-thumbnail.png" },
       { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Цвета, типографика, DAO Sphere, волны. Вдохновляющие стандарты.", thumbnail: "/assets/brand-thumbnail.png" },
       { href: "/roadmap", tag: "Roadmap", keyIdea: "План развития", use: "Версионность, локализация, ИИ-агенты. Куда движемся.", thumbnail: "/assets/roadmap-thumbnail.png" },
+      { href: "/marketing", tag: "Marketing", keyIdea: "План и анализ", use: "Маркетинг tribe.de, слоганы, NLP, гайды для дизайнеров и разработчиков.", thumbnail: "/assets/strategy-thumbnail.png" },
     ],
     openLink: "Открыть",
     merchDesc: "Футболка с логотипом OneTribe. Белая и чёрная. Классика племени.",
@@ -55,6 +60,8 @@ const CONTENT = {
   },
   de: {
     tribeInsights: `Nach der Durchsicht der Tribe-Materialien sieht der Partner ein ganzheitliches Identitätssystem: wie ein einziges Markenkern in verschiedenen Kontexten umgesetzt wird — von DAO bis Merch. Das inspiriert zum Verständnis der Skalierbarkeit des Ansatzes und des Potenzials von Community-driven Produkten.`,
+    coreExplainer: "Ein Kern. Unendliche Verkörperungen. Ein ganzheitliches Identitätssystem von Tribe und Bridge — von Design bis DAO, von Musik bis Merch — in einem Raum. Ihre Reaktion hilft zu verstehen, was Resonanz findet.",
+    coreTag: "Kern",
     tribeSectionTitle: "Was der Partner sieht",
     tastyTitle: "Highlights der Bereiche",
     tastySubtitle: "Kernidee und Nutzung jedes Materials",
@@ -67,6 +74,7 @@ const CONTENT = {
       { href: "/vision", tag: "Vision", keyIdea: "One Tribe · Vision", use: "Community, Bewegung, neue Welt. Manifest und warum Tribe.", thumbnail: "/assets/vision-thumbnail.png" },
       { href: "/brandguidelines", tag: "Brand", keyIdea: "Foundation & Motion", use: "Farben, Typografie, DAO Sphere, Wellen. Inspirierende Standards.", thumbnail: "/assets/brand-thumbnail.png" },
       { href: "/roadmap", tag: "Roadmap", keyIdea: "Entwicklungsplan", use: "Versionierung, Lokalisierung, KI-Agenten. Wohin wir gehen.", thumbnail: "/assets/roadmap-thumbnail.png" },
+      { href: "/marketing", tag: "Marketing", keyIdea: "Plan und Analyse", use: "Marketing tribe.de, Slogans, NLP, Leitfäden für Designer und Entwickler.", thumbnail: "/assets/strategy-thumbnail.png" },
     ],
     openLink: "Öffnen",
     merchDesc: "T-Shirt mit OneTribe-Logo. Weiß und Schwarz. Klassiker des Stammes.",
@@ -95,16 +103,85 @@ const CONTENT = {
   },
 } as const;
 
+const LERP_TEXT = 0.06;  // текст реагирует быстрее
+const LERP_TAG = 0.018;  // ЯДРО — длинное запаздывание
+const PARALLAX_STRENGTH = 14; // пикселей смещения
+
 export default function HomeContent() {
   const { lang } = useLanguage();
   const t = CONTENT[lang];
+  const coreRef = useRef<HTMLElement>(null);
+  const [textOffset, setTextOffset] = useState(0);
+  const [tagOffset, setTagOffset] = useState(0);
+  const targetRef = useRef({ text: 0, tag: 0 });
+  const smoothRef = useRef({ text: 0, tag: 0 });
+
+  useEffect(() => {
+    const onScroll = () => {
+      const el = coreRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // progress: 0 когда секция внизу, 1 когда вверху
+      const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height)));
+      targetRef.current = {
+        text: progress * PARALLAX_STRENGTH,  // текст смещается вниз навстречу
+        tag: -progress * PARALLAX_STRENGTH,  // ЯДРО смещается вверх навстречу
+      };
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    let raf: number;
+    const tick = () => {
+      const { text: tT, tag: tG } = targetRef.current;
+      const { text: sT, tag: sG } = smoothRef.current;
+      smoothRef.current = {
+        text: sT + (tT - sT) * LERP_TEXT,
+        tag: sG + (tG - sG) * LERP_TAG,
+      };
+      setTextOffset(smoothRef.current.text);
+      setTagOffset(smoothRef.current.tag);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen" style={{ background: "var(--color-bg)", fontFamily: "var(--font-body)" }}>
       <HomeBanner />
 
       <div className="content-container space-y-24 py-20">
+        <section
+          ref={coreRef}
+          className="relative py-12 sm:py-16 px-6 sm:px-10 max-w-3xl"
+          style={{ background: "var(--color-bg)" }}
+        >
+          <span
+            className="absolute bottom-0 right-0 pb-0 pr-0 text-[clamp(7rem,22vw,18rem)] font-extrabold leading-[0.9] tracking-tighter select-none pointer-events-none"
+            style={{
+              color: "var(--color-border)",
+              opacity: 0.35,
+              fontFamily: "var(--font-body)",
+              transform: `translate(calc(45% + ${tagOffset}px), calc(35% + ${tagOffset}px))`,
+            }}
+            aria-hidden
+          >
+            {t.coreTag.toUpperCase()}
+          </span>
+          <p
+            className="relative z-10 text-xl sm:text-2xl md:text-3xl leading-relaxed italic max-w-xl"
+            style={{ color: "var(--color-text)", transform: `translateY(${textOffset}px)` }}
+          >
+            {t.coreExplainer}
+          </p>
+        </section>
         <HomeJingles />
+        <HomeConcepts />
         <HomeVideoSplashes />
         <HomeVisuals />
 

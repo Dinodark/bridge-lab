@@ -14,6 +14,9 @@ type MusicPlayerContextValue = {
 
 const MusicPlayerContext = createContext<MusicPlayerContextValue | null>(null);
 
+/** Anthem track — same as first MusicTrackCard (Lounge Edition) */
+export const ANTHEM_TRACK_PATH = `/Music/${encodeURIComponent("PROD (Lounge Edition) — Cursor In The Dark.mp3")}`;
+
 export function MusicPlayerProvider({ children }: { children: React.ReactNode }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [currentTrack, setCurrentTrack] = useState<string | null>(null);

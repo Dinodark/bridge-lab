@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { MusicPlayerProvider, useMusicPlayer } from "@/contexts/MusicPlayerContext";
+import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 import MusicTrackCard from "@/components/music/MusicTrackCard";
 import { getCoverForTrack } from "@/components/music/MusicTrackCard";
 
@@ -69,9 +69,7 @@ export default function MusicPage() {
       className="min-h-screen relative"
       style={{ fontFamily: "var(--font-body)" }}
     >
-      <MusicPlayerProvider>
-        <MusicPageContent />
-      </MusicPlayerProvider>
+      <MusicPageContent />
     </div>
   );
 }

@@ -5,15 +5,16 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ImagePlaceholder } from "@/components/home/ImagePlaceholder";
+import BridgeTribeWord from "@/components/home/BridgeTribeWord";
 
 const BANNER_TITLE = {
   ru: "Одно ядро. Бесконечные воплощения.",
   de: "Ein Kern. Unendliche Verkörperungen.",
 };
 
-const BANNER_SUBTITLE = {
-  ru: "Bridge — где сообщество встречает технологию",
-  de: "Bridge — wo Community auf Technologie trifft",
+const BANNER_SUBTITLE_REST = {
+  ru: " — где сообщество встречает технологию",
+  de: " — wo Community auf Technologie trifft",
 };
 
 const CTA_TRIBE = { ru: "В Tribe", de: "In Tribe" };
@@ -144,7 +145,8 @@ export default function HomeBanner() {
           className="text-base sm:text-lg text-white/90 max-w-lg font-light mb-8"
           style={{ textShadow: "0 1px 8px rgba(0,0,0,0.4)" }}
         >
-          {BANNER_SUBTITLE[lang]}
+          <BridgeTribeWord />
+          {BANNER_SUBTITLE_REST[lang]}
         </p>
         <div className="flex flex-wrap gap-4 justify-center mb-10">
           <Link

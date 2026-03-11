@@ -3,9 +3,11 @@ import { Geist, Geist_Mono, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import LayoutContent from "@/components/LayoutContent";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { CoreGateProvider } from "@/contexts/CoreGateContext";
+import CoreGateWrapper from "@/components/CoreGateWrapper";
 import { LanguageProvider } from "@/contexts/LanguageContext";
-import { AnthemPlayerProvider } from "@/contexts/AnthemPlayerContext";
 import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
+import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
 import GlobalMenu from "@/components/GlobalMenu";
 
 const geistSans = Geist({
@@ -49,12 +51,16 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <LanguageProvider>
-            <AnthemPlayerProvider>
-              <AnalyticsProvider>
-                <GlobalMenu />
-                <LayoutContent>{children}</LayoutContent>
-              </AnalyticsProvider>
-            </AnthemPlayerProvider>
+            <AnalyticsProvider>
+              <MusicPlayerProvider>
+                <CoreGateProvider>
+                  <GlobalMenu />
+                  <CoreGateWrapper>
+                    <LayoutContent>{children}</LayoutContent>
+                  </CoreGateWrapper>
+                </CoreGateProvider>
+              </MusicPlayerProvider>
+            </AnalyticsProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

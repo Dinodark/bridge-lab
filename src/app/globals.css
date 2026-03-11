@@ -1123,6 +1123,40 @@ body {
   99% { text-shadow: 1px 0 rgba(249,137,180,0.3), -1px 0 rgba(72,229,255,0.3), 0 2px 20px rgba(0,0,0,0.5); }
 }
 
+/* Bridge/Tribe word — letter-by-letter transition, brightness/saturation pulse */
+.bridge-tribe-letter {
+  opacity: 0;
+  animation: bridge-tribe-letter-in 1.4s ease-out forwards;
+}
+@keyframes bridge-tribe-letter-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: brightness(0.5) saturate(0.4);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: brightness(1.2) saturate(1.25);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+  }
+}
+.bridge-tribe-word .bridge-tribe-letter {
+  animation: bridge-tribe-letter-in 1.4s ease-out forwards, bridge-tribe-letter-pulse 3.2s ease-in-out 1.5s infinite;
+  animation-delay: var(--letter-delay, 0ms), calc(var(--letter-delay, 0ms) + 1500ms);
+}
+@keyframes bridge-tribe-letter-pulse {
+  0%, 100% { filter: brightness(1) saturate(1); }
+  20% { filter: brightness(1.1) saturate(1.12); }
+  40% { filter: brightness(0.92) saturate(0.9); }
+  60% { filter: brightness(1.06) saturate(1.05); }
+  80% { filter: brightness(0.96) saturate(0.95); }
+}
+
 /* Horizontal scroll on mobile - touch-friendly */
 .scroll-x-mobile {
   overflow-x: scroll;

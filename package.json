@@ -15,13 +15,16 @@
     "generate-merch-banner-logo": "tsx scripts/generate-merch-banner-logo.ts",
     "generate-strategy-roadmap-thumbnails": "tsx scripts/generate-strategy-roadmap-thumbnails.ts",
     "generate-music-cover": "tsx scripts/generate-music-cover.ts",
-    "generate-music-cover-push": "tsx scripts/generate-music-cover-push.ts"
+    "generate-music-cover-push": "tsx scripts/generate-music-cover-push.ts",
+    "generate-petrogliph-merch": "tsx scripts/generate-petrogliph-merch.ts",
+    "generate-petrogliph-banners": "tsx scripts/generate-petrogliph-banners.ts"
   },
   "dependencies": {
     "@fal-ai/client": "^1.9.4",
     "@supabase/ssr": "^0.9.0",
     "@supabase/supabase-js": "^2.99.0",
     "jose": "^6.2.1",
+    "jsmediatags": "^3.9.7",
     "next": "16.1.6",
     "react": "19.2.3",
     "react-dom": "19.2.3",

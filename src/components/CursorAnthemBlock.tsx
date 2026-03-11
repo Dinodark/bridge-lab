@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useAnthemPlayer, ANTHEM_TRACK_PATH } from "@/contexts/AnthemPlayerContext";
+import { useMusicPlayer, ANTHEM_TRACK_PATH } from "@/contexts/MusicPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
@@ -33,7 +33,8 @@ Ich sag': "Cursor, Bruder, Cursor hat es"`;
 export default function CursorAnthemBlock() {
   const { lang } = useLanguage();
   const { trackDownload, trackPlay } = useAnalytics();
-  const { isPlaying, togglePlay, progress, duration, seek } = useAnthemPlayer();
+  const { currentTrack, isPlaying, playTrack, progress, duration, seek } = useMusicPlayer();
+  const anthemPlaying = currentTrack === ANTHEM_TRACK_PATH && isPlaying;
   const [showLyrics, setShowLyrics] = useState(false);
 
   const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -113,17 +114,17 @@ export default function CursorAnthemBlock() {
             <button
               type="button"
               onClick={() => {
-                if (!isPlaying) {
+                if (!anthemPlaying) {
                   trackPlay("anthem-track", "audio");
                   incrementLocalCount("anthem-track", "play");
                 }
-                togglePlay();
+                playTrack(ANTHEM_TRACK_PATH);
               }}
               className="w-14 h-14 rounded-full flex items-center justify-center transition-all hover:scale-105 active:scale-95"
               style={{ background: "var(--color-cta1)", color: "#fff" }}
-              aria-label={isPlaying ? "Pause" : "Play"}
+              aria-label={anthemPlaying ? "Pause" : "Play"}
             >
-              {isPlaying ? (
+              {anthemPlaying ? (
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <rect x="6" y="4" width="4" height="16" rx="1" />
                   <rect x="14" y="4" width="4" height="16" rx="1" />
@@ -135,29 +136,31 @@ export default function CursorAnthemBlock() {
               )}
             </button>
 
-            <div className="flex-1 min-w-0">
-              <div
-                className="h-2 rounded-full cursor-pointer overflow-hidden"
-                style={{ background: "var(--color-border)" }}
-                onClick={handleSeek}
-                role="progressbar"
-                aria-valuenow={duration ? (progress / duration) * 100 : 0}
-                aria-valuemin={0}
-                aria-valuemax={100}
-              >
+            {anthemPlaying && (
+              <div className="flex-1 min-w-0">
                 <div
-                  className="h-full rounded-full transition-all"
-                  style={{
-                    width: duration ? `${(progress / duration) * 100}%` : "0%",
-                    background: "var(--color-cta1)",
-                  }}
-                />
+                  className="h-2 rounded-full cursor-pointer overflow-hidden"
+                  style={{ background: "var(--color-border)" }}
+                  onClick={handleSeek}
+                  role="progressbar"
+                  aria-valuenow={duration ? (progress / duration) * 100 : 0}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="h-full rounded-full transition-all"
+                    style={{
+                      width: duration ? `${(progress / duration) * 100}%` : "0%",
+                      background: "var(--color-cta1)",
+                    }}
+                  />
+                </div>
+                <div className="flex justify-between mt-1 text-xs" style={{ color: "var(--color-muted)" }}>
+                  <span>{formatTime(progress)}</span>
+                  <span>{formatTime(duration)}</span>
+                </div>
               </div>
-              <div className="flex justify-between mt-1 text-xs" style={{ color: "var(--color-muted)" }}>
-                <span>{formatTime(progress)}</span>
-                <span>{formatTime(duration)}</span>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
