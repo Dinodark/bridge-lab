@@ -47,6 +47,7 @@ const MERCH_ITEMS = [
 
 const UI = {
   ru: {
+    conceptTag: "Концепция",
     back: "На главную",
     elements: "Элементы",
     download: "Скачать",
@@ -60,6 +61,7 @@ const UI = {
     bannersDesc: "Для соцсетей, YouTube, презентаций.",
   },
   de: {
+    conceptTag: "Konzept",
     back: "Zur Startseite",
     elements: "Elemente",
     download: "Herunterladen",
@@ -174,7 +176,7 @@ export default function ConceptPromo({ conceptId, concept }: { conceptId: string
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
             <span className="text-xs font-bold tracking-widest uppercase" style={{ color: "var(--color-cta1)" }}>
-              Концепция
+              {ui.conceptTag}
             </span>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mt-2" style={{ color: "var(--color-text)" }}>
               {name}

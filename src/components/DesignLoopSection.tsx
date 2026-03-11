@@ -31,7 +31,7 @@ export default function DesignLoopSection() {
   const t = CONTENT[lang === "de" ? "de" : "ru"];
 
   return (
-    <section className="rounded-2xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}>
+    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
       <span className="text-xs font-bold tracking-widest uppercase block mb-2" style={{ color: "var(--color-cta1)" }}>
         {t.tag}
       </span>

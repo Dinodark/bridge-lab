@@ -4,12 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAdmin } from "@/contexts/AdminContext";
+import AdminLoginModal from "./AdminLoginModal";
 import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 import { ANTHEM_TRACK_PATH } from "@/contexts/MusicPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { incrementLocalCount } from "@/hooks/useAnalyticsCount";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 
 const TRIBE_LINKS = [
@@ -218,11 +220,17 @@ export default function GlobalMenu() {
   const pathname = usePathname();
   const { palette } = useTheme();
   const { lang, setLang } = useLanguage();
+  const { isAdmin, isLoading: adminLoading, refresh: refreshAdmin } = useAdmin();
   const { currentTrack, isPlaying, playTrack } = useMusicPlayer();
   const { trackPlay } = useAnalytics();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [adminModalOpen, setAdminModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const anthemPlaying = currentTrack === ANTHEM_TRACK_PATH && isPlaying;
+
+  const handleAdminSuccess = useCallback(() => {
+    refreshAdmin();
+  }, [refreshAdmin]);
 
   const handlePlayClick = () => {
     if (!anthemPlaying) {
@@ -326,6 +334,20 @@ export default function GlobalMenu() {
               )}
             </button>
           </div>
+          {!adminLoading && (
+            <button
+              type="button"
+              onClick={() => setAdminModalOpen(true)}
+              className={`rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors sm:px-3 ${isAdmin ? "opacity-60" : ""}`}
+              style={{
+                color: isAdmin ? palette.cta1 : "var(--color-muted)",
+                background: isAdmin ? "var(--color-bg-active)" : "transparent",
+              }}
+              title={isAdmin ? "Админ" : "Вход"}
+            >
+              {isAdmin ? "✓" : "Вход"}
+            </button>
+          )}
           <LangSwitcher lang={lang} setLang={setLang} palette={palette} className="ml-2 border-l" />
         </nav>
 
@@ -451,10 +473,32 @@ export default function GlobalMenu() {
                   })}
                 </div>
               </div>
+              {!adminLoading && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAdminModalOpen(true);
+                    setMobileOpen(false);
+                  }}
+                  className="mt-4 w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors border"
+                  style={{
+                    color: isAdmin ? palette.cta1 : "var(--color-muted)",
+                    borderColor: "var(--color-border)",
+                    background: isAdmin ? "var(--color-bg-active)" : "transparent",
+                  }}
+                >
+                  {isAdmin ? "✓ Админ" : "Вход"}
+                </button>
+              )}
             </nav>
           </div>,
           document.body
         )}
+      <AdminLoginModal
+        open={adminModalOpen}
+        onClose={() => setAdminModalOpen(false)}
+        onSuccess={handleAdminSuccess}
+      />
     </header>
   );
 }

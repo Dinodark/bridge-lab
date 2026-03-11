@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ImagePlaceholder } from "./ImagePlaceholder";
+import VisibilityBlock from "@/components/VisibilityBlock";
 
 const CONTENT = {
   ru: {
@@ -27,8 +28,8 @@ export default function HomeVisuals() {
   const t = CONTENT[lang === "de" ? "de" : "ru"];
 
   return (
-    <section className="py-16 sm:py-24">
-      <div className="content-container">
+    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+      <div>
         <span className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: "var(--color-cta1)" }}>
           Assets
         </span>
@@ -46,9 +47,11 @@ export default function HomeVisuals() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="max-w-[180px] mx-auto">
-                  <ImagePlaceholder aspect="vertical" label={`[Обои ${i}]`} className="w-full" />
-                </div>
+                <VisibilityBlock key={i} entityId={`visual-wallpaper-phone-${i}`}>
+                  <div className="max-w-[180px] mx-auto">
+                    <ImagePlaceholder aspect="vertical" label={`[Обои ${i}]`} className="w-full" />
+                  </div>
+                </VisibilityBlock>
               ))}
             </div>
           </div>
@@ -59,7 +62,9 @@ export default function HomeVisuals() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[1, 2].map((i) => (
-                <ImagePlaceholder key={i} aspect="video" label={`[Обои ${i}]`} className="w-full" />
+                <VisibilityBlock key={i} entityId={`visual-wallpaper-desktop-${i}`}>
+                  <ImagePlaceholder aspect="video" label={`[Обои ${i}]`} className="w-full" />
+                </VisibilityBlock>
               ))}
             </div>
           </div>
@@ -70,7 +75,9 @@ export default function HomeVisuals() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map((i) => (
-                <ImagePlaceholder key={i} aspect="square" label={`[Стикер ${i}]`} className="w-full" />
+                <VisibilityBlock key={i} entityId={`visual-sticker-${i}`}>
+                  <ImagePlaceholder aspect="square" label={`[Стикер ${i}]`} className="w-full" />
+                </VisibilityBlock>
               ))}
             </div>
           </div>
@@ -81,7 +88,9 @@ export default function HomeVisuals() {
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
               {[1, 2].map((i) => (
-                <ImagePlaceholder key={i} aspect="square" label={`[Мем ${i}]`} className="w-full" />
+                <VisibilityBlock key={i} entityId={`visual-meme-${i}`}>
+                  <ImagePlaceholder aspect="square" label={`[Мем ${i}]`} className="w-full" />
+                </VisibilityBlock>
               ))}
             </div>
           </div>

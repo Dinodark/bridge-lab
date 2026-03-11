@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
+import VisibilityBlock from "@/components/VisibilityBlock";
 import { useLiked } from "@/hooks/useLiked";
 import FlameIcon from "@/components/icons/FlameIcon";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
@@ -19,6 +20,8 @@ const CONCEPTS = [
       logo: "/concepts/petrogliph/logo.svg",
       person: "/concepts/petrogliph/img-1.svg",
       animal: "/concepts/petrogliph/img-2.svg",
+      cover: "/concepts/petrogliph/cover.png",
+      coverHover: "/concepts/petrogliph/cover-1.png",
     },
   },
 ] as const;
@@ -72,27 +75,22 @@ function ConceptCard({
       className="group block rounded-2xl overflow-hidden border transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
       style={{ borderColor: "var(--color-border)" }}
     >
-      {/* Banner: black bg, fire center, logo below, person right, animal left */}
+      {/* Banner: cover image with hover transition */}
       <div
         className="relative aspect-[2/1] sm:aspect-[2.5/1] flex items-center justify-center overflow-hidden"
         style={{ background: "#0a0a0a" }}
       >
-        {/* Animal — left, above */}
-        <div className="absolute left-[8%] top-[12%] w-[22%] max-w-[140px] opacity-90">
-          <img src={concept.assets.animal} alt="" className="w-full h-auto" />
-        </div>
-        {/* Person — right, above */}
-        <div className="absolute right-[8%] top-[10%] w-[22%] max-w-[140px] opacity-90">
-          <img src={concept.assets.person} alt="" className="w-full h-auto" />
-        </div>
-        {/* Fire — center */}
-        <div className="relative z-10 w-[35%] max-w-[200px]">
-          <img src={concept.assets.fire} alt="" className="w-full h-auto" />
-        </div>
-        {/* Logo — below fire */}
-        <div className="absolute bottom-[18%] left-1/2 -translate-x-1/2 w-[28%] max-w-[160px] opacity-95">
-          <img src={concept.assets.logo} alt="" className="w-full h-auto" />
-        </div>
+        {/* Cover layers — crossfade on hover */}
+        <img
+          src={concept.assets.cover}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300 group-hover:opacity-0"
+        />
+        <img
+          src={concept.assets.coverHover}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        />
       </div>
 
       {/* Bottom bar: title, like, more */}
@@ -140,8 +138,8 @@ export default function HomeConcepts() {
   const t = CONTENT[lang === "de" ? "de" : "ru"];
 
   return (
-    <section className="py-16 sm:py-24">
-      <div className="content-container">
+    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+      <div>
         <span className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: "var(--color-cta1)" }}>
           Concepts
         </span>
@@ -154,13 +152,14 @@ export default function HomeConcepts() {
 
         <div className="space-y-8">
           {CONCEPTS.map((concept) => (
-            <ConceptCard
-              key={concept.id}
-              concept={concept}
-              fireLabel={t.fire}
-              moreLabel={t.more}
-              lang={lang === "de" ? "de" : "ru"}
-            />
+            <VisibilityBlock key={concept.id} entityId={`concept-${concept.id}`}>
+              <ConceptCard
+                concept={concept}
+                fireLabel={t.fire}
+                moreLabel={t.more}
+                lang={lang === "de" ? "de" : "ru"}
+              />
+            </VisibilityBlock>
           ))}
         </div>
       </div>

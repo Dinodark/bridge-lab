@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import LayoutContent from "@/components/LayoutContent";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { AdminProvider } from "@/contexts/AdminContext";
 import { CoreGateProvider } from "@/contexts/CoreGateContext";
 import CoreGateWrapper from "@/components/CoreGateWrapper";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -50,18 +51,20 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${interTight.variable} antialiased`}
       >
         <ThemeProvider>
-          <LanguageProvider>
-            <AnalyticsProvider>
-              <MusicPlayerProvider>
-                <CoreGateProvider>
-                  <GlobalMenu />
-                  <CoreGateWrapper>
-                    <LayoutContent>{children}</LayoutContent>
-                  </CoreGateWrapper>
-                </CoreGateProvider>
-              </MusicPlayerProvider>
-            </AnalyticsProvider>
-          </LanguageProvider>
+          <AdminProvider>
+            <LanguageProvider>
+              <AnalyticsProvider>
+                <MusicPlayerProvider>
+                  <CoreGateProvider>
+                    <GlobalMenu />
+                    <CoreGateWrapper>
+                      <LayoutContent>{children}</LayoutContent>
+                    </CoreGateWrapper>
+                  </CoreGateProvider>
+                </MusicPlayerProvider>
+              </AnalyticsProvider>
+            </LanguageProvider>
+          </AdminProvider>
         </ThemeProvider>
       </body>
     </html>

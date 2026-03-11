@@ -9,6 +9,7 @@ import { incrementLocalCount, decrementLocalCount } from "@/hooks/useAnalyticsCo
 import { useLiked } from "@/hooks/useLiked";
 import FlameIcon from "@/components/icons/FlameIcon";
 import { AnalyticsCountBadge } from "@/components/AnalyticsCountBadge";
+import VisibilityBlock from "@/components/VisibilityBlock";
 
 const LYRICS = `(Intro)
 Yo, Tribe! Feuer unter dem Asphalt.
@@ -424,8 +425,8 @@ export default function HomeJingles() {
   }, [liked, setLikedState, trackLike]);
 
   return (
-    <section className="py-16 sm:py-24">
-      <div className="content-container">
+    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+      <div>
         <span className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: "var(--color-cta1)" }}>
           Audio
         </span>
@@ -437,22 +438,24 @@ export default function HomeJingles() {
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {t.jingles.map((jingle, i) => (
-            <JingleCard
-              key={jingle.id}
-              jingle={jingle}
-              src={`/Music/${encodeURIComponent(JINGLE_FILES[i])}`}
-              targetId={`home-jingle-${jingle.id}`}
-              fireLabel={t.fire}
-              downloadLabel={t.download}
-            />
+            <VisibilityBlock key={jingle.id} entityId={`jingle-${jingle.id}`}>
+              <JingleCard
+                jingle={jingle}
+                src={`/Music/${encodeURIComponent(JINGLE_FILES[i])}`}
+                targetId={`home-jingle-${jingle.id}`}
+                fireLabel={t.fire}
+                downloadLabel={t.download}
+              />
+            </VisibilityBlock>
           ))}
         </div>
 
         {/* Lyrics block */}
-        <div
-          className="mt-10 rounded-2xl border overflow-hidden"
-          style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}
-        >
+        <VisibilityBlock entityId="lyrics-home-jingles">
+          <div
+            className="mt-10 rounded-xl border overflow-hidden"
+            style={{ borderColor: "var(--color-border)", background: "var(--color-bg)" }}
+          >
           <div className="relative">
             <div
               className="overflow-hidden px-5 py-4 whitespace-pre-wrap text-sm leading-relaxed"
@@ -509,6 +512,7 @@ export default function HomeJingles() {
             </button>
           </div>
         </div>
+        </VisibilityBlock>
 
         {/* Voice phrases */}
         <div className="mt-16">
@@ -520,15 +524,16 @@ export default function HomeJingles() {
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {VOICE_PHRASES.map((phrase, i) => (
-              <VoicePhraseCard
-                key={phrase.id}
-                phrase={phrase}
-                src={`/assets/voice/${encodeURIComponent(VOICE_FILES[i])}`}
-                imageSrc={VOICE_CARD_IMAGES[i]}
-                targetId={`home-voice-${phrase.id}`}
-                fireLabel={t.fire}
-                downloadLabel={t.download}
-              />
+              <VisibilityBlock key={phrase.id} entityId={`voice-${phrase.id}`}>
+                <VoicePhraseCard
+                  phrase={phrase}
+                  src={`/assets/voice/${encodeURIComponent(VOICE_FILES[i])}`}
+                  imageSrc={VOICE_CARD_IMAGES[i]}
+                  targetId={`home-voice-${phrase.id}`}
+                  fireLabel={t.fire}
+                  downloadLabel={t.download}
+                />
+              </VisibilityBlock>
             ))}
           </div>
         </div>

@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ImagePlaceholder } from "./ImagePlaceholder";
+import VisibilityBlock from "@/components/VisibilityBlock";
 
 const CONTENT = {
   ru: {
@@ -23,8 +24,8 @@ export default function HomeVideoSplashes() {
   const t = CONTENT[lang === "de" ? "de" : "ru"];
 
   return (
-    <section className="py-16 sm:py-24">
-      <div className="content-container">
+    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+      <div>
         <span className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: "var(--color-cta1)" }}>
           Video
         </span>
@@ -42,9 +43,9 @@ export default function HomeVideoSplashes() {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {t.horizontal.map((label, i) => (
-                <div key={i}>
+                <VisibilityBlock key={i} entityId={`video-splash-h-${i}`}>
                   <ImagePlaceholder aspect="video" label={label} className="w-full" />
-                </div>
+                </VisibilityBlock>
               ))}
             </div>
           </div>
@@ -55,9 +56,11 @@ export default function HomeVideoSplashes() {
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
               {t.vertical.map((label, i) => (
-                <div key={i} className="max-w-[180px] mx-auto">
-                  <ImagePlaceholder aspect="vertical" label={label} className="w-full" />
-                </div>
+                <VisibilityBlock key={i} entityId={`video-splash-v-${i}`}>
+                  <div className="max-w-[180px] mx-auto">
+                    <ImagePlaceholder aspect="vertical" label={label} className="w-full" />
+                  </div>
+                </VisibilityBlock>
               ))}
             </div>
           </div>

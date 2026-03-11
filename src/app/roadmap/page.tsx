@@ -157,19 +157,20 @@ export default function RoadmapPage() {
     >
       <div className="content-container">
         <div className="mb-12">
-          <h1
-            className="mb-2 text-4xl font-bold"
-            style={{
-              backgroundImage: palette.gradient1,
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
+          <span
+            className="text-xs font-bold tracking-widest uppercase"
+            style={{ color: palette?.accent1 || "var(--color-cta1)" }}
           >
             Roadmap
+          </span>
+          <h1
+            className="text-3xl sm:text-4xl font-extrabold tracking-tight mt-2 mb-4"
+            style={{ color: "var(--color-text)" }}
+          >
+            OneBridge · План развития
           </h1>
-          <p className="mb-4 text-[var(--color-muted)]">
-            OneBridge · План развития. Версионность — в плане до первого обновления.
+          <p className="text-lg max-w-2xl mb-4" style={{ color: "var(--color-muted)" }}>
+            Версионность — в плане до первого обновления.
           </p>
           <div className="flex flex-wrap gap-2">
             {(["all", "community", "partners", "team"] as const).map((a) => (
@@ -189,11 +190,12 @@ export default function RoadmapPage() {
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-16">
           {filteredItems.map((item) => (
             <article
               key={item.id}
-              className="rounded-2xl border border-[var(--color-border)] bg-white p-6 transition-shadow hover:shadow-lg"
+              className="rounded-xl border p-6 sm:p-8 transition-shadow hover:shadow-lg"
+              style={{ borderColor: "var(--color-border)" }}
             >
               <div className="mb-3 flex flex-wrap items-center gap-2">
                 {item.version && (
@@ -246,12 +248,15 @@ export default function RoadmapPage() {
               </p>
             </article>
           ))}
-        </div>
 
-        <div className="mt-16 rounded-xl border border-dashed border-[var(--color-border)] bg-white/50 p-8 text-center">
-          <p className="text-sm text-[var(--color-muted)]">
-            Версионность Roadmap будет реализована до первого обновления плана.
-          </p>
+          <div
+            className="rounded-xl border p-6 sm:p-8 text-center"
+            style={{ borderColor: "var(--color-border)" }}
+          >
+            <p className="text-sm text-[var(--color-muted)]">
+              Версионность Roadmap будет реализована до первого обновления плана.
+            </p>
+          </div>
         </div>
       </div>
     </div>
