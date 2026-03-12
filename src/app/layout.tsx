@@ -10,6 +10,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AnalyticsProvider } from "@/contexts/AnalyticsContext";
 import { MusicPlayerProvider } from "@/contexts/MusicPlayerContext";
 import GlobalMenu from "@/components/GlobalMenu";
+import AdminLoginModalHost from "@/components/AdminLoginModalHost";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AdminProvider>
             <LanguageProvider>
+              <AdminLoginModalHost />
               <AnalyticsProvider>
                 <MusicPlayerProvider>
                   <CoreGateProvider>

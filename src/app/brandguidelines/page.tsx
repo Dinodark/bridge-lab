@@ -141,6 +141,7 @@ const NAV_IDS = [
   { id: "patterns", icon: "⊞" },
   { id: "layout", icon: "▦" },
   { id: "form-controls", icon: "☐" },
+  { id: "leaderboard", icon: "🏆" },
 ];
 
 // ============================================================
@@ -160,6 +161,7 @@ const TRANSLATIONS = {
       patterns: "Patterns",
       layout: "Layout",
       formControls: "Form Controls",
+      leaderboard: "Leaderboard",
       applications: "Applications",
     },
     brandDescription:
@@ -389,6 +391,9 @@ const TRANSLATIONS = {
     formCheckboxSpec: "Checkbox: 24×24px, border-radius 6px, accent color — brand purple",
     formClasses: "Input: form-input. Select: CustomSelect (выпадашка в стиле меню).",
     formSelectPlaceholder: "Выберите...",
+    leaderboardTitle: "Турнирная таблица",
+    leaderboardSubtitle: "Лидерборд: место, аватар, имя, XP. Места 1–3 — медальки с лавровым венком.",
+    leaderboardXp: "XP",
     applicationsTitle: "Applications",
     applicationsSubtitle: "Бренд в реальном мире — digital и физические носители",
     merchTshirt: "Merch — T-Shirt",
@@ -483,6 +488,7 @@ const TRANSLATIONS = {
       patterns: "Muster",
       layout: "Layout",
       formControls: "Form Controls",
+      leaderboard: "Leaderboard",
       applications: "Anwendungen",
     },
     brandDescription:
@@ -712,6 +718,9 @@ const TRANSLATIONS = {
     formCheckboxSpec: "Checkbox: 24×24px, border-radius 6px, accent color — Marken-Lila",
     formClasses: "Input: form-input. Select: CustomSelect (Dropdown im Menü-Stil).",
     formSelectPlaceholder: "Auswählen...",
+    leaderboardTitle: "Turniertabelle",
+    leaderboardSubtitle: "Leaderboard: Platz, Avatar, Name, XP. Plätze 1–3 — Medaillen mit Lorbeerkranz.",
+    leaderboardXp: "XP",
     applicationsTitle: "Applications",
     applicationsSubtitle: "Die Marke in der realen Welt — digital und physische Träger",
     merchTshirt: "Merch — T-Shirt",
@@ -1450,6 +1459,98 @@ function Section({
     </div>
   );
 }
+
+/** Лавровый венок вокруг цифры: две веточки, по 3–5 листиков. 48×48 viewBox. */
+function LaurelWreath() {
+  return (
+    <svg
+      width={48}
+      height={48}
+      viewBox="0 0 48 48"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ color: "inherit" }}
+    >
+      {/* Левая веточка — 5 листиков */}
+      <path d="M10 20 Q12 16 14 20 Q12 24 10 20" fill="currentColor" opacity={0.7} />
+      <path d="M12 24 Q14 20 16 24 Q14 28 12 24" fill="currentColor" opacity={0.75} />
+      <path d="M14 28 Q16 24 18 28 Q16 32 14 28" fill="currentColor" opacity={0.7} />
+      <path d="M8 26 Q10 22 12 26 Q10 30 8 26" fill="currentColor" opacity={0.6} />
+      <path d="M10 32 Q12 28 14 32 Q12 36 10 32" fill="currentColor" opacity={0.6} />
+      {/* Правая веточка — 5 листиков */}
+      <path d="M38 20 Q36 16 34 20 Q36 24 38 20" fill="currentColor" opacity={0.7} />
+      <path d="M36 24 Q34 20 32 24 Q34 28 36 24" fill="currentColor" opacity={0.75} />
+      <path d="M34 28 Q32 24 30 28 Q32 32 34 28" fill="currentColor" opacity={0.7} />
+      <path d="M40 26 Q38 22 36 26 Q38 30 40 26" fill="currentColor" opacity={0.6} />
+      <path d="M38 32 Q36 28 34 32 Q36 36 38 32" fill="currentColor" opacity={0.6} />
+    </svg>
+  );
+}
+
+const MEDAL_COLORS: Record<number, { border: string; bg: string; text: string }> = {
+  1: { border: "#E8C547", bg: "#FDF8E6", text: "#1E1E1E" },
+  2: { border: "#C0C0C0", bg: "#F5F5F5", text: "#1E1E1E" },
+  3: { border: "#CD7F32", bg: "#FBF3EB", text: "#1E1E1E" },
+};
+
+/** Кружок 48×48: место 1–3 — медаль с венком и бордером 4px, 4–6 — простой круг. */
+function PlaceCircle({ place }: { place: number }) {
+  const isMedal = place <= 3;
+  const medalStyle = isMedal ? MEDAL_COLORS[place] : null;
+  const size = 48;
+  return (
+    <div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        border: isMedal ? `4px solid ${medalStyle!.border}` : "2px solid #E6E6E6",
+        background: isMedal ? medalStyle!.bg : "#FCFCFC",
+        color: isMedal ? medalStyle!.text : "#808080",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        flexShrink: 0,
+      }}
+    >
+      {isMedal && (
+        <span
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: medalStyle!.border,
+            opacity: 0.6,
+          }}
+        >
+          <LaurelWreath />
+        </span>
+      )}
+      <span
+        style={{
+          fontSize: 18,
+          fontWeight: 800,
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {place}
+      </span>
+    </div>
+  );
+}
+
+const LEADERBOARD_ROWS = [
+  { name: "Alex River", xp: 15420 },
+  { name: "Sam Chen", xp: 12890 },
+  { name: "Jordan Lee", xp: 9870 },
+  { name: "Casey Fox", xp: 6540 },
+  { name: "Morgan Blake", xp: 4320 },
+  { name: "Riley Gray", xp: 2100 },
+];
 
 export default function BrandGuidelinesPage() {
   const { lang } = useLanguage();
@@ -3631,6 +3732,97 @@ export default function BrandGuidelinesPage() {
               <div style={{ fontSize: 11, color: "#808080" }}>
                 {t.formClasses}
               </div>
+            </div>
+          </Section>
+        </div>
+
+        {/* 11. LEADERBOARD / TURNIER TABELLE */}
+        <div id="leaderboard" style={{ scrollMarginTop: 60 }}>
+          <Section
+            title={t.leaderboardTitle}
+            subtitle={t.leaderboardSubtitle}
+            sectionLabel={t.sectionLabel}
+          >
+            <div style={{ ...CARD_STYLE, overflow: "hidden" }}>
+              {LEADERBOARD_ROWS.map((row, index) => {
+                const place = index + 1;
+                return (
+                  <div key={place}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 16,
+                        padding: "14px 0",
+                      }}
+                    >
+                      <PlaceCircle place={place} />
+                      <div
+                        style={{
+                          width: 48,
+                          height: 48,
+                          borderRadius: "50%",
+                          background: "linear-gradient(135deg, #E6E6E6, #CCCCCC)",
+                          flexShrink: 0,
+                        }}
+                        title={row.name}
+                      />
+                      <span
+                        style={{
+                          flex: 1,
+                          fontSize: 16,
+                          fontWeight: 600,
+                          color: "#1E1E1E",
+                        }}
+                      >
+                        {row.name}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 15,
+                          fontWeight: 700,
+                          color: "#808080",
+                        }}
+                      >
+                        {row.xp.toLocaleString("ru-RU")} {t.leaderboardXp}
+                      </span>
+                    </div>
+                    {place < 6 && (
+                      <div
+                        style={{
+                          height: 1,
+                          background: "rgba(0,0,0,0.06)",
+                        }}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              style={{
+                marginTop: 32,
+                fontSize: 11,
+                fontWeight: 700,
+                color: "#B289F9",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: 12,
+              }}
+            >
+              Медальки 1–3 отдельно
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 24,
+                flexWrap: "wrap",
+              }}
+            >
+              <PlaceCircle place={1} />
+              <PlaceCircle place={2} />
+              <PlaceCircle place={3} />
             </div>
           </Section>
         </div>

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAdmin } from "@/contexts/AdminContext";
 import { SITE_CONFIG } from "@/lib/site-config";
 
 const CONTENT = {
@@ -27,6 +28,7 @@ const CONTENT = {
 
 export default function SiteFooter() {
   const { lang } = useLanguage();
+  const { isAdmin, isLoading, openAdminLogin } = useAdmin();
   const t = CONTENT[lang === "de" ? "de" : "ru"];
   const config = SITE_CONFIG;
 
@@ -91,7 +93,7 @@ export default function SiteFooter() {
           <span className="text-xs font-medium" style={{ color: "var(--color-muted)" }}>
             {t.copyright}
           </span>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap items-center justify-center gap-6">
             <Link href="/tribe" className="text-xs font-medium hover:underline" style={{ color: "var(--color-muted)" }}>
               Tribe
             </Link>
@@ -104,6 +106,17 @@ export default function SiteFooter() {
             <Link href="/roadmap" className="text-xs font-medium hover:underline" style={{ color: "var(--color-muted)" }}>
               Roadmap
             </Link>
+            {!isLoading && (
+              <button
+                type="button"
+                onClick={openAdminLogin}
+                className="text-xs font-medium hover:underline"
+                style={{ color: isAdmin ? "var(--color-cta1)" : "var(--color-muted)" }}
+                title={isAdmin ? "Админ" : "Вход"}
+              >
+                {isAdmin ? "✓ Вход" : "Вход"}
+              </button>
+            )}
           </div>
         </div>
       </div>

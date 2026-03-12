@@ -4,8 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useAdmin } from "@/contexts/AdminContext";
-import AdminLoginModal from "./AdminLoginModal";
 import { useMusicPlayer } from "@/contexts/MusicPlayerContext";
 import { ANTHEM_TRACK_PATH } from "@/contexts/MusicPlayerContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
@@ -17,6 +15,7 @@ import { createPortal } from "react-dom";
 const TRIBE_LINKS = [
   { href: "/media", label: "Media" },
   { href: "/tribe", label: "Tribe" },
+  { href: "/tribe/governance", label: "Governance" },
   { href: "/vision", label: "Vision" },
   { href: "/tribe/merch", label: "Merch" },
   { href: "/tribe-dev", label: "Tribe Dev" },
@@ -220,17 +219,11 @@ export default function GlobalMenu() {
   const pathname = usePathname();
   const { palette } = useTheme();
   const { lang, setLang } = useLanguage();
-  const { isAdmin, isLoading: adminLoading, refresh: refreshAdmin } = useAdmin();
   const { currentTrack, isPlaying, playTrack } = useMusicPlayer();
   const { trackPlay } = useAnalytics();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [adminModalOpen, setAdminModalOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const anthemPlaying = currentTrack === ANTHEM_TRACK_PATH && isPlaying;
-
-  const handleAdminSuccess = useCallback(() => {
-    refreshAdmin();
-  }, [refreshAdmin]);
 
   const handlePlayClick = () => {
     if (!anthemPlaying) {
@@ -256,26 +249,40 @@ export default function GlobalMenu() {
       style={{ fontFamily: "var(--font-body)" }}
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 flex-col items-start gap-0">
-          <span
-            className="text-xl leading-tight sm:text-2xl"
-            style={{ fontWeight: 800, letterSpacing: "-0.03em", display: "flex", alignItems: "baseline", gap: 1 }}
-          >
-            <span className="italic" style={{ color: "#1E1E1E" }}>one</span>
+        <Link
+          href="/"
+          className="flex min-w-0 max-w-full shrink flex-col items-start gap-0 overflow-hidden"
+        >
+          <div className="relative w-full min-w-0 overflow-hidden">
             <span
-              style={{
-                backgroundImage: palette.gradient1,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
+              className="block text-xl leading-tight sm:text-2xl"
+              style={{ fontWeight: 800, letterSpacing: "-0.03em", display: "flex", alignItems: "baseline", gap: 1 }}
             >
-              bridge
+              <span className="italic" style={{ color: "#1E1E1E" }}>one</span>
+              <span
+                style={{
+                  backgroundImage: palette.gradient1,
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                bridge
+              </span>
             </span>
-          </span>
-          <span className="text-[10px] sm:text-[11px] font-medium tracking-wider uppercase" style={{ color: "var(--color-muted)" }}>
-            Creative Direction for Tribe{AUTHOR_NAME ? ` by ${AUTHOR_NAME}` : ""}
-          </span>
+            <div
+              className="pointer-events-none absolute right-0 top-0 h-full w-8 shrink-0 sm:w-12"
+              style={{
+                background: `linear-gradient(to right, transparent, var(--color-bg-header))`,
+              }}
+              aria-hidden
+            />
+          </div>
+          <div className="w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
+            <span className="text-[10px] sm:text-[11px] font-medium tracking-wider uppercase" style={{ color: "var(--color-muted)" }}>
+              Creative Direction for Tribe{AUTHOR_NAME ? ` by ${AUTHOR_NAME}` : ""}
+            </span>
+          </div>
         </Link>
 
         {/* Desktop nav */}
@@ -334,20 +341,6 @@ export default function GlobalMenu() {
               )}
             </button>
           </div>
-          {!adminLoading && (
-            <button
-              type="button"
-              onClick={() => setAdminModalOpen(true)}
-              className={`rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors sm:px-3 ${isAdmin ? "opacity-60" : ""}`}
-              style={{
-                color: isAdmin ? palette.cta1 : "var(--color-muted)",
-                background: isAdmin ? "var(--color-bg-active)" : "transparent",
-              }}
-              title={isAdmin ? "Админ" : "Вход"}
-            >
-              {isAdmin ? "✓" : "Вход"}
-            </button>
-          )}
           <LangSwitcher lang={lang} setLang={setLang} palette={palette} className="ml-2 border-l" />
         </nav>
 
@@ -473,32 +466,10 @@ export default function GlobalMenu() {
                   })}
                 </div>
               </div>
-              {!adminLoading && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAdminModalOpen(true);
-                    setMobileOpen(false);
-                  }}
-                  className="mt-4 w-full rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors border"
-                  style={{
-                    color: isAdmin ? palette.cta1 : "var(--color-muted)",
-                    borderColor: "var(--color-border)",
-                    background: isAdmin ? "var(--color-bg-active)" : "transparent",
-                  }}
-                >
-                  {isAdmin ? "✓ Админ" : "Вход"}
-                </button>
-              )}
             </nav>
           </div>,
           document.body
         )}
-      <AdminLoginModal
-        open={adminModalOpen}
-        onClose={() => setAdminModalOpen(false)}
-        onSuccess={handleAdminSuccess}
-      />
     </header>
   );
 }

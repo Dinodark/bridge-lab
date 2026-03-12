@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const CONTENT = {
@@ -76,9 +77,7 @@ export default function AdminLoginModal({
     onClose();
   }, [onClose]);
 
-  if (!open) return null;
-
-  return (
+  const modalNode = (
     <div
       className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm"
       onClick={handleClose}
@@ -133,4 +132,11 @@ export default function AdminLoginModal({
       </div>
     </div>
   );
+
+  if (!open) return null;
+
+  if (typeof document !== "undefined") {
+    return createPortal(modalNode, document.body);
+  }
+  return modalNode;
 }

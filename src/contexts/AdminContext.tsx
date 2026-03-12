@@ -6,6 +6,9 @@ type AdminContextValue = {
   isAdmin: boolean;
   isLoading: boolean;
   refresh: () => Promise<void>;
+  openAdminLogin: () => void;
+  adminLoginOpen: boolean;
+  setAdminLoginOpen: (open: boolean) => void;
 };
 
 const AdminContext = createContext<AdminContextValue | null>(null);
@@ -13,6 +16,7 @@ const AdminContext = createContext<AdminContextValue | null>(null);
 export function AdminProvider({ children }: { children: React.ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [adminLoginOpen, setAdminLoginOpen] = useState(false);
 
   const refresh = useCallback(async () => {
     try {
@@ -30,7 +34,16 @@ export function AdminProvider({ children }: { children: React.ReactNode }) {
   }, [refresh]);
 
   return (
-    <AdminContext.Provider value={{ isAdmin, isLoading, refresh }}>
+    <AdminContext.Provider
+      value={{
+        isAdmin,
+        isLoading,
+        refresh,
+        openAdminLogin: () => setAdminLoginOpen(true),
+        adminLoginOpen,
+        setAdminLoginOpen,
+      }}
+    >
       {children}
     </AdminContext.Provider>
   );
