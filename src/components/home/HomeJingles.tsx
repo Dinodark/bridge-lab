@@ -103,6 +103,20 @@ const VOICE_CARD_IMAGES = [
   "/assets/voice/voice-real-people-connections.webp",
 ];
 
+const JINGLE_COVER_IMAGES = [
+  "/assets/jingles/jingle-creator.png", // Creator — Feuer unter dem Asphalt
+  "/assets/jingles/jingle-hero.png", // Hero — Огонь, бро
+  "/assets/jingles/jingle-magician.png", // Magician — Tribe, oh yeah
+  "/assets/jingles/jingle-ruler.png", // Ruler — Freiheit im Blut
+];
+
+const JINGLE_VIDEO_SOURCES = [
+  "/assets/jingles/jingle-creator.mp4",
+  "/assets/jingles/jingle-hero.mp4",
+  "/assets/jingles/jingle-magician.mp4",
+  "/assets/jingles/jingle-ruler.mp4",
+];
+
 const CONTENT = {
   ru: {
     title: "Звук Tribe",
@@ -148,14 +162,18 @@ function JingleCard({
   targetId,
   fireLabel,
   downloadLabel,
+  imageSrc,
+  videoSrc,
 }: {
   jingle: { id: string; name: string; text: string };
   src: string;
   targetId: string;
   fireLabel: string;
   downloadLabel: string;
+  imageSrc?: string;
+  videoSrc?: string;
 }) {
-  const cover = useJingleCover(src);
+  const cover = imageSrc ?? useJingleCover(src);
   const { currentTrack, isPlaying, playTrack } = useMusicPlayer();
   const { trackLike, trackPlay, trackDownload } = useAnalytics();
   const [liked, setLikedState] = useLiked(targetId);
@@ -194,7 +212,25 @@ function JingleCard({
       {/* Full-bleed image */}
       <div className="absolute inset-0 bg-[var(--color-border)]/30">
         {cover ? (
-          <img src={cover} alt="" className="absolute inset-0 w-full h-full object-cover" />
+          <>
+            {videoSrc && (
+              <video
+                src={videoSrc}
+                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            )}
+            <img
+              src={cover}
+              alt=""
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                videoSrc ? "group-hover:opacity-0" : ""
+              }`}
+            />
+          </>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center" style={{ color: "var(--color-muted)", fontSize: "0.75rem" }}>
             [Аудио]
@@ -445,6 +481,8 @@ export default function HomeJingles() {
                 targetId={`home-jingle-${jingle.id}`}
                 fireLabel={t.fire}
                 downloadLabel={t.download}
+                imageSrc={JINGLE_COVER_IMAGES[i]}
+                videoSrc={JINGLE_VIDEO_SOURCES[i]}
               />
             </VisibilityBlock>
           ))}
@@ -514,28 +552,37 @@ export default function HomeJingles() {
         </div>
         </VisibilityBlock>
 
-        {/* Voice phrases */}
-        <div className="mt-16">
-          <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
-            {t.voiceTitle}
-          </h3>
-          <p className="text-sm mb-6 max-w-2xl" style={{ color: "var(--color-muted)" }}>
-            {t.voiceSubtitle}
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VOICE_PHRASES.map((phrase, i) => (
-              <VisibilityBlock key={phrase.id} entityId={`voice-${phrase.id}`}>
-                <VoicePhraseCard
-                  phrase={phrase}
-                  src={`/assets/voice/${encodeURIComponent(VOICE_FILES[i])}`}
-                  imageSrc={VOICE_CARD_IMAGES[i]}
-                  targetId={`home-voice-${phrase.id}`}
-                  fireLabel={t.fire}
-                  downloadLabel={t.download}
-                />
-              </VisibilityBlock>
-            ))}
-          </div>
+      </div>
+    </section>
+  );
+}
+
+export function HomeVoicePhrases() {
+  const { lang } = useLanguage();
+  const t = CONTENT[lang === "de" ? "de" : "ru"];
+
+  return (
+    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+      <div>
+        <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
+          {t.voiceTitle}
+        </h3>
+        <p className="text-sm mb-6 max-w-2xl" style={{ color: "var(--color-muted)" }}>
+          {t.voiceSubtitle}
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {VOICE_PHRASES.map((phrase, i) => (
+            <VisibilityBlock key={phrase.id} entityId={`voice-${phrase.id}`}>
+              <VoicePhraseCard
+                phrase={phrase}
+                src={`/assets/voice/${encodeURIComponent(VOICE_FILES[i])}`}
+                imageSrc={VOICE_CARD_IMAGES[i]}
+                targetId={`home-voice-${phrase.id}`}
+                fireLabel={t.fire}
+                downloadLabel={t.download}
+              />
+            </VisibilityBlock>
+          ))}
         </div>
       </div>
     </section>

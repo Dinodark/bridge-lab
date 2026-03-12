@@ -42,9 +42,19 @@ export default function HomeVideoSplashes() {
               16:9
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {t.horizontal.map((label, i) => (
+              {["/concepts/horse/video/tribe-1.mp4", "/concepts/horse/video/tribe-2.mp4"].map((src, i) => (
                 <VisibilityBlock key={i} entityId={`video-splash-h-${i}`}>
-                  <ImagePlaceholder aspect="video" label={label} className="w-full" />
+                  <div className="aspect-video rounded-xl overflow-hidden bg-[var(--color-border)]/30 w-full">
+                    <video
+                      src={src}
+                      className="w-full h-full object-cover"
+                      autoPlay
+                      playsInline
+                      muted
+                      loop
+                      controls
+                    />
+                  </div>
                 </VisibilityBlock>
               ))}
             </div>

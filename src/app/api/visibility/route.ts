@@ -40,6 +40,9 @@ export async function GET(request: NextRequest) {
       .in("id", ids);
 
     if (error) {
+      if (error.code === "PGRST205") {
+        return NextResponse.json({});
+      }
       console.error("[Visibility GET]", error);
       return NextResponse.json({ error: "Database error" }, { status: 500 });
     }
@@ -78,6 +81,12 @@ export async function PATCH(request: NextRequest) {
       .upsert({ id, visibility, updated_at: new Date().toISOString() }, { onConflict: "id" });
 
     if (error) {
+      if (error.code === "PGRST205") {
+        return NextResponse.json(
+          { error: "Table entity_visibility not found. Run docs/supabase-entity-visibility.sql in Supabase." },
+          { status: 503 }
+        );
+      }
       console.error("[Visibility PATCH]", error);
       return NextResponse.json({ error: "Database error" }, { status: 500 });
     }

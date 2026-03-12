@@ -24,6 +24,21 @@ const CONCEPTS = [
       coverHover: "/concepts/petrogliph/cover-1.png",
     },
   },
+  {
+    id: "horse",
+    slug: "horse",
+    ru: { name: "Огненная Лошадь", desc: "Концепция в разработке." },
+    de: { name: "Feuerpferd", desc: "Konzept in Entwicklung." },
+    status: { ru: "в работе", de: "in Arbeit" },
+    assets: {
+      fire: "/concepts/petrogliph/fire.svg",
+      logo: "/concepts/petrogliph/logo.svg",
+      person: "/concepts/petrogliph/img-1.svg",
+      animal: "/concepts/petrogliph/img-2.svg",
+      cover: "/concepts/horse/сover.png",
+      coverHover: "/concepts/horse/сover.png",
+    },
+  },
 ] as const;
 
 const CONTENT = {
@@ -55,6 +70,8 @@ function ConceptCard({
   const targetId = `concept-${concept.id}`;
   const [liked, setLikedState] = useLiked(targetId);
   const { trackLike } = useAnalytics();
+  const status = "status" in concept ? concept.status[lang] : null;
+  const isInProgress = !!status;
 
   const toggleLike = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -69,12 +86,8 @@ function ConceptCard({
     setLikedState(next);
   };
 
-  return (
-    <Link
-      href={`/concepts/${concept.slug}`}
-      className="group block rounded-2xl overflow-hidden border transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
-      style={{ borderColor: "var(--color-border)" }}
-    >
+  const cardContent = (
+    <>
       {/* Banner: cover image with hover transition */}
       <div
         className="relative aspect-[2/1] sm:aspect-[2.5/1] flex items-center justify-center overflow-hidden"
@@ -123,12 +136,36 @@ function ConceptCard({
           </button>
           <span
             className="text-sm font-medium px-3 py-1.5 rounded-lg"
-            style={{ background: "var(--color-cta1)", color: "#fff" }}
+            style={{
+              background: isInProgress ? "var(--color-muted)" : "var(--color-cta1)",
+              color: "#fff",
+            }}
           >
-            {moreLabel}
+            {status ?? moreLabel}
           </span>
         </div>
       </div>
+    </>
+  );
+
+  if (isInProgress) {
+    return (
+      <div
+        className="group block rounded-2xl overflow-hidden border transition-all duration-300"
+        style={{ borderColor: "var(--color-border)" }}
+      >
+        {cardContent}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={`/concepts/${concept.slug}`}
+      className="group block rounded-2xl overflow-hidden border transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5"
+      style={{ borderColor: "var(--color-border)" }}
+    >
+      {cardContent}
     </Link>
   );
 }

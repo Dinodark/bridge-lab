@@ -86,6 +86,10 @@ export default function ConceptPromo({ conceptId, concept }: { conceptId: string
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const merchScrollRef = useRef<HTMLDivElement>(null);
   const isJumpingRef = useRef(false);
+  const videoBlockRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoAutoPlayed, setVideoAutoPlayed] = useState(false);
+  const [videoPaused, setVideoPaused] = useState(true);
   const { trackLike, trackCopy } = useAnalytics();
 
   const name = concept[lang === "de" ? "de" : "ru"].name;
@@ -123,6 +127,31 @@ export default function ConceptPromo({ conceptId, concept }: { conceptId: string
     };
     el.addEventListener("scrollend", handleScrollEnd);
     return () => el.removeEventListener("scrollend", handleScrollEnd);
+  }, []);
+
+  // Video: play once when block enters viewport, then only via play button
+  useEffect(() => {
+    const block = videoBlockRef.current;
+    const video = videoRef.current;
+    if (!block || !video || videoAutoPlayed) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const [e] = entries;
+        if (!e?.isIntersecting || videoAutoPlayed) return;
+        video.play().then(() => {
+          setVideoAutoPlayed(true);
+          setVideoPaused(false);
+        }).catch(() => {});
+      },
+      { threshold: 0.25 }
+    );
+    obs.observe(block);
+    return () => obs.disconnect();
+  }, [videoAutoPlayed]);
+
+  const handleVideoPlay = useCallback(() => {
+    videoRef.current?.play();
+    setVideoPaused(false);
   }, []);
 
   const scrollMerch = (dir: -1 | 1) => {
@@ -419,17 +448,53 @@ export default function ConceptPromo({ conceptId, concept }: { conceptId: string
         </div>
       </section>
 
-      {/* Placeholders */}
+      {/* Audio / image promo */}
       <section className="py-16 space-y-12">
-        <div className="aspect-[16/9] rounded-2xl border-2 border-dashed flex items-center justify-center" style={{ borderColor: "var(--color-border)" }}>
-          <span className="text-sm" style={{ color: "var(--color-muted)" }}>
-            [Голос · аудио]
-          </span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="aspect-[16/9] rounded-2xl border-2 overflow-hidden bg-black/5 flex items-center justify-center" style={{ borderColor: "var(--color-border)" }}>
+            <img
+              src="/concepts/petrogliph/images/01.png"
+              alt="Petrogliph concept image 1"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="aspect-[16/9] rounded-2xl border-2 overflow-hidden bg-black/5 flex items-center justify-center" style={{ borderColor: "var(--color-border)" }}>
+            <img
+              src="/concepts/petrogliph/images/02.png"
+              alt="Petrogliph concept image 2"
+              className="w-full h-full object-contain"
+            />
+          </div>
         </div>
-        <div className="aspect-[16/9] rounded-2xl border-2 border-dashed flex items-center justify-center" style={{ borderColor: "var(--color-border)" }}>
-          <span className="text-sm" style={{ color: "var(--color-muted)" }}>
-            [Анимации]
-          </span>
+        <div
+          ref={videoBlockRef}
+          className="aspect-[16/9] rounded-2xl border-2 border-dashed overflow-hidden relative flex items-center justify-center bg-black/5"
+          style={{ borderColor: "var(--color-border)" }}
+        >
+          <video
+            ref={videoRef}
+            src="/concepts/petrogliph/video/tribe-rock.mp4"
+            className="w-full h-full object-contain"
+            playsInline
+            muted={false}
+            onEnded={() => setVideoPaused(true)}
+            onPause={() => setVideoPaused(true)}
+            onPlay={() => setVideoPaused(false)}
+          />
+          {videoPaused && (
+            <button
+              type="button"
+              onClick={handleVideoPlay}
+              className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors"
+              aria-label="Play video"
+            >
+              <span className="w-16 h-16 rounded-full flex items-center justify-center bg-white/90 shadow-lg" aria-hidden>
+                <svg className="w-8 h-8 ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                  <path d="M8 5v14l11-7L8 5z" />
+                </svg>
+              </span>
+            </button>
+          )}
         </div>
       </section>
 

@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 import HomeBanner from "@/components/HomeBanner";
-import HomeJingles from "@/components/home/HomeJingles";
+import HomeJingles, { HomeVoicePhrases } from "@/components/home/HomeJingles";
 import HomeConcepts from "@/components/home/HomeConcepts";
 import HomeVideoSplashes from "@/components/home/HomeVideoSplashes";
 import HomeVisuals from "@/components/home/HomeVisuals";
@@ -181,8 +181,9 @@ export default function HomeContent() {
             {t.coreExplainer}
           </p>
         </section>
-        <HomeJingles />
+        <HomeVoicePhrases />
         <HomeConcepts />
+        <HomeJingles />
         <HomeVideoSplashes />
         <HomeVisuals />
 

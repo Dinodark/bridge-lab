@@ -33,9 +33,9 @@ export default function VisibilityToggleButton({ entityId }: { entityId: string 
       disabled={isLoading}
       className="inline-flex items-center justify-center w-9 h-9 rounded-lg border transition-colors hover:opacity-90 shrink-0"
       style={{
-        borderColor: "var(--color-border)",
-        background: "var(--color-bg-active)",
-        color: "var(--color-cta1)",
+        borderColor: "#000",
+        background: "#000",
+        color: "#fff",
       }}
       title={
         visibility === "draft"

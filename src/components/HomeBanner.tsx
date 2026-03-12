@@ -1,10 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { ImagePlaceholder } from "@/components/home/ImagePlaceholder";
 import BridgeTribeWord from "@/components/home/BridgeTribeWord";
 
 const BANNER_TITLE = {
@@ -48,44 +45,6 @@ function TribeLogoIcon({ className = "", gradientId = "home-banner-logo" }: { cl
 
 export default function HomeBanner() {
   const { lang } = useLanguage();
-  const [videoError, setVideoError] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const rewindRafRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const rewindSpeed = 1.0; // seconds of video per second of real time
-    let lastTime = performance.now();
-
-    const rewind = () => {
-      const now = performance.now();
-      const dt = (now - lastTime) / 1000;
-      lastTime = now;
-      video.currentTime = Math.max(0, video.currentTime - dt * rewindSpeed);
-      if (video.currentTime <= 0) {
-        video.currentTime = 0;
-        video.play();
-        rewindRafRef.current = null;
-        return;
-      }
-      rewindRafRef.current = requestAnimationFrame(rewind);
-    };
-
-    const handleEnded = () => {
-      lastTime = performance.now();
-      rewindRafRef.current = requestAnimationFrame(rewind);
-    };
-
-    video.addEventListener("ended", handleEnded);
-    if (video.ended) handleEnded();
-
-    return () => {
-      video.removeEventListener("ended", handleEnded);
-      if (rewindRafRef.current) cancelAnimationFrame(rewindRafRef.current);
-    };
-  }, [videoError]);
 
   return (
     <div
@@ -96,35 +55,20 @@ export default function HomeBanner() {
         borderStyle: "solid",
         borderTopWidth: 0,
         minHeight: 120,
+        background: "#000",
       }}
     >
-      {/* Background: video (fal.ai) or fallback image */}
-      <div className="absolute inset-0">
-        {!videoError && (
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover scale-110"
-            poster="/assets/home-feed-illustration.webp"
-            onError={() => setVideoError(true)}
-          >
-            <source src="/assets/home-banner-video.mp4" type="video/mp4" />
-          </video>
-        )}
-        <Image
-          src="/assets/home-feed-illustration.webp"
-          alt=""
-          fill
-          className={`object-cover scale-110 ${!videoError ? "opacity-0" : ""}`}
-          sizes="(max-width: 672px) 100vw, 672px"
-          priority
-        />
-        <div
-          className="absolute inset-0 backdrop-blur-[8px] sm:backdrop-blur-[12px] pointer-events-none"
-          style={{ background: "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.6) 100%)" }}
-        />
+      {/* Background video */}
+      <div className="absolute inset-0 overflow-hidden">
+        <video
+          autoPlay
+          muted
+          playsInline
+          loop
+          className="w-full h-full object-cover"
+        >
+          <source src="/concepts/horse/firehorse.mp4" type="video/mp4" />
+        </video>
       </div>
 
       {/* Glitch overlay — RGB split on blur */}
@@ -170,9 +114,6 @@ export default function HomeBanner() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </Link>
-        </div>
-        <div className="w-full max-w-2xl mx-auto">
-          <ImagePlaceholder aspect="video" label="[Изображение]" className="rounded-2xl w-full" />
         </div>
       </div>
     </div>
