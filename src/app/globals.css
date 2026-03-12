@@ -1184,3 +1184,45 @@ body {
 .governance-loader-dot:nth-child(3) {
   animation-delay: 0.2s;
 }
+
+/* Cinematic fullscreen loader: circle + radar sweep + flicker */
+@keyframes visual-loader-radar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes visual-loader-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+.visual-fullscreen-loader {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.visual-fullscreen-loader__circle {
+  position: absolute;
+  inset: 0;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  animation: visual-loader-flicker 0.8s ease-in-out infinite;
+}
+.visual-fullscreen-loader__radar {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 3px;
+  height: 50%;
+  margin-left: -1.5px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), transparent);
+  transform-origin: center 100%;
+  animation: visual-loader-radar 1.2s linear infinite;
+}

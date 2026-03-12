@@ -3,6 +3,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 import VisibilityBlock from "@/components/VisibilityBlock";
+import InteractiveWallpaperCard from "./InteractiveWallpaperCard";
 
 const CONTENT = {
   ru: {
@@ -65,13 +66,22 @@ export default function HomeVideoSplashes() {
               9:16
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-              {t.vertical.map((label, i) => (
-                <VisibilityBlock key={i} entityId={`video-splash-v-${i}`}>
-                  <div className="max-w-[180px] mx-auto">
-                    <ImagePlaceholder aspect="vertical" label={label} className="w-full" />
-                  </div>
+              <div className="w-[180px] justify-self-start">
+                <VisibilityBlock entityId="video-splash-v-0">
+                  <InteractiveWallpaperCard
+                    imageSrc="/concepts/horse/vertical-0.png"
+                    videoSrc="/concepts/horse/vertical-0.mp4"
+                  />
                 </VisibilityBlock>
-              ))}
+              </div>
+              <div className="w-[180px] justify-self-start">
+                <VisibilityBlock entityId="video-splash-v-1">
+                  <InteractiveWallpaperCard
+                    imageSrc="/concepts/horse/vertical-1.png"
+                    videoSrc="/concepts/horse/vertical-1.mp4"
+                  />
+                </VisibilityBlock>
+              </div>
             </div>
           </div>
         </div>

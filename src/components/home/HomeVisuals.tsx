@@ -4,6 +4,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 import VisibilityBlock from "@/components/VisibilityBlock";
 
+const PHONE_WALLPAPERS = [
+  { src: null, label: "[Обои 2]" },
+  { src: null, label: "[Обои 3]" },
+];
+
 const CONTENT = {
   ru: {
     title: "Визуалы",
@@ -28,7 +33,8 @@ export default function HomeVisuals() {
   const t = CONTENT[lang === "de" ? "de" : "ru"];
 
   return (
-    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+    <>
+      <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
       <div>
         <span className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: "var(--color-cta1)" }}>
           Assets
@@ -45,13 +51,25 @@ export default function HomeVisuals() {
             <h3 className="text-lg font-bold mb-4" style={{ color: "var(--color-text)" }}>
               {t.wallpapersPhone}
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
-                <VisibilityBlock key={i} entityId={`visual-wallpaper-phone-${i}`}>
-                  <div className="max-w-[180px] mx-auto">
-                    <ImagePlaceholder aspect="vertical" label={`[Обои ${i}]`} className="w-full" />
-                  </div>
-                </VisibilityBlock>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+              {PHONE_WALLPAPERS.map((item, i) => (
+                <div key={i} className="w-[180px] justify-self-start">
+                  <VisibilityBlock entityId={`visual-wallpaper-phone-${i + 2}`}>
+                    <div className="max-w-[180px] mx-auto">
+                      {item.src ? (
+                        <div className="aspect-[9/17] rounded-xl overflow-hidden w-full bg-[var(--color-border)]/30">
+                          <img
+                            src={item.src}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ) : (
+                        <ImagePlaceholder aspect="vertical" label={item.label} className="w-full !aspect-[9/17]" />
+                      )}
+                    </div>
+                  </VisibilityBlock>
+                </div>
               ))}
             </div>
           </div>
@@ -97,5 +115,6 @@ export default function HomeVisuals() {
         </div>
       </div>
     </section>
+    </>
   );
 }
