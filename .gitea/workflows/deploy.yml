@@ -1,0 +1,59 @@
+# Деплой tribe.vatoko.ru при push в master (или ручной запуск).
+# Runner должен быть на том же сервере и иметь доступ к DEPLOY_PATH и pm2.
+
+name: Deploy tribe.vatoko.ru
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+env:
+  DEPLOY_PATH: /projects/tribe.vatoko.ru
+  PM2_APP_NAME: tribe
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      # Если у tribe нет БД, этот шаг можно убрать. Если нужна БД — настроим отдельно.
+      # - name: Run migrations
+      #   run: echo "No migrations for tribe"
+
+      - name: Deploy (copy standalone + static + public)
+        run: |
+          set -e
+          echo "Removing old .next so copy is clean..."
+          rm -rf "$DEPLOY_PATH/.next"
+          echo "Copying standalone (including hidden .next)..."
+          cp -r .next/standalone/. "$DEPLOY_PATH/"
+          echo "Copying static..."
+          mkdir -p "$DEPLOY_PATH/.next"
+          cp -r .next/static "$DEPLOY_PATH/.next/"
+          echo "Syncing public assets..."
+          mkdir -p "$DEPLOY_PATH/public"
+          cp -r public/* "$DEPLOY_PATH/public/"
+          cp ecosystem.config.cjs "$DEPLOY_PATH/"
+          echo "Deploy copy done."
+
+      - name: Restart application
+        run: |
+          pm2 delete "$PM2_APP_NAME" 2>/dev/null || true
+          sleep 2
+          cd "$DEPLOY_PATH" && pm2 start ecosystem.config.cjs
+          pm2 save
