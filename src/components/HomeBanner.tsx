@@ -74,6 +74,13 @@ export default function HomeBanner() {
       {/* Glitch overlay — RGB split on blur */}
       <div className="home-banner-glitch absolute inset-0 pointer-events-none opacity-60" aria-hidden />
 
+      {/* Darkening overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: "rgba(0, 0, 0, 0.38)", zIndex: 2 }}
+        aria-hidden
+      />
+
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-[65vh] px-6 py-12 text-center">
         <div className="home-banner-logo-pulse mb-4">
