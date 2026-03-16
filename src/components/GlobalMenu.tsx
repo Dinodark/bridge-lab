@@ -15,6 +15,7 @@ import { createPortal } from "react-dom";
 const TRIBE_LINKS = [
   { href: "/media", label: "Media" },
   { href: "/tribe", label: "Tribe" },
+  { href: "/tribe/landing", label: "Landing Page" },
   { href: "/tribe/governance", label: "Governance" },
   { href: "/vision", label: "Vision" },
   { href: "/tribe/merch", label: "Merch" },
@@ -253,23 +254,12 @@ export default function GlobalMenu() {
           href="/"
           className="flex min-w-0 max-w-full shrink flex-col items-start gap-0 overflow-hidden"
         >
-          <div className="relative w-full min-w-0 overflow-hidden">
-            <span
-              className="block text-xl leading-tight sm:text-2xl"
-              style={{ fontWeight: 800, letterSpacing: "-0.03em", display: "flex", alignItems: "baseline", gap: 1 }}
-            >
-              <span className="italic" style={{ color: "#1E1E1E" }}>one</span>
-              <span
-                style={{
-                  backgroundImage: palette.gradient1,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                bridge
-              </span>
-            </span>
+          <div className="relative w-full min-w-0 overflow-hidden flex items-center">
+            <img
+              src="/tribe.svg"
+              alt="onebridge"
+              className="h-7 sm:h-8 w-auto"
+            />
             <div
               className="pointer-events-none absolute right-0 top-0 h-full w-8 shrink-0 sm:w-12"
               style={{

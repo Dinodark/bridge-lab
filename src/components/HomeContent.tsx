@@ -14,6 +14,8 @@ import CursorAnthemBlock from "@/components/CursorAnthemBlock";
 import VisibilityBlock from "@/components/VisibilityBlock";
 import SiteFooter from "@/components/SiteFooter";
 import UsefulButton from "@/components/UsefulButton";
+import HomeBanners from "@/components/home/HomeBanners";
+import HomePhotos from "@/components/home/HomePhotos";
 
 const CONTENT = {
   ru: {
@@ -182,6 +184,8 @@ export default function HomeContent() {
           </p>
         </section>
         <HomeVoicePhrases />
+        <HomePhotos />
+        <HomeBanners />
         <HomeConcepts />
         <HomeJingles />
         <HomeVideoSplashes />
