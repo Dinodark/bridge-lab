@@ -161,8 +161,7 @@ export default function HomeContent() {
       <div className="content-container space-y-16">
         <section
           ref={coreRef}
-          className="relative rounded-xl border p-6 sm:p-8 max-w-3xl"
-          style={{ borderColor: "var(--color-border)" }}
+          className="relative rounded-xl p-6 sm:p-8 max-w-3xl"
         >
           <span
             className="absolute bottom-0 right-0 pb-0 pr-0 text-[clamp(7rem,22vw,18rem)] font-extrabold leading-[0.9] tracking-tighter select-none pointer-events-none"
@@ -191,7 +190,7 @@ export default function HomeContent() {
         <HomeVideoSplashes />
         <HomeVisuals />
 
-        <section className="rounded-xl border p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center" style={{ borderColor: "var(--color-border)" }}>
+        <section className="rounded-xl p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <ImagePlaceholder aspect="4/3" label="[Изображение]" className="rounded-xl w-full max-w-lg" />
           <div>
             <div className="inline-block text-xs font-bold tracking-widest uppercase mb-4" style={{ color: "var(--color-cta1)" }}>
@@ -208,7 +207,7 @@ export default function HomeContent() {
 
         <DesignLoopSection />
 
-        <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+        <section className="rounded-xl p-6 sm:p-8">
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
             {t.tastyTitle}
           </h2>
@@ -246,7 +245,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+        <section className="rounded-xl p-6 sm:p-8">
           <VisibilityBlock entityId="merch-banner">
           <Link href="/merch" className="group block">
             <article
@@ -285,7 +284,7 @@ export default function HomeContent() {
           </VisibilityBlock>
         </section>
 
-        <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+        <section className="rounded-xl p-6 sm:p-8">
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
             Bridge
           </h2>
@@ -327,7 +326,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+        <section className="rounded-xl p-6 sm:p-8">
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
             {t.resultsTitle}
           </h2>
@@ -358,7 +357,7 @@ export default function HomeContent() {
           </div>
         </section>
 
-        <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+        <section className="rounded-xl p-6 sm:p-8">
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
             {t.futureTitle}
           </h2>

@@ -89,26 +89,26 @@ export default function HomeBanners() {
       </div>
 
       <div className="content-container flex justify-end items-start">
-        <div className="hidden sm:flex items-center gap-2">
+        <div className="hidden sm:flex items-center gap-1.5">
           <button
             type="button"
             onClick={() => scrollByStep(-1)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-black/60 hover:bg-black/80 transition-colors"
-            style={{ borderColor: "var(--color-border)", color: "#fff" }}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors hover:bg-[var(--color-bg-active)]"
+            style={{ borderColor: "var(--color-border)", color: "var(--color-muted)" }}
             aria-label="Scroll left"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
           <button
             type="button"
             onClick={() => scrollByStep(1)}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-black/60 hover:bg-black/80 transition-colors"
-            style={{ borderColor: "var(--color-border)", color: "#fff" }}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors hover:bg-[var(--color-bg-active)]"
+            style={{ borderColor: "var(--color-border)", color: "var(--color-muted)" }}
             aria-label="Scroll right"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </button>

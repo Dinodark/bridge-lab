@@ -25,7 +25,7 @@ export default function HomeVideoSplashes() {
   const t = CONTENT[lang === "de" ? "de" : "ru"];
 
   return (
-    <section className="rounded-xl border p-6 sm:p-8" style={{ borderColor: "var(--color-border)" }}>
+    <section className="rounded-xl p-6 sm:p-8">
       <div>
         <span className="text-xs font-bold tracking-widest uppercase mb-2" style={{ color: "var(--color-cta1)" }}>
           Video
