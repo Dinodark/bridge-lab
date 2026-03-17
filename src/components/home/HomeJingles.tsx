@@ -562,7 +562,7 @@ export function HomeVoicePhrases() {
   const t = CONTENT[lang === "de" ? "de" : "ru"];
 
   return (
-    <section className="rounded-xl p-6 sm:p-8">
+    <section className="rounded-xl p-6 sm:p-8 mt-8">
       <div>
         <h3 className="text-xl sm:text-2xl font-bold tracking-tight mb-2" style={{ color: "var(--color-text)" }}>
           {t.voiceTitle}
