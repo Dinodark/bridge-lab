@@ -97,10 +97,10 @@ const VOICE_PHRASES = [
 ];
 
 const VOICE_CARD_IMAGES = [
-  "/assets/voice/voice-one-world-tribe-bridge.webp",
-  "/assets/voice/voice-50k-creators-zero-fake.webp",
-  "/assets/voice/voice-all-in-one-99.webp",
-  "/assets/voice/voice-real-people-connections.webp",
+  "/assets/voice/voice-one-world-tribe-bridge-v2.webp",
+  "/assets/voice/voice-50k-creators-zero-fake-v2.webp",
+  "/assets/voice/voice-all-in-one-99-v2.webp",
+  "/assets/voice/voice-real-people-connections-v2.webp",
 ];
 
 const JINGLE_COVER_IMAGES = [
