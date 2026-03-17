@@ -84,7 +84,7 @@ export default function HomePhotos() {
         </p>
       </div>
 
-      <div className="content-container mb-2 flex justify-end">
+      <div className="content-container mb-2 flex justify-end items-start">
         <div className="hidden sm:flex items-center gap-2">
           <button
             type="button"

@@ -69,8 +69,8 @@ export default function HomeBanners() {
   };
 
   return (
-    <div className="relative left-1/2 -translate-x-1/2 w-screen py-16">
-      <div className="content-container mb-4">
+    <div className="relative left-1/2 -translate-x-1/2 w-screen py-12">
+      <div className="content-container mb-2">
         <span
           className="text-xs font-bold tracking-widest uppercase mb-2 block"
           style={{ color: "var(--color-cta1)" }}
@@ -88,7 +88,7 @@ export default function HomeBanners() {
         </p>
       </div>
 
-      <div className="content-container mb-2 flex justify-end">
+      <div className="content-container flex justify-end items-start">
         <div className="hidden sm:flex items-center gap-2">
           <button
             type="button"

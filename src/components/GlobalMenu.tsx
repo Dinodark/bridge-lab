@@ -246,7 +246,7 @@ export default function GlobalMenu() {
 
   return (
     <header
-      className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-header)]/95 backdrop-blur-sm"
+      className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg-header)]"
       style={{ fontFamily: "var(--font-body)" }}
     >
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
@@ -260,16 +260,9 @@ export default function GlobalMenu() {
               alt="onebridge"
               className="h-7 sm:h-8 w-auto"
             />
-            <div
-              className="pointer-events-none absolute right-0 top-0 h-full w-8 shrink-0 sm:w-12"
-              style={{
-                background: `linear-gradient(to right, transparent, var(--color-bg-header))`,
-              }}
-              aria-hidden
-            />
           </div>
           <div className="w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
-            <span className="text-[10px] sm:text-[11px] font-medium tracking-wider uppercase" style={{ color: "var(--color-muted)" }}>
+            <span className="text-[10px] sm:text-[11px] font-medium tracking-wider uppercase leading-none" style={{ color: "var(--color-muted)" }}>
               Creative Direction for Tribe{AUTHOR_NAME ? ` by ${AUTHOR_NAME}` : ""}
             </span>
           </div>
