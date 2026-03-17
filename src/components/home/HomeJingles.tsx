@@ -327,6 +327,7 @@ function VoicePhraseCard({
   const { trackLike, trackPlay, trackDownload } = useAnalytics();
   const [liked, setLikedState] = useLiked(targetId);
   const playing = currentTrack === src && isPlaying;
+  const videoSrc = imageSrc.endsWith(".webp") ? imageSrc.replace(/\.webp$/, ".mp4") : null;
 
   const handlePlay = () => {
     if (!playing) {
@@ -360,7 +361,23 @@ function VoicePhraseCard({
     >
       {/* Full-bleed image */}
       <div className="absolute inset-0 bg-[var(--color-border)]/30">
-        <img src={imageSrc} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        {videoSrc && (
+          <video
+            src={videoSrc}
+            className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            autoPlay
+            loop
+            muted
+            playsInline
+          />
+        )}
+        <img
+          src={imageSrc}
+          alt=""
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+            videoSrc ? "group-hover:opacity-0" : ""
+          }`}
+        />
       </div>
 
       {/* Top gradient + text + play button */}
